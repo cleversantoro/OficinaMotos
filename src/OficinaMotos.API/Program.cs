@@ -149,6 +149,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseSerilogRequestLogging(); // Loga cada requisição HTTP automaticamente
 app.UseHttpsRedirection();
+app.UseStaticFiles(); // Serve arquivos de wwwroot (uploads, etc.)
 app.UseExceptionHandler(errorApp =>
 {
     errorApp.Run(async context =>
