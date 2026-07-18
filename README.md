@@ -16,7 +16,10 @@ API REST em .NET 8 para gestao completa de uma oficina de motos: clientes, veicu
 2) **Banco**: crie a base (ex.: `oficina_db`). Ajuste as strings de conexao:
    - `appsettings.json` chave `ConnectionStrings:OficinaDb` (usada no `Program.cs`).
    - Opcionalmente defina `ConnectionStrings:DefaultConnection` com o mesmo valor (usada em `Infrastructure/IoC/DependencyInjection.cs`).
-3) **JWT** (opcional, mas recomendado): defina `Jwt:Key` no `appsettings.json`. Sem isso uma chave de desenvolvimento padrao e usada.
+3) **JWT** (obrigatorio): defina `Jwt:Key` por variavel de ambiente ou provider de configuracao externa. A API falha no startup (fail-fast) se a chave estiver ausente, vazia ou com apenas espacos.
+   - Exemplo PowerShell (sessao atual):
+     - `$env:Jwt__Key = "minha-chave-jwt-super-segura"`
+   - Em producao, use um segredo gerenciado (pipeline/secret store) e nao versione a chave no repositorio.
 4) **Pacotes**: `dotnet restore`.
 
 ## Como executar

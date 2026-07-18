@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -83,7 +84,12 @@ builder.Services.AddCors(options =>
 
 // 5. Autenticação JWT (Segurança)
 var jwtKey = builder.Configuration["Jwt:Key"]; // Chave secreta no appsettings.json
-var key = Encoding.ASCII.GetBytes(jwtKey ?? "chave_super_secreta_padrao_desenvolvimento_123");
+if (string.IsNullOrWhiteSpace(jwtKey))
+{
+    throw new InvalidOperationException("Configuração obrigatória ausente: Jwt:Key. Defina a chave JWT por variável de ambiente ou configuração externa antes de iniciar a API.");
+}
+
+var key = Encoding.ASCII.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(x =>
 {
@@ -101,6 +107,13 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuer = false,
         ValidateAudience = false
     };
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
 });
 
 // 6. Injeção de Dependência (IoC) - SOLID (DIP)

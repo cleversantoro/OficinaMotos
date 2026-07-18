@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using OficinaMotos.Application.DTOs.Requests.Auth;
 using OficinaMotos.Application.DTOs.Responses.Auth;
@@ -25,6 +26,7 @@ namespace OficinaMotos.API.Controllers.Auth
         /// <summary>
         /// Autentica o usuário e retorna um token JWT.
         /// </summary>
+        [AllowAnonymous]
         [HttpPost("login")]
         [ProducesResponseType(typeof(LoginResponseDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
