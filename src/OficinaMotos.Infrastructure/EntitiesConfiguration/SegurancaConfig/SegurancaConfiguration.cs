@@ -182,4 +182,31 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.Ignore(al => al.UpdatedAt);
         }
     }
+
+    public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
+    {
+        public void Configure(EntityTypeBuilder<RefreshToken> builder)
+        {
+            builder.ToTable("seg_refresh_tokens");
+            builder.HasKey(rt => rt.Id);
+
+            builder.Property(rt => rt.UsuarioId).HasColumnName("Usuario_Id").IsRequired();
+            builder.Property(rt => rt.TokenHash).HasColumnName("Token_Hash").HasMaxLength(255).IsRequired();
+            builder.Property(rt => rt.ExpiraEm).HasColumnName("Expira_Em").IsRequired();
+            builder.Property(rt => rt.RevogadoEm).HasColumnName("Revogado_Em");
+            builder.Property(rt => rt.MotivoRevogacao).HasColumnName("Motivo_Revogacao").HasMaxLength(160);
+            builder.Property(rt => rt.IpCriacao).HasColumnName("Ip_Criacao").HasMaxLength(45);
+            builder.Property(rt => rt.UserAgentCriacao).HasColumnName("User_Agent_Criacao").HasMaxLength(500);
+            builder.Property(rt => rt.UltimoUsoEm).HasColumnName("Ultimo_Uso_Em");
+            builder.Property(rt => rt.CreatedAt).HasColumnName("Created_At");
+            builder.Property(rt => rt.UpdatedAt).HasColumnName("Updated_At");
+
+            builder.HasIndex(rt => rt.TokenHash).IsUnique().HasDatabaseName("UQ_seg_refresh_tokens_hash");
+
+            builder.HasOne(rt => rt.Usuario)
+                .WithMany(u => u.RefreshTokens)
+                .HasForeignKey(rt => rt.UsuarioId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+    }
 }

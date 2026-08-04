@@ -8,6 +8,8 @@ namespace OficinaMotos.Application.DTOs.Responses.Auth
         /// <summary>Primeiro perfil do usuário (compatibilidade).</summary>
         public string Role { get; set; } = string.Empty;
         public DateTime ExpiresAt { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiresAt { get; set; }
 
         // Campos estendidos
         public long UserId { get; set; }

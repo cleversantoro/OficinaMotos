@@ -73,6 +73,7 @@ namespace OficinaMotos.Infrastructure.Context
         public DbSet<SegUsuario> SegUsuarios { get; set; }
         public DbSet<SegUsuarioPerfil> SegUsuariosPerfis { get; set; }
         public DbSet<SegAuditLog> SegAuditLogs { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

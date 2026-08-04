@@ -8,5 +8,7 @@ namespace OficinaMotos.Application.DTOs.Responses.Auth
         public string Login { get; set; } = string.Empty;
         public List<string> Roles { get; set; } = new();
         public List<string> Permissions { get; set; } = new();
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiresAt { get; set; }
     }
 }

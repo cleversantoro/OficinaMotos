@@ -100,6 +100,7 @@ namespace OficinaMotos.Infrastructure.IoC
             services.AddScoped<ISegUsuarioRepository, SegUsuarioRepository>();
             services.AddScoped<ISegUsuarioPerfilRepository, SegUsuarioPerfilRepository>();
             services.AddScoped<ISegAuditLogRepository, SegAuditLogRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
             return services;
         }

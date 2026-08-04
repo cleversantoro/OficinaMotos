@@ -86,6 +86,7 @@ namespace OficinaMotos.Domain.Entities
         public SegUsuario? CriadoPorUsuario { get; set; }
         public ICollection<SegUsuarioPerfil> UsuariosPerfis { get; set; } = new HashSet<SegUsuarioPerfil>();
         public ICollection<SegAuditLog> AuditLogs { get; set; } = new HashSet<SegAuditLog>();
+        public ICollection<RefreshToken> RefreshTokens { get; set; } = new HashSet<RefreshToken>();
 
         public void RegistrarLoginSucesso()
         {
