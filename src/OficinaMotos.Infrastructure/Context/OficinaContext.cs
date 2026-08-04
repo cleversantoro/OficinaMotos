@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OficinaMotos.Domain.Common;
 using OficinaMotos.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace OficinaMotos.Infrastructure.Context
 {
@@ -83,6 +85,29 @@ namespace OficinaMotos.Infrastructure.Context
             // Isso varre o projeto atual e aplica TODAS as configurações (ClienteConfiguration, etc)
             // de uma vez só. Você não precisa adicionar uma por uma.
             builder.ApplyConfigurationsFromAssembly(typeof(OficinaContext).Assembly);
+
+            // Aplica filtro global de exclusão lógica para qualquer entidade derivada de BaseEntity.
+            foreach (var entityType in builder.Model.GetEntityTypes())
+            {
+                var clrType = entityType.ClrType;
+                if (clrType == null || !typeof(BaseEntity).IsAssignableFrom(clrType))
+                {
+                    continue;
+                }
+
+                var parameter = Expression.Parameter(clrType, "e");
+                var isDeletedProperty = Expression.Call(
+                    typeof(EF),
+                    nameof(EF.Property),
+                    new[] { typeof(bool) },
+                    parameter,
+                    Expression.Constant(nameof(BaseEntity.IsDeleted))
+                );
+                var filter = Expression.Equal(isDeletedProperty, Expression.Constant(false));
+                var lambda = Expression.Lambda(filter, parameter);
+
+                builder.Entity(clrType).HasQueryFilter(lambda);
+            }
         }
     }
 }

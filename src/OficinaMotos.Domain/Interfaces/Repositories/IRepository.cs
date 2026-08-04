@@ -16,6 +16,7 @@ namespace OficinaMotos.Domain.Interfaces.Repositories
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(long id);
+        Task SoftDeleteAsync(long id);
 
         Task<bool> ExistsAsync(long id);
     }

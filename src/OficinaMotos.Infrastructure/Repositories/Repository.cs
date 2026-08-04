@@ -28,7 +28,7 @@ namespace OficinaMotos.Infrastructure.Repositories
 
         public virtual async Task<T?> GetByIdAsync(long id)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate)
@@ -51,7 +51,12 @@ namespace OficinaMotos.Infrastructure.Repositories
 
         public async Task DeleteAsync(long id)
         {
-            var entity = await _dbSet.FindAsync(id);
+            await SoftDeleteAsync(id);
+        }
+
+        public async Task SoftDeleteAsync(long id)
+        {
+            var entity = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
             if (entity != null)
             {
                 entity.Delete();
