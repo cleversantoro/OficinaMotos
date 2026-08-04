@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OficinaMotos.Application.DTOs.Requests.Fornecedor;
 using OficinaMotos.Application.DTOs.Responses.Fornecedor;
@@ -7,6 +8,7 @@ namespace OficinaMotos.API.Controllers.Fornecedor
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class FornecedoresController : ControllerBase
     {
         private readonly IFornecedorService _service;
@@ -43,6 +45,7 @@ namespace OficinaMotos.API.Controllers.Fornecedor
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(typeof(FornecedorResponseDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Update(long id, [FromBody] UpdateFornecedorDTO request)
@@ -53,6 +56,7 @@ namespace OficinaMotos.API.Controllers.Fornecedor
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(long id)

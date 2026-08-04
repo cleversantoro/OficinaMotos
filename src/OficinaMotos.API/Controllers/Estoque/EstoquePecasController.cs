@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OficinaMotos.Application.DTOs.Requests.Estoque;
 using OficinaMotos.Application.DTOs.Responses.Estoque;
@@ -7,6 +8,7 @@ namespace OficinaMotos.API.Controllers.Estoque
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class EstoquePecasController : ControllerBase
     {
         private readonly IEstoquePecaService _service;
@@ -51,6 +53,7 @@ namespace OficinaMotos.API.Controllers.Estoque
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador,Gerente,Mecânico")]
         [ProducesResponseType(typeof(EstoquePecaResponseDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -69,6 +72,7 @@ namespace OficinaMotos.API.Controllers.Estoque
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(long id)

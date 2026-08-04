@@ -48,6 +48,7 @@ namespace OficinaMotos.API.Controllers.Seguranca
         }
 
         [HttpPut("{id:long}")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(typeof(SegUsuarioResponseDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -66,6 +67,7 @@ namespace OficinaMotos.API.Controllers.Seguranca
         }
 
         [HttpPut("{id:long}/senha")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -84,6 +86,7 @@ namespace OficinaMotos.API.Controllers.Seguranca
         }
 
         [HttpDelete("{id:long}")]
+        [Authorize(Roles = "Administrador")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(long id)

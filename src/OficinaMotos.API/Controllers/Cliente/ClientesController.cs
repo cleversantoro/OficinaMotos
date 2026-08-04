@@ -8,7 +8,7 @@ namespace OficinaMotos.API.Controllers.Cliente
 {
     [ApiController]
     [Route("api/v1/[controller]")] // Ex: api/v1/clientes
-    // [Authorize] // Descomente para exigir Login (JWT) em todos os métodos
+    [Authorize]
     public class ClientesController : ControllerBase
     {
         private readonly IClienteService _clienteService;
@@ -64,7 +64,6 @@ namespace OficinaMotos.API.Controllers.Cliente
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(ClienteResponseDTO), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateClienteDTO request)
         {
             // A validação (FluentValidation) ocorre automaticamente aqui.
@@ -89,6 +88,7 @@ namespace OficinaMotos.API.Controllers.Cliente
         /// Atualiza um cliente
         /// </summary>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador,Gerente,Recepcionista")]
         [ProducesResponseType(typeof(ClienteResponseDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Update(long id, [FromBody] UpdateClienteDTO request)

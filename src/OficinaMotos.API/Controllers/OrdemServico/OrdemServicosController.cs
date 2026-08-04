@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
 using OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO;
@@ -7,6 +8,7 @@ namespace OficinaMotos.API.Controllers.OrdemServico
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class OrdemServicosController : ControllerBase
     {
         private readonly IOrdemServicoService _service;
@@ -44,6 +46,7 @@ namespace OficinaMotos.API.Controllers.OrdemServico
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador,Gerente,Recepcionista,Mecânico")]
         [ProducesResponseType(typeof(OrdemServicoResponseDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Update(long id, [FromBody] UpdateOrdemServicoDTO request)
@@ -54,6 +57,7 @@ namespace OficinaMotos.API.Controllers.OrdemServico
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(long id)
