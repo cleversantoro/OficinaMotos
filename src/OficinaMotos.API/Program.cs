@@ -14,6 +14,7 @@ using OpenTelemetry.Trace;
 using Serilog;
 using System;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -120,7 +121,11 @@ builder.Services.AddAuthorization(options =>
 // Aqui registraremos nossos Services e Repositories
 builder.Services.AddInfrastructure(builder.Configuration); // Método de extensão criado na camada Infra
 builder.Services.AddApplication(); // Método de extensão criado na camada Application
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 

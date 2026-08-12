@@ -1,4 +1,5 @@
 using OficinaMotos.Domain.Common;
+using OficinaMotos.Domain.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace OficinaMotos.Domain.Entities
         public long MecanicoId { get; set; }
         public Mecanico? Mecanico { get; set; }
         public string DescricaoProblema { get; set; } = string.Empty;
-        public string Status { get; set; } = "ABERTA";
+        public OrdemServicoStatus Status { get; set; } = OrdemServicoStatus.Aberta;
         public DateTime DataAbertura { get; set; } = DateTime.UtcNow;
         public DateTime? DataConclusao { get; set; }
 

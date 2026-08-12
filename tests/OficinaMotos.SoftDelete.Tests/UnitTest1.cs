@@ -1,8 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OficinaMotos.Application.DTOs.Requests.OrdemServico;
+using OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO;
 using OficinaMotos.Domain.Common;
 using OficinaMotos.Domain.Entities;
+using OficinaMotos.Domain.Enums;
 using OficinaMotos.Infrastructure.Context;
 using OficinaMotos.Infrastructure.Repositories;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace OficinaMotos.SoftDelete.Tests;
 
@@ -120,6 +125,91 @@ public class SoftDeleteTests
 
         Assert.NotEmpty(derivedTypes);
         Assert.All(derivedTypes, type => Assert.NotNull(type.GetQueryFilter()));
+    }
+
+    [Fact]
+    public void OrdemServicoStatus_ShouldHaveExpectedValues()
+    {
+        Assert.Equal(1, (int)OrdemServicoStatus.Aberta);
+        Assert.Equal(2, (int)OrdemServicoStatus.EmAndamento);
+        Assert.Equal(3, (int)OrdemServicoStatus.AguardandoPeca);
+        Assert.Equal(4, (int)OrdemServicoStatus.Concluida);
+        Assert.Equal(5, (int)OrdemServicoStatus.Cancelada);
+    }
+
+    [Fact]
+    public void OrdemServico_ShouldStartWithDefaultStatusEnum()
+    {
+        var ordem = new OrdemServico
+        {
+            ClienteId = 1,
+            MecanicoId = 1,
+            DescricaoProblema = "Teste"
+        };
+
+        Assert.Equal(OrdemServicoStatus.Aberta, ordem.Status);
+    }
+
+    [Fact]
+    public void CreateOrdemServicoDto_ShouldUseEnumStatusContract()
+    {
+        var dto = new CreateOrdemServicoDTO
+        {
+            ClienteId = 1,
+            MecanicoId = 1,
+            DescricaoProblema = "Teste",
+            Status = OrdemServicoStatus.EmAndamento
+        };
+
+        Assert.Equal(OrdemServicoStatus.EmAndamento, dto.Status);
+    }
+
+    [Fact]
+    public void OrdemServicoJson_ShouldSerializeAsTextStatus()
+    {
+        var dto = new OrdemServicoResponseDTO
+        {
+            Id = 1,
+            ClienteId = 10,
+            MecanicoId = 20,
+            DescricaoProblema = "Teste de status",
+            Status = OrdemServicoStatus.AguardandoPeca,
+            DataAbertura = DateTime.UtcNow
+        };
+
+        var json = JsonSerializer.Serialize(dto, new JsonSerializerOptions
+        {
+            Converters = { new JsonStringEnumConverter() }
+        });
+
+        Assert.Contains("\"Status\":\"AguardandoPeca\"", json);
+        Assert.DoesNotContain("\"Status\":3", json);
+    }
+
+    [Fact]
+    public void OrdemServicoJson_ShouldDeserializeFromTextStatus()
+    {
+        const string json = "{\"ClienteId\":1,\"MecanicoId\":2,\"DescricaoProblema\":\"Teste\",\"Status\":\"Concluida\"}";
+
+        var dto = JsonSerializer.Deserialize<CreateOrdemServicoDTO>(json, new JsonSerializerOptions
+        {
+            Converters = { new JsonStringEnumConverter() }
+        });
+
+        Assert.NotNull(dto);
+        Assert.Equal(OrdemServicoStatus.Concluida, dto!.Status);
+    }
+
+    [Theory]
+    [InlineData("ABERTA", OrdemServicoStatus.Aberta)]
+    [InlineData("EM_ANDAMENTO", OrdemServicoStatus.EmAndamento)]
+    [InlineData("AGUARDANDO_PECA", OrdemServicoStatus.AguardandoPeca)]
+    [InlineData("AGUARDANDO_APROVACAO", OrdemServicoStatus.AguardandoPeca)]
+    [InlineData("CONCLUIDA", OrdemServicoStatus.Concluida)]
+    [InlineData("CANCELADA", OrdemServicoStatus.Cancelada)]
+    public void OrdemServicoStatus_ShouldParseLegacyDatabaseValues(string value, OrdemServicoStatus expected)
+    {
+        Assert.Equal(expected, OrdemServicoStatusExtensions.ParseLegacy(value));
     }
 
     private static OficinaContext CreateContext()

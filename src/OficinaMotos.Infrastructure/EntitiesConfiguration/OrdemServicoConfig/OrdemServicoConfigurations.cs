@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OficinaMotos.Domain.Entities;
+using OficinaMotos.Domain.Enums;
 
 namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
 {
@@ -14,7 +15,13 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.Property(e => e.ClienteId).HasColumnName("cliente_id");
             builder.Property(e => e.MecanicoId).HasColumnName("mecanico_id");
             builder.Property(e => e.DescricaoProblema).HasColumnName("descricao_problema").HasMaxLength(500).IsRequired();
-            builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(50).HasDefaultValue("ABERTA");
+            builder.Property(e => e.Status)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => OrdemServicoStatusExtensions.ParseLegacy(v))
+                .HasColumnName("status")
+                .HasMaxLength(50)
+                .HasDefaultValue(OrdemServicoStatus.Aberta);
             builder.Property(e => e.DataAbertura).HasColumnName("data_abertura");
             builder.Property(e => e.DataConclusao).HasColumnName("data_conclusao");
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
