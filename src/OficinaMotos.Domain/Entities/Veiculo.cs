@@ -21,6 +21,7 @@ namespace OficinaMotos.Domain.Entities
 
         public Cliente? Cliente { get; set; }
         public VeiculoModelo? Modelo { get; set; }
+        public ICollection<OrdemServico> OrdensServico { get; set; } = new HashSet<OrdemServico>();
     }
 
     public class VeiculoMarca : BaseEntity

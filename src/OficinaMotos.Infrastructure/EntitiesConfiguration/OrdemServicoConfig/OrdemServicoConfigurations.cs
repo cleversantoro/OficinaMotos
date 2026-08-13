@@ -14,6 +14,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
 
             builder.Property(e => e.ClienteId).HasColumnName("cliente_id");
             builder.Property(e => e.MecanicoId).HasColumnName("mecanico_id");
+            builder.Property(e => e.VeiculoId).HasColumnName("veiculo_id");
             builder.Property(e => e.DescricaoProblema).HasColumnName("descricao_problema").HasMaxLength(500).IsRequired();
             builder.Property(e => e.Status)
                 .HasConversion(
@@ -36,6 +37,11 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.HasOne(e => e.Mecanico)
                    .WithMany(m => m.OrdensServico)
                    .HasForeignKey(e => e.MecanicoId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.Veiculo)
+                   .WithMany(v => v.OrdensServico)
+                   .HasForeignKey(e => e.VeiculoId)
                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(e => e.Anexos)

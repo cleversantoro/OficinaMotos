@@ -35,6 +35,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
         public async Task<OrdemServicoResponseDTO> CreateAsync(CreateOrdemServicoDTO request)
         {
             var entity = _mapper.Map<OrdemServico>(request);
+            entity.VeiculoId = request.VeiculoId;
             if (request.DataAbertura.HasValue)
             {
                 entity.DataAbertura = request.DataAbertura.Value;
@@ -50,6 +51,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
             entity.ClienteId = request.ClienteId;
             entity.MecanicoId = request.MecanicoId;
+            entity.VeiculoId = request.VeiculoId;
             entity.DescricaoProblema = request.DescricaoProblema;
             entity.Status = request.Status;
             entity.DataAbertura = request.DataAbertura ?? entity.DataAbertura;

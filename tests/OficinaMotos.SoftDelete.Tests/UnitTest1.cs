@@ -151,16 +151,32 @@ public class SoftDeleteTests
     }
 
     [Fact]
-    public void CreateOrdemServicoDto_ShouldUseEnumStatusContract()
+    public void OrdemServico_ShouldHaveVehicleReferenceContract()
+    {
+        var ordem = new OrdemServico
+        {
+            ClienteId = 1,
+            MecanicoId = 1,
+            VeiculoId = 42,
+            DescricaoProblema = "Teste"
+        };
+
+        Assert.Equal(42L, ordem.VeiculoId);
+    }
+
+    [Fact]
+    public void CreateOrdemServicoDto_ShouldUseVehicleReferenceContract()
     {
         var dto = new CreateOrdemServicoDTO
         {
             ClienteId = 1,
             MecanicoId = 1,
+            VeiculoId = 42,
             DescricaoProblema = "Teste",
             Status = OrdemServicoStatus.EmAndamento
         };
 
+        Assert.Equal(42L, dto.VeiculoId);
         Assert.Equal(OrdemServicoStatus.EmAndamento, dto.Status);
     }
 

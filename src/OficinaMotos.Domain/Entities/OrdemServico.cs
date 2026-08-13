@@ -11,6 +11,8 @@ namespace OficinaMotos.Domain.Entities
         public Cliente? Cliente { get; set; }
         public long MecanicoId { get; set; }
         public Mecanico? Mecanico { get; set; }
+        public long VeiculoId { get; set; }
+        public Veiculo? Veiculo { get; set; }
         public string DescricaoProblema { get; set; } = string.Empty;
         public OrdemServicoStatus Status { get; set; } = OrdemServicoStatus.Aberta;
         public DateTime DataAbertura { get; set; } = DateTime.UtcNow;

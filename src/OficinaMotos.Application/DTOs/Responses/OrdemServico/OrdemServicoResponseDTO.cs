@@ -9,6 +9,7 @@ namespace OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO
         public long Id { get; set; }
         public long ClienteId { get; set; }
         public long MecanicoId { get; set; }
+        public long VeiculoId { get; set; }
         public string DescricaoProblema { get; set; } = string.Empty;
         public OrdemServicoStatus Status { get; set; } = OrdemServicoStatus.Aberta;
         public DateTime DataAbertura { get; set; }
