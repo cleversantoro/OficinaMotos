@@ -50,9 +50,9 @@
 - Endpoints públicos (`/auth/login`) decorados com `[AllowAnonymous]`
 
 **Tasks:**
-- [ ] T-001.1 — Adicionar em `Program.cs`: `options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()`
-- [ ] T-001.2 — Adicionar `[AllowAnonymous]` em `AuthController.Login`
-- [ ] T-001.3 — Testar com curl que 401 é retornado sem token em `ClientesController`
+- [x] T-001.1 — Adicionar em `Program.cs`: `options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()`
+- [x] T-001.2 — Adicionar `[AllowAnonymous]` em `AuthController.Login`
+- [x] T-001.3 — Testar com curl que 401 é retornado sem token em `ClientesController`
 
 ---
 
