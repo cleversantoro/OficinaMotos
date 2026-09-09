@@ -219,13 +219,13 @@
 - Botão de alterar status com transições válidas
 
 **Tasks:**
-- [ ] T-010.1 — Criar `OsDetalheComponent`
-- [ ] T-010.2 — Registrar rota `/ordens/:id`
-- [ ] T-010.3 — Card "Dados Gerais" com cliente e veículo
-- [ ] T-010.4 — Seção "Itens da OS"
-- [ ] T-010.5 — Controle de status (dropdown de transição)
-- [ ] T-010.6 — Seção "Observações"
-- [ ] T-010.7 — Seção "Pagamentos"
+- [x] T-010.1 — Criar `OsDetalheComponent`
+- [x] T-010.2 — Registrar rota `/ordens/:id`
+- [x] T-010.3 — Card "Dados Gerais" com cliente e veículo
+- [x] T-010.4 — Seção "Itens da OS"
+- [x] T-010.5 — Controle de status (dropdown de transição)
+- [x] T-010.6 — Seção "Observações"
+- [x] T-010.7 — Seção "Pagamentos"
 
 ---
 
