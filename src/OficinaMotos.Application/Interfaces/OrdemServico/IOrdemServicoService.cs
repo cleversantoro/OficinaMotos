@@ -12,5 +12,6 @@ namespace OficinaMotos.Application.Interfaces.OrdemServico
         Task<OrdemServicoResponseDTO> CreateAsync(CreateOrdemServicoDTO request);
         Task<OrdemServicoResponseDTO?> UpdateAsync(long id, UpdateOrdemServicoDTO request);
         Task<bool> DeleteAsync(long id);
+        Task<OrdemServicoPagamentoResponseDTO> RegistrarPagamentoAsync(CreateOrdemServicoPagamentoDTO request);
     }
 }

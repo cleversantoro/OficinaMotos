@@ -45,6 +45,12 @@ namespace OficinaMotos.Infrastructure.Repositories
 
         public async Task UpdateAsync(T entity)
         {
+            var local = _context.Set<T>().Local.FirstOrDefault(e => e.Id == entity.Id);
+            if (local != null && !ReferenceEquals(local, entity))
+            {
+                _context.Entry(local).State = EntityState.Detached;
+            }
+
             _dbSet.Update(entity);
             await _context.SaveChangesAsync();
         }

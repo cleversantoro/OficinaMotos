@@ -13,11 +13,16 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
     {
         private readonly IOrdemServicoPagamentoRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IOrdemServicoService _ordemServicoService;
 
-        public OrdemServicoPagamentoService(IOrdemServicoPagamentoRepository repository, IMapper mapper)
+        public OrdemServicoPagamentoService(
+            IOrdemServicoPagamentoRepository repository,
+            IMapper mapper,
+            IOrdemServicoService ordemServicoService)
         {
             _repository = repository;
             _mapper = mapper;
+            _ordemServicoService = ordemServicoService;
         }
 
         public async Task<List<OrdemServicoPagamentoResponseDTO>> GetAllAsync()
@@ -34,9 +39,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
         public async Task<OrdemServicoPagamentoResponseDTO> CreateAsync(CreateOrdemServicoPagamentoDTO request)
         {
-            var entity = _mapper.Map<OrdemServicoPagamento>(request);
-            var created = await _repository.AddAsync(entity);
-            return _mapper.Map<OrdemServicoPagamentoResponseDTO>(created);
+            return await _ordemServicoService.RegistrarPagamentoAsync(request);
         }
 
         public async Task<OrdemServicoPagamentoResponseDTO?> UpdateAsync(long id, UpdateOrdemServicoPagamentoDTO request)

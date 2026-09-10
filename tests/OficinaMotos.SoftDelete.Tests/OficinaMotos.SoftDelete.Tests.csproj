@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.22" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
@@ -21,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\OficinaMotos.Domain\OficinaMotos.Domain.csproj" />
+    <ProjectReference Include="..\..\src\OficinaMotos.Application\OficinaMotos.Application.csproj" />
     <ProjectReference Include="..\..\src\OficinaMotos.Infrastructure\OficinaMotos.Infrastructure.csproj" />
   </ItemGroup>
 

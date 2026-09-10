@@ -11,5 +11,6 @@ namespace OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO
         public DateTime? DataPagamento { get; set; }
         public string? Metodo { get; set; }
         public string? Observacao { get; set; }
+        public string? StatusOrdemServico { get; set; }
     }
 }
