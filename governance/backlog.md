@@ -241,11 +241,11 @@
 - Total da OS recalculado após cada alteração
 
 **Tasks:**
-- [ ] T-011.1 — Criar `OsItemPecaModalComponent` com autocomplete de estoque
-- [ ] T-011.2 — Criar `OsItemServicoModalComponent`
-- [ ] T-011.3 — Integrar `POST /api/v1/OrdemServicoItens`
-- [ ] T-011.4 — Integrar `DELETE /api/v1/OrdemServicoItens/{itemId}`
-- [ ] T-011.5 — Calcular e exibir totais sem reload completo
+- [x] T-011.1 — Criar `OsItemPecaModalComponent` com autocomplete de estoque
+- [x] T-011.2 — Criar `OsItemServicoModalComponent`
+- [x] T-011.3 — Integrar `POST /api/v1/OrdemServicoItens`
+- [x] T-011.4 — Integrar `DELETE /api/v1/OrdemServicoItens/{itemId}`
+- [x] T-011.5 — Calcular e exibir totais sem reload completo
 
 ---
 
