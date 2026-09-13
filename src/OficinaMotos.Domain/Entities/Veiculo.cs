@@ -14,6 +14,7 @@ namespace OficinaMotos.Domain.Entities
         public string? Chassi { get; set; }
         public string? Renavam { get; set; }
         public string? Km { get; set; }
+        public int? ProximoKmRevisao { get; set; }
         public string? Combustivel { get; set; }
         public string? Observacao { get; set; }
         public bool Principal { get; set; }

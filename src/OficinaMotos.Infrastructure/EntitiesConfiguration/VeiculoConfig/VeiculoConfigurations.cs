@@ -18,6 +18,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.VeiculoConfig
             builder.Property(e => e.Chassi).HasMaxLength(80);
             builder.Property(e => e.Renavam).HasMaxLength(20);
             builder.Property(e => e.Km).HasMaxLength(20);
+            builder.Property(e => e.ProximoKmRevisao).HasColumnName("proximo_km_revisao");
             builder.Property(e => e.Combustivel).HasMaxLength(50);
             builder.Property(e => e.Observacao).HasMaxLength(240);
             builder.Property(e => e.ClienteId).HasColumnName("Cliente_Id");

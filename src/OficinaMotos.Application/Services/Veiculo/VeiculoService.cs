@@ -54,6 +54,7 @@ namespace OficinaMotos.Application.Services.Veiculo
             entity.Chassi = request.Chassi;
             entity.Renavam = request.Renavam;
             entity.Km = request.Km;
+            entity.ProximoKmRevisao = request.ProximoKmRevisao;
             entity.Combustivel = request.Combustivel;
             entity.Observacao = request.Observacao;
             entity.Principal = request.Principal;
