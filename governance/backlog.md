@@ -261,10 +261,10 @@
 - Lançamento automático em `ContasReceber`
 
 **Tasks:**
-- [ ] T-012.1 — Criar `OsPagamentoModalComponent`
-- [ ] T-012.2 — Integrar `POST /api/v1/OrdemServicoPagamentos`
-- [ ] T-012.3 — Backend: `OrdemServicoService.RegistrarPagamentoAsync` atualiza status
-- [ ] T-012.4 — Backend: gerar lançamento em `ContasReceber`
+- [x] T-012.1 — Criar `OsPagamentoModalComponent`
+- [x] T-012.2 — Integrar `POST /api/v1/OrdemServicoPagamentos`
+- [x] T-012.3 — Backend: `OrdemServicoService.RegistrarPagamentoAsync` atualiza status
+- [x] T-012.4 — Backend: gerar lançamento em `ContasReceber`
 
 ---
 
