@@ -282,11 +282,11 @@
 - Vínculo obrigatório com cliente existente
 
 **Tasks:**
-- [ ] T-013.1 — Criar `VeiculoCadastroComponent`
-- [ ] T-013.2 — Registrar rota `/motos/novo`
-- [ ] T-013.3 — Validator de placa em `shared/validators/`
-- [ ] T-013.4 — Autocomplete de marcas e modelos em cascata
-- [ ] T-013.5 — Autocomplete de cliente proprietário
+- [x] T-013.1 — Criar `VeiculoCadastroComponent`
+- [x] T-013.2 — Registrar rota `/motos/novo`
+- [x] T-013.3 — Validator de placa em `shared/validators/`
+- [x] T-013.4 — Autocomplete de marcas e modelos em cascata
+- [x] T-013.5 — Autocomplete de cliente proprietário
 
 ---
 
