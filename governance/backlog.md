@@ -306,10 +306,10 @@
 **Prioridade:** 🟡 Should | **Estimativa:** M | **Sprint:** 3 | **Depende:** US-001
 
 **Tasks:**
-- [ ] T-015.1 — Criar `MecanicoCadastroComponent`
-- [ ] T-015.2 — Registrar rota `/mecanicos/novo`
-- [ ] T-015.3 — Validator de CPF único
-- [ ] T-015.4 — Multi-select de especialidades
+- [x] T-015.1 — Criar `MecanicoCadastroComponent`
+- [x] T-015.2 — Registrar rota `/mecanicos/novo`
+- [x] T-015.3 — Validator de CPF único
+- [x] T-015.4 — Multi-select de especialidades
 
 ---
 
