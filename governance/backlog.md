@@ -295,9 +295,9 @@
 **Prioridade:** 🟡 Should | **Estimativa:** S | **Sprint:** 3 | **Depende:** US-013
 
 **Tasks:**
-- [ ] T-014.1 — Adicionar `int? ProximoKmRevisao` em `Veiculo.cs`
-- [ ] T-014.2 — Criar migration `AddProximoKmRevisaoToVeiculo`
-- [ ] T-014.3 — Incluir campo no formulário
+- [x] T-014.1 — Adicionar `int? ProximoKmRevisao` em `Veiculo.cs`
+- [x] T-014.2 — Criar migration `AddProximoKmRevisaoToVeiculo`
+- [x] T-014.3 — Incluir campo no formulário
 
 ---
 
