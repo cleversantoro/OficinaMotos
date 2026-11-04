@@ -352,11 +352,11 @@
 **Prioridade:** 🟡 Should | **Estimativa:** M | **Sprint:** 3 | **Depende:** US-018
 
 **Tasks:**
-- [ ] T-019.1 — Criar `EstoqueEntradaModalComponent`
-- [ ] T-019.2 — Criar `EstoqueSaidaModalComponent`
-- [ ] T-019.3 — Integrar `POST /api/v1/EstoqueMovimentacoes`
-- [ ] T-019.4 — Criar `EstoquePecaDetalheComponent` com histórico
-- [ ] T-019.5 — Registrar rota `/estoque/:id`
+- [x] T-019.1 — Criar `EstoqueEntradaModalComponent`
+- [x] T-019.2 — Criar `EstoqueSaidaModalComponent`
+- [x] T-019.3 — Integrar `POST /api/v1/EstoqueMovimentacoes`
+- [x] T-019.4 — Criar `EstoquePecaDetalheComponent` com histórico
+- [x] T-019.5 — Registrar rota `/estoque/:id`
 
 ---
 
