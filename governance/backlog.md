@@ -328,10 +328,10 @@
 **Prioridade:** 🟡 Should | **Estimativa:** M | **Sprint:** 3 | **Depende:** US-001
 
 **Tasks:**
-- [ ] T-017.1 — Criar `FornecedorCadastroComponent`
-- [ ] T-017.2 — Registrar rota `/fornecedores/novo`
-- [ ] T-017.3 — Validator de CNPJ e integração `CepService`
-- [ ] T-017.4 — Dropdown de segmentos
+- [x] T-017.1 — Criar `FornecedorCadastroComponent`
+- [x] T-017.2 — Registrar rota `/fornecedores/novo`
+- [x] T-017.3 — Validator de CNPJ e integração `CepService`
+- [x] T-017.4 — Dropdown de segmentos
 
 ---
 
