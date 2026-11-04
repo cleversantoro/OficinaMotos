@@ -340,10 +340,10 @@
 **Prioridade:** 🟡 Should | **Estimativa:** M | **Sprint:** 3 | **Depende:** US-001
 
 **Tasks:**
-- [ ] T-018.1 — Criar `EstoquePecaCadastroComponent`
-- [ ] T-018.2 — Registrar rota `/estoque/novo`
-- [ ] T-018.3 — Dropdowns de fabricante, categoria, fornecedor
-- [ ] T-018.4 — Badge de estoque crítico na lista quando `qtd < qtd_minima`
+- [x] T-018.1 — Criar `EstoquePecaCadastroComponent`
+- [x] T-018.2 — Registrar rota `/estoque/novo`
+- [x] T-018.3 — Dropdowns de fabricante, categoria, fornecedor
+- [x] T-018.4 — Badge de estoque crítico na lista quando `qtd < qtd_minima`
 
 ---
 
