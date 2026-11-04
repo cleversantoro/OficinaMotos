@@ -318,8 +318,8 @@
 **Prioridade:** 🟡 Should | **Estimativa:** S | **Sprint:** 3 | **Depende:** US-001
 
 **Tasks:**
-- [ ] T-016.1 — Adicionar `{ path: 'mecanicos/:id', component: MecanicoDetalheComponent }` em `app.routes.ts`
-- [ ] T-016.2 — Adicionar coluna de link em `MecanicoListaComponent`
+- [x] T-016.1 — Adicionar `{ path: 'mecanicos/:id', component: MecanicoDetalheComponent }` em `app.routes.ts`
+- [x] T-016.2 — Adicionar coluna de link em `MecanicoListaComponent`
 
 ---
 
