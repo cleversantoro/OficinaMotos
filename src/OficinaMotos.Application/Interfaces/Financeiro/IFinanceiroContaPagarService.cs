@@ -12,5 +12,6 @@ namespace OficinaMotos.Application.Interfaces.Financeiro
         Task<FinanceiroContaPagarResponseDTO> CreateAsync(CreateFinanceiroContaPagarDTO request);
         Task<FinanceiroContaPagarResponseDTO?> UpdateAsync(long id, UpdateFinanceiroContaPagarDTO request);
         Task<bool> DeleteAsync(long id);
+        Task<ContaPagarPagamentoResponseDTO> RegistrarBaixaAsync(CreateContaPagarPagamentoDTO request);
     }
 }

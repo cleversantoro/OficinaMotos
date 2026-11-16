@@ -4,7 +4,9 @@ using OficinaMotos.Application.DTOs.Responses.Financeiro;
 using OficinaMotos.Application.Interfaces.Financeiro;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Interfaces.Repositories.FinanceiroRepo;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace OficinaMotos.Application.Services.Financeiro
@@ -13,11 +15,16 @@ namespace OficinaMotos.Application.Services.Financeiro
     {
         private readonly IFinanceiroContaReceberRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IFinanceiroPagamentoRepository? _pagamentoRepository;
 
-        public FinanceiroContaReceberService(IFinanceiroContaReceberRepository repository, IMapper mapper)
+        public FinanceiroContaReceberService(
+            IFinanceiroContaReceberRepository repository,
+            IMapper mapper,
+            IFinanceiroPagamentoRepository? pagamentoRepository = null)
         {
             _repository = repository;
             _mapper = mapper;
+            _pagamentoRepository = pagamentoRepository;
         }
 
         public async Task<List<FinanceiroContaReceberResponseDTO>> GetAllAsync()
@@ -63,6 +70,115 @@ namespace OficinaMotos.Application.Services.Financeiro
             if (!await _repository.ExistsAsync(id)) return false;
             await _repository.DeleteAsync(id);
             return true;
+        }
+
+        public async Task<ContaReceberPagamentoResponseDTO> RegistrarBaixaAsync(CreateContaReceberPagamentoDTO request)
+        {
+            var conta = await _repository.GetByIdAsync(request.ContaReceberId);
+            if (conta == null)
+            {
+                throw new KeyNotFoundException("Conta a receber nao encontrada.");
+            }
+
+            var statusAtual = (conta.Status ?? string.Empty).Trim().ToUpperInvariant();
+            if (statusAtual == "RECEBIDO" || statusAtual == "PAGO" || statusAtual == "LIQUIDADO" || statusAtual == "CANCELADO")
+            {
+                throw new InvalidOperationException("Não é possível registrar baixa para uma conta a receber já recebida ou cancelada.");
+            }
+
+            var valorPago = decimal.Round(request.ValorPago, 2, MidpointRounding.AwayFromZero);
+            var saldoAtual = decimal.Round(conta.Valor, 2, MidpointRounding.AwayFromZero);
+
+            if (valorPago <= 0m)
+            {
+                throw new InvalidOperationException("O valor recebido deve ser maior que zero.");
+            }
+
+            if (valorPago > saldoAtual)
+            {
+                throw new InvalidOperationException("O valor recebido não pode exceder o saldo atual da conta a receber.");
+            }
+
+            if (request.MetodoId <= 0)
+            {
+                throw new InvalidOperationException("A forma de pagamento é obrigatória.");
+            }
+
+            var dataPagamento = request.DataPagamento == default ? DateTime.UtcNow : request.DataPagamento;
+            var saldoResidual = decimal.Round(saldoAtual - valorPago, 2, MidpointRounding.AwayFromZero);
+            var baixaIntegral = saldoResidual == 0m;
+
+            long pagamentoId = 0;
+            if (_pagamentoRepository != null)
+            {
+                var pagamento = new FinanceiroPagamento
+                {
+                    ClienteId = conta.ClienteId,
+                    Valor = valorPago,
+                    Status = "PAGO",
+                    DataPagamento = dataPagamento,
+                    MetodoId = request.MetodoId,
+                    Observacao = TruncateObservacao(
+                        string.IsNullOrWhiteSpace(request.Observacao)
+                            ? $"Baixa Conta a Receber #{conta.Id} - {conta.Descricao}"
+                            : $"{request.Observacao.Trim()} (Conta a Receber #{conta.Id})")
+                };
+                var pagamentoCriado = await _pagamentoRepository.AddAsync(pagamento);
+                pagamentoId = pagamentoCriado.Id;
+            }
+
+            conta.MetodoId = request.MetodoId;
+            if (baixaIntegral)
+            {
+                conta.Status = "RECEBIDO";
+                conta.DataRecebimento = dataPagamento;
+                if (!string.IsNullOrWhiteSpace(request.Observacao))
+                {
+                    conta.Observacao = CombineObservacao(conta.Observacao, request.Observacao.Trim());
+                }
+            }
+            else
+            {
+                conta.Valor = saldoResidual;
+                conta.DataRecebimento = null;
+                var notaParcial = string.IsNullOrWhiteSpace(request.Observacao)
+                    ? $"Baixa parcial R$ {valorPago.ToString("F2", CultureInfo.InvariantCulture)} ({dataPagamento:yyyy-MM-dd})"
+                    : $"{request.Observacao.Trim()} | Baixa parcial R$ {valorPago.ToString("F2", CultureInfo.InvariantCulture)} ({dataPagamento:yyyy-MM-dd})";
+                conta.Observacao = CombineObservacao(conta.Observacao, notaParcial);
+            }
+
+            conta.Cliente = null;
+            conta.Metodo = null;
+            conta.Anexos?.Clear();
+            conta.SetUpdated();
+
+            await _repository.UpdateAsync(conta);
+
+            return new ContaReceberPagamentoResponseDTO
+            {
+                ContaReceberId = conta.Id,
+                PagamentoId = pagamentoId,
+                ValorPago = valorPago,
+                SaldoResidual = saldoResidual,
+                BaixaIntegral = baixaIntegral,
+                Conta = _mapper.Map<FinanceiroContaReceberResponseDTO>(conta)
+            };
+        }
+
+        private static string? CombineObservacao(string? atual, string nova)
+        {
+            if (string.IsNullOrWhiteSpace(atual))
+            {
+                return TruncateObservacao(nova);
+            }
+            return TruncateObservacao($"{atual.Trim()} | {nova}");
+        }
+
+        private static string? TruncateObservacao(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return null;
+            var trimmed = value.Trim();
+            return trimmed.Length <= 240 ? trimmed : trimmed.Substring(0, 240);
         }
     }
 }
