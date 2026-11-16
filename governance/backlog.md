@@ -66,10 +66,10 @@
 - `README.md` atualizado com instruções
 
 **Tasks:**
-- [ ] T-002.1 — Substituir fallback hardcoded por leitura de configuração sem fallback
-- [ ] T-002.2 — Adicionar validação: `if (string.IsNullOrEmpty(jwtKey)) throw new InvalidOperationException(...)`
-- [ ] T-002.3 — `appsettings.json` com placeholder vazio `"SecretKey": ""`
-- [ ] T-002.4 — Documentar variáveis de ambiente no `README.md`
+- [x] T-002.1 — Substituir fallback hardcoded por leitura de configuração sem fallback
+- [x] T-002.2 — Adicionar validação: `if (string.IsNullOrEmpty(jwtKey)) throw new InvalidOperationException(...)`
+- [x] T-002.3 — `appsettings.json` com placeholder vazio `"SecretKey": ""`
+- [x] T-002.4 — Documentar variáveis de ambiente no `README.md`
 
 ---
 
@@ -83,11 +83,11 @@
 - Frontend: interceptor para auto-refresh em respostas 401
 
 **Tasks:**
-- [ ] T-003.1 — Criar entidade `RefreshToken` e migration
-- [ ] T-003.2 — `AuthService.LoginAsync` gera e persiste refresh token
-- [ ] T-003.3 — Endpoint `POST /api/v1/Auth/refresh`
-- [ ] T-003.4 — Endpoint `POST /api/v1/Auth/logout` (revogação)
-- [ ] T-003.5 — Frontend: atualizar `ErrorInterceptor` para chamar `/auth/refresh` em 401
+- [x] T-003.1 — Criar entidade `RefreshToken` e migration
+- [x] T-003.2 — `AuthService.LoginAsync` gera e persiste refresh token
+- [x] T-003.3 — Endpoint `POST /api/v1/Auth/refresh`
+- [x] T-003.4 — Endpoint `POST /api/v1/Auth/logout` (revogação)
+- [x] T-003.5 — Frontend: atualizar `ErrorInterceptor` para chamar `/auth/refresh` em 401
 
 ---
 
@@ -101,9 +101,9 @@
 - Frontend: oculta botões de ação para roles sem permissão
 
 **Tasks:**
-- [ ] T-004.1 — Criar matriz de permissões por role
-- [ ] T-004.2 — Aplicar `[Authorize(Roles = "...")]` nos endpoints sensíveis
-- [ ] T-004.3 — Frontend: `RoleGuard` verifica role antes de exibir botões destrutivos
+- [x] T-004.1 — Criar matriz de permissões por role
+- [x] T-004.2 — Aplicar `[Authorize(Roles = "...")]` nos endpoints sensíveis
+- [x] T-004.3 — Frontend: `RoleGuard` verifica role antes de exibir botões destrutivos
 
 ---
 
@@ -120,10 +120,10 @@
 - Migration criada e reversível
 
 **Tasks:**
-- [ ] T-005.1 — Adicionar `bool IsDeleted = false` e `DateTime? DeletedAt` em `BaseEntity`
-- [ ] T-005.2 — Configurar query filter global no `OnModelCreating`
-- [ ] T-005.3 — Criar método `SoftDelete()` nos repositórios base
-- [ ] T-005.4 — Criar migration `AddSoftDeleteToBaseEntity`
+- [x] T-005.1 — Adicionar `bool IsDeleted = false` e `DateTime? DeletedAt` em `BaseEntity`
+- [x] T-005.2 — Configurar query filter global no `OnModelCreating`
+- [x] T-005.3 — Criar método `SoftDelete()` nos repositórios base
+- [x] T-005.4 — Criar migration `AddSoftDeleteToBaseEntity`
 
 ---
 
@@ -138,11 +138,11 @@
 - Migration criada
 
 **Tasks:**
-- [ ] T-006.1 — Criar `OrdemServicoStatus.cs` em `OficinaMotos.Domain/Enums/`
-- [ ] T-006.2 — Atualizar propriedade `Status` em `OrdemServico.cs`
-- [ ] T-006.3 — Configurar `HasConversion<string>()` no DbContext
-- [ ] T-006.4 — Criar migration `AddOrdemServicoStatusEnum`
-- [ ] T-006.5 — Atualizar DTOs de OrdemServico
+- [x] T-006.1 — Criar `OrdemServicoStatus.cs` em `OficinaMotos.Domain/Enums/`
+- [x] T-006.2 — Atualizar propriedade `Status` em `OrdemServico.cs`
+- [x] T-006.3 — Configurar `HasConversion<string>()` no DbContext
+- [x] T-006.4 — Criar migration `AddOrdemServicoStatusEnum`
+- [x] T-006.5 — Atualizar DTOs de OrdemServico
 
 ---
 
@@ -156,10 +156,10 @@
 - Migration criada e reversível
 
 **Tasks:**
-- [ ] T-007.1 — Adicionar `Guid VeiculoId` e `Veiculo? Veiculo` em `OrdemServico.cs`
-- [ ] T-007.2 — Configurar FK no `OnModelCreating`
-- [ ] T-007.3 — Criar migration `AddVeiculoIdToOrdemServico`
-- [ ] T-007.4 — Atualizar `CreateOrdemServicoDto` com `[Required] Guid VeiculoId`
+- [x] T-007.1 — Adicionar `Guid VeiculoId` e `Veiculo? Veiculo` em `OrdemServico.cs`
+- [x] T-007.2 — Configurar FK no `OnModelCreating`
+- [x] T-007.3 — Criar migration `AddVeiculoIdToOrdemServico`
+- [x] T-007.4 — Atualizar `CreateOrdemServicoDto` com `[Required] Guid VeiculoId`
 
 ---
 
@@ -179,10 +179,10 @@
 - Botão "Nova OS" → `/ordens/novo`
 
 **Tasks:**
-- [ ] T-008.1 — Renomear pasta `os-detalhe` → `os-lista` e classe para `OsListaComponent`
-- [ ] T-008.2 — Atualizar `app.routes.ts`
-- [ ] T-008.3 — Adicionar coluna de ações com link para `/ordens/:id`
-- [ ] T-008.4 — Adicionar botão "Nova OS" no header
+- [x] T-008.1 — Renomear pasta `os-detalhe` → `os-lista` e classe para `OsListaComponent`
+- [x] T-008.2 — Atualizar `app.routes.ts`
+- [x] T-008.3 — Adicionar coluna de ações com link para `/ordens/:id`
+- [x] T-008.4 — Adicionar botão "Nova OS" no header
 
 ---
 
@@ -198,12 +198,12 @@
 - Redirect para `/ordens/:id` após criação
 
 **Tasks:**
-- [ ] T-009.1 — Criar `OsCadastroComponent`
-- [ ] T-009.2 — Registrar rota `/ordens/novo` antes de `/ordens/:id`
-- [ ] T-009.3 — Autocomplete de clientes via `ClientesService.search(term)`
-- [ ] T-009.4 — Dropdown dinâmico de veículos filtrado pelo cliente
-- [ ] T-009.5 — Dropdown de mecânicos via `MecanicosService.getAll()`
-- [ ] T-009.6 — Integrar `OrdensService.create(dto)`
+- [x] T-009.1 — Criar `OsCadastroComponent`
+- [x] T-009.2 — Registrar rota `/ordens/novo` antes de `/ordens/:id`
+- [x] T-009.3 — Autocomplete de clientes via `ClientesService.search(term)`
+- [x] T-009.4 — Dropdown dinâmico de veículos filtrado pelo cliente
+- [x] T-009.5 — Dropdown de mecânicos via `MecanicosService.getAll()`
+- [x] T-009.6 — Integrar `OrdensService.create(dto)`
 
 ---
 
