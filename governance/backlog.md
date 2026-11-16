@@ -369,10 +369,10 @@
 **Prioridade:** 🟡 Should | **Estimativa:** S | **Sprint:** 4 | **Depende:** US-001
 
 **Tasks:**
-- [ ] T-020.1 — Criar `ContasPagarListaComponent`
-- [ ] T-020.2 — Registrar rota `/financeiro/contas-pagar`
-- [ ] T-020.3 — Filtros por status e período
-- [ ] T-020.4 — Destaque visual para contas vencidas
+- [x] T-020.1 — Criar `ContasPagarListaComponent`
+- [x] T-020.2 — Registrar rota `/financeiro/contas-pagar`
+- [x] T-020.3 — Filtros por status e período
+- [x] T-020.4 — Destaque visual para contas vencidas
 
 ---
 
