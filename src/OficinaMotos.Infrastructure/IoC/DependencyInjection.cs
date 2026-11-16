@@ -1,4 +1,4 @@
-﻿using OficinaMotos.Domain.Interfaces.Repositories.SegurancaRepo;
+using OficinaMotos.Domain.Interfaces.Repositories.SegurancaRepo;
 using OficinaMotos.Infrastructure.Repositories.SegurancaRepo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,10 +28,13 @@ namespace OficinaMotos.Infrastructure.IoC
         {
             // 1. Configurar Entity Framework com MySQL
             var connectionString = configuration.GetConnectionString("OficinaDb");
-            services.AddDbContext<OficinaContext>(options =>
-                options.UseMySql(connectionString,
-                    ServerVersion.AutoDetect(connectionString),
-                    b => b.MigrationsAssembly(typeof(OficinaContext).Assembly.FullName)));
+            if (!string.Equals(configuration["UseInMemoryDatabase"], "true", System.StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(connectionString))
+            {
+                services.AddDbContext<OficinaContext>(options =>
+                    options.UseMySql(connectionString,
+                        ServerVersion.AutoDetect(connectionString),
+                        b => b.MigrationsAssembly(typeof(OficinaContext).Assembly.FullName)));
+            }
 
             // 2. Injetar Repositórios (Vida útil: Scoped = 1 por requisição HTTP)
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

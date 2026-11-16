@@ -68,7 +68,10 @@ builder.Services.AddOpenTelemetry()
 
 // 3. Banco de Dados (MySQL)
 var connectionString = builder.Configuration.GetConnectionString("OficinaDb");
-builder.Services.AddDbContext<OficinaContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+if (!builder.Environment.IsEnvironment("Testing") && !builder.Configuration.GetValue<bool>("UseInMemoryDatabase"))
+{
+    builder.Services.AddDbContext<OficinaContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+}
 
 // 4. CORS (Segurança)
 // Permite que o Angular (localhost:4200) converse com a API
@@ -197,6 +200,5 @@ app.MapControllers();
 
 app.Run();
 
-
-
+public partial class Program { }
 
