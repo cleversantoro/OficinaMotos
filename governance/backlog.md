@@ -417,9 +417,9 @@
 - Suporte a pagamento parcial (saldo residual)
 
 **Tasks:**
-- [ ] T-024.1 — Criar `BaixaPagamentoModalComponent`
-- [ ] T-024.2 — Integrar `POST /api/v1/ContasPagarPagamentos`
-- [ ] T-024.3 — Integrar `POST /api/v1/ContasReceberPagamentos`
+- [x] T-024.1 — Criar `BaixaPagamentoModalComponent`
+- [x] T-024.2 — Integrar `POST /api/v1/ContasPagarPagamentos`
+- [x] T-024.3 — Integrar `POST /api/v1/ContasReceberPagamentos`
 
 ---
 
