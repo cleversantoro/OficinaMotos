@@ -1,4 +1,5 @@
 using OficinaMotos.Application.Services.Seguranca;
+using OficinaMotos.Application.Services.Dashboard;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -87,6 +88,7 @@ namespace OficinaMotos.Application.IoC
             services.AddScoped<Interfaces.Seguranca.ISegUsuarioService, SegUsuarioService>();
             services.AddScoped<Interfaces.Seguranca.ISegAuditLogService, SegAuditLogService>();
             services.AddScoped<Interfaces.Seguranca.IAuthService, AuthService>();
+            services.AddScoped<Interfaces.Dashboard.IDashboardService, DashboardService>();
 
             // 3. FluentValidation (Registra todos os validadores automaticamente)
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
