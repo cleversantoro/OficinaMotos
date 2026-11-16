@@ -381,9 +381,9 @@
 **Prioridade:** 🟡 Should | **Estimativa:** M | **Sprint:** 4 | **Depende:** US-020
 
 **Tasks:**
-- [ ] T-021.1 — Criar `ContasPagarFormComponent`
-- [ ] T-021.2 — Registrar rotas de criação e edição
-- [ ] T-021.3 — Integrar endpoints `ContasPagar`
+- [x] T-021.1 — Criar `ContasPagarFormComponent`
+- [x] T-021.2 — Registrar rotas de criação e edição
+- [x] T-021.3 — Integrar endpoints `ContasPagar`
 
 ---
 
