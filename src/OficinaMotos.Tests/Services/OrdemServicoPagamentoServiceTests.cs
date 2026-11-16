@@ -1,41 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
-using OficinaMotos.Application.Mappings;
 using OficinaMotos.Application.Services.OrdemServicoRepo;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Enums;
 using OficinaMotos.Infrastructure.Context;
 using OficinaMotos.Infrastructure.Repositories.FinanceiroRepo;
 using OficinaMotos.Infrastructure.Repositories.OrdemServicoRepo;
-using Microsoft.Extensions.DependencyInjection;
-using OficinaMotos.Application.IoC;
+using OficinaMotos.Tests.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
-namespace OficinaMotos.SoftDelete.Tests
+namespace OficinaMotos.Tests.Services
 {
     public class OrdemServicoPagamentoServiceTests
     {
-        private static OficinaContext CreateInMemoryContext()
-        {
-            var options = new DbContextOptionsBuilder<OficinaContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                .Options;
-            return new OficinaContext(options);
-        }
-
-        private static IMapper CreateMapper()
-        {
-            var services = new ServiceCollection();
-            services.AddLogging();
-            services.AddApplication();
-            return services.BuildServiceProvider().GetRequiredService<IMapper>();
-        }
-
         private static async Task<(Cliente cliente, Mecanico mecanico)> CreateSeedDataAsync(OficinaContext context)
         {
             var cliente = new Cliente { Nome = "Cliente Teste", Documento = "12345678901", Tipo = ClienteTipo.PessoaFisica };
@@ -50,9 +30,9 @@ namespace OficinaMotos.SoftDelete.Tests
         public async Task RegistrarPagamentoAsync_PagamentoIntegral_DeveAtualizarStatusParaConcluidaEDataConclusao()
         {
             // Arrange
-            await using var context = CreateInMemoryContext();
+            await using var context = TestDbContextFactory.Create();
             var (cliente, mecanico) = await CreateSeedDataAsync(context);
-            var mapper = CreateMapper();
+            var mapper = TestDbContextFactory.CreateMapper();
             var osRepo = new OrdemServicoRepository(context);
             var pagRepo = new OrdemServicoPagamentoRepository(context);
             var crRepo = new FinanceiroContaReceberRepository(context);
@@ -111,9 +91,9 @@ namespace OficinaMotos.SoftDelete.Tests
         public async Task RegistrarPagamentoAsync_PagamentoParcial_DeveManterStatusOperacional()
         {
             // Arrange
-            await using var context = CreateInMemoryContext();
+            await using var context = TestDbContextFactory.Create();
             var (cliente, mecanico) = await CreateSeedDataAsync(context);
-            var mapper = CreateMapper();
+            var mapper = TestDbContextFactory.CreateMapper();
             var osRepo = new OrdemServicoRepository(context);
             var pagRepo = new OrdemServicoPagamentoRepository(context);
             var crRepo = new FinanceiroContaReceberRepository(context);
@@ -161,9 +141,9 @@ namespace OficinaMotos.SoftDelete.Tests
         public async Task RegistrarPagamentoAsync_OSCancelada_DeveLancarInvalidOperationException()
         {
             // Arrange
-            await using var context = CreateInMemoryContext();
+            await using var context = TestDbContextFactory.Create();
             var (cliente, mecanico) = await CreateSeedDataAsync(context);
-            var mapper = CreateMapper();
+            var mapper = TestDbContextFactory.CreateMapper();
             var osRepo = new OrdemServicoRepository(context);
             var pagRepo = new OrdemServicoPagamentoRepository(context);
             var crRepo = new FinanceiroContaReceberRepository(context);
@@ -194,8 +174,8 @@ namespace OficinaMotos.SoftDelete.Tests
         public async Task RegistrarPagamentoAsync_OSInexistente_DeveLancarKeyNotFoundException()
         {
             // Arrange
-            await using var context = CreateInMemoryContext();
-            var mapper = CreateMapper();
+            await using var context = TestDbContextFactory.Create();
+            var mapper = TestDbContextFactory.CreateMapper();
             var osRepo = new OrdemServicoRepository(context);
             var pagRepo = new OrdemServicoPagamentoRepository(context);
             var crRepo = new FinanceiroContaReceberRepository(context);

@@ -1,10 +1,14 @@
 using AutoMapper;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using OficinaMotos.Application.DTOs.Requests.Auth;
 using OficinaMotos.Application.DTOs.Responses.Auth;
 using OficinaMotos.Application.DTOs.Responses.Seguranca;
 using OficinaMotos.Application.Interfaces.Seguranca;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Interfaces.Repositories.SegurancaRepo;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -12,24 +16,32 @@ namespace OficinaMotos.Application.Services.Seguranca
 {
     public class AuthService : IAuthService
     {
+        private const string DefaultJwtFallbackKey = "chave_super_secreta_padrao_desenvolvimento_123456";
+
         private readonly ISegUsuarioRepository _usuarioRepository;
         private readonly ISegAuditLogRepository _auditLogRepository;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IMapper _mapper;
+        private readonly IConfiguration? _configuration;
 
         public AuthService(
             ISegUsuarioRepository usuarioRepository,
             ISegAuditLogRepository auditLogRepository,
             IRefreshTokenRepository refreshTokenRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IConfiguration? configuration = null)
         {
             _usuarioRepository = usuarioRepository;
             _auditLogRepository = auditLogRepository;
             _refreshTokenRepository = refreshTokenRepository;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
-        public async Task<LoginDataResult?> LoginAsync(LoginRequestDTO request, string? ipAddress, string? userAgent)
+        public async Task<LoginDataResult?> LoginAsync(
+            LoginRequestDTO request,
+            string? ipAddress = null,
+            string? userAgent = null)
         {
             var usuario = await _usuarioRepository.GetByEmailOrLoginAsync(request.Email);
 
@@ -42,13 +54,13 @@ namespace OficinaMotos.Application.Services.Seguranca
                 return null;
             }
 
-            if (usuario.EstaBloqueado())
+            if (usuario.EstaBloqueado() || usuario.Status == 3)
             {
                 await RegistrarAuditAsync(usuario.Id, usuario.Login, "LOGIN_FAIL",
                     modulo: "Segurança",
                     descricao: "Tentativa de login com conta bloqueada",
                     ip: ipAddress, userAgent: userAgent);
-                return null;
+                throw new InvalidOperationException("A conta do usuário está bloqueada temporariamente.");
             }
 
             if (!BCrypt.Net.BCrypt.Verify(request.Password, usuario.Senha))
@@ -75,20 +87,20 @@ namespace OficinaMotos.Application.Services.Seguranca
             usuario.RegistrarLoginSucesso();
             await _usuarioRepository.UpdateAsync(usuario);
 
-            var usuarioComPerfis = await _usuarioRepository.GetWithPerfisAsync(usuario.Id);
+            var usuarioComPerfis = await _usuarioRepository.GetWithPerfisAsync(usuario.Id) ?? usuario;
 
-            var perfis = usuarioComPerfis?.UsuariosPerfis
+            var perfis = usuarioComPerfis.UsuariosPerfis
                 .Where(up => up.Ativo && up.Perfil != null)
                 .Select(up => up.Perfil!.Nome)
-                .ToList() ?? new List<string>();
+                .ToList();
 
-            var permissoes = usuarioComPerfis?.UsuariosPerfis
+            var permissoes = usuarioComPerfis.UsuariosPerfis
                 .Where(up => up.Ativo && up.Perfil?.PerfisPermissoes != null)
                 .SelectMany(up => up.Perfil!.PerfisPermissoes)
                 .Where(pp => pp.Permissao?.Modulo != null)
                 .Select(pp => $"{pp.Permissao!.Modulo!.Nome}:{pp.Permissao.Acao}")
                 .Distinct()
-                .ToList() ?? new List<string>();
+                .ToList();
 
             await RegistrarAuditAsync(usuario.Id, usuario.Login, "LOGIN",
                 modulo: "Segurança",
@@ -98,7 +110,7 @@ namespace OficinaMotos.Application.Services.Seguranca
             var refreshExpiresAt = DateTime.UtcNow.AddDays(7);
             var refreshTokenValue = Guid.NewGuid().ToString("N");
             var refreshTokenHash = HashToken(refreshTokenValue);
-            var activeTokens = await _refreshTokenRepository.GetActiveByUserIdAsync(usuario.Id);
+            var activeTokens = await _refreshTokenRepository.GetActiveByUserIdAsync(usuario.Id) ?? new List<RefreshToken>();
             foreach (var activeToken in activeTokens)
             {
                 activeToken.Revogar("Substituído por novo login");
@@ -114,7 +126,8 @@ namespace OficinaMotos.Application.Services.Seguranca
                 UserAgentCriacao = userAgent,
             });
 
-            return new LoginDataResult
+            var jwtExpiresAt = DateTime.UtcNow.AddHours(8);
+            var loginResult = new LoginDataResult
             {
                 UserId = usuario.Id,
                 Nome = usuario.Nome,
@@ -122,9 +135,64 @@ namespace OficinaMotos.Application.Services.Seguranca
                 Login = usuario.Login,
                 Roles = perfis,
                 Permissions = permissoes,
+                ExpiresAt = jwtExpiresAt,
                 RefreshToken = refreshTokenValue,
                 RefreshTokenExpiresAt = refreshExpiresAt,
             };
+
+            loginResult.Token = GenerateToken(loginResult, jwtExpiresAt);
+            return loginResult;
+        }
+
+        public string GenerateToken(LoginDataResult userInfo, DateTime? expiration = null)
+        {
+            var configuredKey = _configuration?["Jwt:Key"];
+            var jwtKey = !string.IsNullOrWhiteSpace(configuredKey) && configuredKey.Length >= 32
+                ? configuredKey
+                : DefaultJwtFallbackKey;
+
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtKey));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expiresAt = expiration ?? (userInfo.ExpiresAt != default ? userInfo.ExpiresAt : DateTime.UtcNow.AddHours(8));
+
+            var claims = new List<Claim>
+            {
+                new(JwtRegisteredClaimNames.Sub, userInfo.UserId.ToString()),
+                new(JwtRegisteredClaimNames.Email, userInfo.Email ?? string.Empty),
+                new(JwtRegisteredClaimNames.UniqueName, userInfo.Login ?? string.Empty),
+                new(ClaimTypes.Name, userInfo.Nome ?? string.Empty),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+
+            if (userInfo.Roles != null)
+            {
+                foreach (var role in userInfo.Roles)
+                {
+                    if (!string.IsNullOrWhiteSpace(role))
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, role));
+                    }
+                }
+            }
+
+            if (userInfo.Permissions != null)
+            {
+                foreach (var permissao in userInfo.Permissions)
+                {
+                    if (!string.IsNullOrWhiteSpace(permissao))
+                    {
+                        claims.Add(new Claim("permissao", permissao));
+                    }
+                }
+            }
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: expiresAt,
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         public async Task<RefreshTokenResponseDTO?> RefreshAsync(RefreshTokenRequestDTO request, string? ipAddress, string? userAgent)

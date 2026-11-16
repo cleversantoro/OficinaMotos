@@ -5,14 +5,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.1.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
+    <PackageReference Include="FluentAssertions" Version="6.12.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.22" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.22" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
   </ItemGroup>
@@ -22,9 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\OficinaMotos.Domain\OficinaMotos.Domain.csproj" />
-    <ProjectReference Include="..\..\src\OficinaMotos.Application\OficinaMotos.Application.csproj" />
-    <ProjectReference Include="..\..\src\OficinaMotos.Infrastructure\OficinaMotos.Infrastructure.csproj" />
+    <ProjectReference Include="..\OficinaMotos.Domain\OficinaMotos.Domain.csproj" />
+    <ProjectReference Include="..\OficinaMotos.Application\OficinaMotos.Application.csproj" />
+    <ProjectReference Include="..\OficinaMotos.Infrastructure\OficinaMotos.Infrastructure.csproj" />
+    <ProjectReference Include="..\OficinaMotos.API\OficinaMotos.API.csproj" />
   </ItemGroup>
 
 </Project>

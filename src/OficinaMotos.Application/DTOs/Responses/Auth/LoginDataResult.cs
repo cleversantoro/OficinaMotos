@@ -2,6 +2,8 @@ namespace OficinaMotos.Application.DTOs.Responses.Auth
 {
     public class LoginDataResult
     {
+        public string Token { get; set; } = string.Empty;
+        public DateTime ExpiresAt { get; set; }
         public long UserId { get; set; }
         public string Nome { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;

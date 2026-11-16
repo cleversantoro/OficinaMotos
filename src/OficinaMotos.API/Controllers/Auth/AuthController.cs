@@ -1,13 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc;
 using OficinaMotos.Application.DTOs.Requests.Auth;
 using OficinaMotos.Application.DTOs.Responses.Auth;
 using OficinaMotos.Application.Interfaces.Seguranca;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Authentication;
 
 namespace OficinaMotos.API.Controllers.Auth
 {
@@ -16,12 +12,10 @@ namespace OficinaMotos.API.Controllers.Auth
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly IConfiguration _configuration;
 
-        public AuthController(IAuthService authService, IConfiguration configuration)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
-            _configuration = configuration;
         }
 
         /// <summary>
@@ -40,12 +34,23 @@ namespace OficinaMotos.API.Controllers.Auth
             var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
             var userAgent = Request.Headers.UserAgent.ToString();
 
-            var userInfo = await _authService.LoginAsync(request, ip, userAgent);
+            LoginDataResult? userInfo;
+            try
+            {
+                userInfo = await _authService.LoginAsync(request, ip, userAgent);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+
             if (userInfo == null)
                 return Unauthorized(new { message = "Credenciais inválidas ou usuário bloqueado." });
 
-            var expiration = DateTime.UtcNow.AddHours(8);
-            var token = CreateJwtToken(userInfo, expiration);
+            var expiration = userInfo.ExpiresAt != default ? userInfo.ExpiresAt : DateTime.UtcNow.AddHours(8);
+            var token = !string.IsNullOrWhiteSpace(userInfo.Token)
+                ? userInfo.Token
+                : _authService.GenerateToken(userInfo, expiration);
 
             return Ok(new LoginResponseDTO
             {
@@ -76,7 +81,7 @@ namespace OficinaMotos.API.Controllers.Auth
                 return Unauthorized(new { message = "Refresh token inválido ou expirado." });
 
             var expiration = DateTime.UtcNow.AddHours(8);
-            var token = CreateJwtToken(new LoginDataResult
+            var token = _authService.GenerateToken(new LoginDataResult
             {
                 UserId = response.UserId,
                 Nome = response.Name,
@@ -84,6 +89,7 @@ namespace OficinaMotos.API.Controllers.Auth
                 Login = response.Login,
                 Roles = response.Roles,
                 Permissions = response.Permissions,
+                ExpiresAt = expiration,
             }, expiration);
 
             response.Token = token;
@@ -105,36 +111,6 @@ namespace OficinaMotos.API.Controllers.Auth
             var userAgent = Request.Headers.UserAgent.ToString();
             var removed = await _authService.LogoutAsync(request, userId, ip, userAgent);
             return removed ? NoContent() : Unauthorized(new { message = "Não foi possível encerrar a sessão." });
-        }
-
-        private string CreateJwtToken(LoginDataResult userInfo, DateTime expiration)
-        {
-            var jwtKey = _configuration["Jwt:Key"] ?? "chave_super_secreta_padrao_desenvolvimento_123";
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtKey));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>
-            {
-                new(JwtRegisteredClaimNames.Sub, userInfo.UserId.ToString()),
-                new(JwtRegisteredClaimNames.Email, userInfo.Email),
-                new(JwtRegisteredClaimNames.UniqueName, userInfo.Login),
-                new(ClaimTypes.Name, userInfo.Nome),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            };
-
-            foreach (var role in userInfo.Roles)
-                claims.Add(new Claim(ClaimTypes.Role, role));
-
-            foreach (var permissao in userInfo.Permissions)
-                claims.Add(new Claim("permissao", permissao));
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: expiration,
-                signingCredentials: credentials
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

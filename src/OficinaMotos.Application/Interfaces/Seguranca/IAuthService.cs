@@ -6,7 +6,8 @@ namespace OficinaMotos.Application.Interfaces.Seguranca
 {
     public interface IAuthService
     {
-        Task<LoginDataResult?> LoginAsync(LoginRequestDTO request, string? ipAddress, string? userAgent);
+        Task<LoginDataResult?> LoginAsync(LoginRequestDTO request, string? ipAddress = null, string? userAgent = null);
+        string GenerateToken(LoginDataResult userInfo, DateTime? expiration = null);
         Task<RefreshTokenResponseDTO?> RefreshAsync(RefreshTokenRequestDTO request, string? ipAddress, string? userAgent);
         Task<bool> LogoutAsync(LogoutRequestDTO request, long userId, string? ipAddress, string? userAgent);
         Task<SegAuditLogResponseDTO> RegistrarAuditAsync(
