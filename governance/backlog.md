@@ -480,9 +480,9 @@
 **Prioridade:** 🟢 Could | **Estimativa:** L | **Sprint:** 5 | **Depende:** US-025, US-001
 
 **Tasks:**
-- [ ] T-029.1 — Criar `OficinaMotosWebApplicationFactory`
-- [ ] T-029.2 — `AuthControllerIntegrationTests`: login válido, login inválido
-- [ ] T-029.3 — `ClienteControllerIntegrationTests`: 401 sem token, CRUD autenticado
+- [x] T-029.1 — Criar `OficinaMotosWebApplicationFactory`
+- [x] T-029.2 — `AuthControllerIntegrationTests`: login válido, login inválido
+- [x] T-029.3 — `ClienteControllerIntegrationTests`: 401 sem token, CRUD autenticado
 
 ---
 
@@ -491,9 +491,9 @@
 **Prioridade:** 🟡 Should | **Estimativa:** M | **Sprint:** 5
 
 **Tasks:**
-- [ ] T-030.1 — `auth.service.spec.ts`: login(), logout(), isAuthenticated(), signal
-- [ ] T-030.2 — `clientes.service.spec.ts`: CRUD completo
-- [ ] T-030.3 — `ordens.service.spec.ts`: getAll(), create(), changeStatus()
+- [x] T-030.1 — `auth.service.spec.ts`: login(), logout(), isAuthenticated(), signal
+- [x] T-030.2 — `clientes.service.spec.ts`: CRUD completo
+- [x] T-030.3 — `ordens.service.spec.ts`: getAll(), create(), changeStatus()
 
 ---
 
@@ -502,9 +502,9 @@
 **Prioridade:** 🟡 Should | **Estimativa:** S | **Sprint:** 5 | **Depende:** US-030
 
 **Tasks:**
-- [ ] T-031.1 — `auth.guard.spec.ts`: usuário não autenticado é redirecionado
-- [ ] T-031.2 — `auth.interceptor.spec.ts`: token injetado no header correto
-- [ ] T-031.3 — `error.interceptor.spec.ts`: 401 chama logout()
+- [x] T-031.1 — `auth.guard.spec.ts`: usuário não autenticado é redirecionado
+- [x] T-031.2 — `auth.interceptor.spec.ts`: token injetado no header correto
+- [x] T-031.3 — `error.interceptor.spec.ts`: 401 chama logout()
 
 ---
 
