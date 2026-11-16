@@ -456,10 +456,10 @@
 **Prioridade:** 🟡 Should | **Estimativa:** M | **Sprint:** 5 | **Depende:** US-025, US-005
 
 **Tasks:**
-- [ ] T-027.1 — `Create_PF_WithValidCpf_Succeeds`
-- [ ] T-027.2 — `Create_DuplicateCpf_ThrowsDomainException`
-- [ ] T-027.3 — `Delete_SetsIsDeletedTrue_NotPhysicalDelete`
-- [ ] T-027.4 — `GetById_DeletedClient_ReturnsNull`
+- [x] T-027.1 — `Create_PF_WithValidCpf_Succeeds`
+- [x] T-027.2 — `Create_DuplicateCpf_ThrowsDomainException`
+- [x] T-027.3 — `Delete_SetsIsDeletedTrue_NotPhysicalDelete`
+- [x] T-027.4 — `GetById_DeletedClient_ReturnsNull`
 
 ---
 
@@ -468,10 +468,10 @@
 **Prioridade:** 🟡 Should | **Estimativa:** M | **Sprint:** 5 | **Depende:** US-025, US-006, US-007
 
 **Tasks:**
-- [ ] T-028.1 — `Create_WithoutVeiculoId_ThrowsValidationException`
-- [ ] T-028.2 — `ChangeStatus_ValidTransition_Succeeds`
-- [ ] T-028.3 — `ChangeStatus_InvalidTransition_ThrowsException`
-- [ ] T-028.4 — `CalculateTotal_WithPecasAndServicos_IsCorrect`
+- [x] T-028.1 — `Create_WithoutVeiculoId_ThrowsValidationException`
+- [x] T-028.2 — `ChangeStatus_ValidTransition_Succeeds`
+- [x] T-028.3 — `ChangeStatus_InvalidTransition_ThrowsException`
+- [x] T-028.4 — `CalculateTotal_WithPecasAndServicos_IsCorrect`
 
 ---
 
