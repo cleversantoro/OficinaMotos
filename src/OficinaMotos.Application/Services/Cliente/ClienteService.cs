@@ -1,6 +1,7 @@
 using AutoMapper;
 using OficinaMotos.Application.Interfaces.Cliente;
 using OficinaMotos.Domain.Entities;
+using OficinaMotos.Domain.Exceptions;
 using OficinaMotos.Domain.Interfaces.Repositories.ClienteRepo;
 using ClienteEntity = OficinaMotos.Domain.Entities.Cliente;
 using System;
@@ -45,7 +46,7 @@ namespace OficinaMotos.Application.Services.Cliente
             var clienteExistente = await _repository.GetByCpfAsync(request.Cpf);
             if (clienteExistente != null)
             {
-                throw new Exception("Ja existe um cliente cadastrado com este CPF.");
+                throw new DomainException("Ja existe um cliente cadastrado com este CPF.");
             }
 
             var cliente = _mapper.Map<ClienteEntity>(request);
@@ -82,6 +83,5 @@ namespace OficinaMotos.Application.Services.Cliente
             await _repository.DeleteAsync(id);
             return true;
         }
-
     }
 }

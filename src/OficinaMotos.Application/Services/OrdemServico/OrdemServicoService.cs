@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
 using OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO;
 using OficinaMotos.Application.Interfaces.OrdemServico;
+using OficinaMotos.Application.Validators.OrdemServico;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Enums;
+using OficinaMotos.Domain.Exceptions;
 using OficinaMotos.Domain.Interfaces.Repositories.FinanceiroRepo;
 using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
 
@@ -19,6 +22,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
         private readonly IMapper _mapper;
         private readonly IOrdemServicoPagamentoRepository _pagamentoRepository;
         private readonly IFinanceiroContaReceberRepository _contaReceberRepository;
+        private readonly CreateOrdemServicoValidator _createValidator = new();
 
         public OrdemServicoService(
             IOrdemServicoRepository repository,
@@ -46,6 +50,13 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
         public async Task<OrdemServicoResponseDTO> CreateAsync(CreateOrdemServicoDTO request)
         {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            await _createValidator.ValidateAndThrowAsync(request);
+
             var entity = _mapper.Map<OrdemServico>(request);
             entity.VeiculoId = request.VeiculoId;
             if (request.DataAbertura.HasValue)
@@ -61,17 +72,63 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null) return null;
 
+            if (entity.Status != request.Status)
+            {
+                EnsureValidStatusTransition(entity.Status, request.Status);
+            }
+
             entity.ClienteId = request.ClienteId;
             entity.MecanicoId = request.MecanicoId;
             entity.VeiculoId = request.VeiculoId;
             entity.DescricaoProblema = request.DescricaoProblema;
             entity.Status = request.Status;
             entity.DataAbertura = request.DataAbertura ?? entity.DataAbertura;
-            entity.DataConclusao = request.DataConclusao;
+            entity.DataConclusao = request.Status == OrdemServicoStatus.Concluida
+                ? (request.DataConclusao ?? entity.DataConclusao ?? DateTime.UtcNow)
+                : request.DataConclusao;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);
             return _mapper.Map<OrdemServicoResponseDTO>(entity);
+        }
+
+        public async Task<OrdemServicoResponseDTO?> ChangeStatusAsync(long id, OrdemServicoStatus novoStatus)
+        {
+            var entity = await _repository.GetByIdAsync(id);
+            if (entity == null) return null;
+
+            EnsureValidStatusTransition(entity.Status, novoStatus);
+
+            entity.Status = novoStatus;
+            if (novoStatus == OrdemServicoStatus.Concluida && !entity.DataConclusao.HasValue)
+            {
+                entity.DataConclusao = DateTime.UtcNow;
+            }
+            entity.SetUpdated();
+
+            await _repository.UpdateAsync(entity);
+            return _mapper.Map<OrdemServicoResponseDTO>(entity);
+        }
+
+        public decimal CalculateTotal(OrdemServico ordem)
+        {
+            if (ordem?.Itens == null || ordem.Itens.Count == 0)
+            {
+                return 0m;
+            }
+
+            return ordem.Itens.Sum(i => i.Total > 0 ? i.Total : (i.Quantidade * i.ValorUnitario));
+        }
+
+        public async Task<decimal> CalculateTotalAsync(long id)
+        {
+            var ordem = await _repository.GetByIdAsync(id);
+            if (ordem == null)
+            {
+                throw new KeyNotFoundException($"Ordem de serviço #{id} não encontrada.");
+            }
+
+            return CalculateTotal(ordem);
         }
 
         public async Task<bool> DeleteAsync(long id)
@@ -107,9 +164,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             var pagamentoCriado = await _pagamentoRepository.AddAsync(pagamento);
 
             // 2. Avaliar quitação e atualizar status para Concluida se total pago atingir total de itens
-            var totalItens = (ordem.Itens != null && ordem.Itens.Count > 0)
-                ? ordem.Itens.Sum(i => i.Total > 0 ? i.Total : (i.Quantidade * i.ValorUnitario))
-                : 0m;
+            var totalItens = CalculateTotal(ordem);
 
             var totalPagoAnterior = (ordem.Pagamentos != null && ordem.Pagamentos.Count > 0)
                 ? ordem.Pagamentos.Sum(p => p.Valor)
@@ -156,6 +211,36 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             var response = _mapper.Map<OrdemServicoPagamentoResponseDTO>(pagamentoCriado);
             response.StatusOrdemServico = ordem.Status.ToString();
             return response;
+        }
+
+        private static void EnsureValidStatusTransition(OrdemServicoStatus statusAtual, OrdemServicoStatus novoStatus)
+        {
+            if (!Enum.IsDefined(typeof(OrdemServicoStatus), novoStatus))
+            {
+                throw new DomainException($"Status '{novoStatus}' inválido para Ordem de Serviço.");
+            }
+
+            var isValid = statusAtual switch
+            {
+                OrdemServicoStatus.Aberta => novoStatus is OrdemServicoStatus.EmAndamento
+                    or OrdemServicoStatus.AguardandoPeca
+                    or OrdemServicoStatus.Cancelada,
+                OrdemServicoStatus.EmAndamento => novoStatus is OrdemServicoStatus.AguardandoPeca
+                    or OrdemServicoStatus.Concluida
+                    or OrdemServicoStatus.Cancelada,
+                OrdemServicoStatus.AguardandoPeca => novoStatus is OrdemServicoStatus.EmAndamento
+                    or OrdemServicoStatus.Concluida
+                    or OrdemServicoStatus.Cancelada,
+                OrdemServicoStatus.Concluida => false,
+                OrdemServicoStatus.Cancelada => false,
+                _ => false
+            };
+
+            if (!isValid)
+            {
+                throw new DomainException(
+                    $"Transição de status inválida na Ordem de Serviço: não é permitido alterar de '{statusAtual}' para '{novoStatus}'.");
+            }
         }
     }
 }
