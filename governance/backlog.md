@@ -392,9 +392,9 @@
 **Prioridade:** 🟡 Should | **Estimativa:** S | **Sprint:** 4 | **Depende:** US-001
 
 **Tasks:**
-- [ ] T-022.1 — Criar `ContasReceberListaComponent`
-- [ ] T-022.2 — Registrar rota `/financeiro/contas-receber`
-- [ ] T-022.3 — Coluna "OS Origem" com link para `/ordens/:id`
+- [x] T-022.1 — Criar `ContasReceberListaComponent`
+- [x] T-022.2 — Registrar rota `/financeiro/contas-receber`
+- [x] T-022.3 — Coluna "OS Origem" com link para `/ordens/:id`
 
 ---
 
@@ -403,8 +403,8 @@
 **Prioridade:** 🟡 Should | **Estimativa:** M | **Sprint:** 4 | **Depende:** US-022
 
 **Tasks:**
-- [ ] T-023.1 — Criar `ContasReceberFormComponent`
-- [ ] T-023.2 — Registrar rotas de criação e edição
+- [x] T-023.1 — Criar `ContasReceberFormComponent`
+- [x] T-023.2 — Registrar rotas de criação e edição
 
 ---
 
