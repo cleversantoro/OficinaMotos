@@ -515,11 +515,11 @@
 **Prioridade:** 🟢 Could | **Estimativa:** M | **Sprint:** 6 | **Depende:** US-001, US-006
 
 **Tasks:**
-- [ ] T-032.1 — Criar `DashboardController` com `[Authorize]`
-- [ ] T-032.2 — Criar `DashboardService.GetKpisAsync(periodo)`
-- [ ] T-032.3 — Query OS abertas e do dia
-- [ ] T-032.4 — Query faturamento mensal
-- [ ] T-032.5 — Query peças com `qtd_atual < qtd_minima`
+- [x] T-032.1 — Criar `DashboardController` com `[Authorize]`
+- [x] T-032.2 — Criar `DashboardService.GetKpisAsync(periodo)`
+- [x] T-032.3 — Query OS abertas e do dia
+- [x] T-032.4 — Query faturamento mensal
+- [x] T-032.5 — Query peças com `qtd_atual < qtd_minima`
 
 ---
 
@@ -528,10 +528,10 @@
 **Prioridade:** 🟢 Could | **Estimativa:** M | **Sprint:** 6 | **Depende:** US-032
 
 **Tasks:**
-- [ ] T-033.1 — `DashboardPrincipalComponent` consome `GET /api/v1/Dashboard/kpis`
-- [ ] T-033.2 — Gráfico de OS por status
-- [ ] T-033.3 — Gráfico de faturamento mensal (6 meses)
-- [ ] T-033.4 — Skeleton loading nos cards de KPI
+- [x] T-033.1 — `DashboardPrincipalComponent` consome `GET /api/v1/Dashboard/kpis`
+- [x] T-033.2 — Gráfico de OS por status
+- [x] T-033.3 — Gráfico de faturamento mensal (6 meses)
+- [x] T-033.4 — Skeleton loading nos cards de KPI
 
 ---
 
@@ -540,8 +540,8 @@
 **Prioridade:** 🟢 Could | **Estimativa:** S | **Sprint:** 6 | **Depende:** US-032
 
 **Tasks:**
-- [ ] T-034.1 — Incluir `pecasCriticas` no response de `/Dashboard/kpis`
-- [ ] T-034.2 — Card "Alertas de Estoque" com link para `/estoque/:id`
+- [x] T-034.1 — Incluir `pecasCriticas` no response de `/Dashboard/kpis`
+- [x] T-034.2 — Card "Alertas de Estoque" com link para `/estoque/:id`
 
 ---
 
