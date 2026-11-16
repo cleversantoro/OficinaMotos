@@ -432,10 +432,10 @@
 **Prioridade:** 🟡 Should | **Estimativa:** S | **Sprint:** 5
 
 **Tasks:**
-- [ ] T-025.1 — `dotnet new xunit -n OficinaMotos.Tests` em `src/`
-- [ ] T-025.2 — Adicionar ao `OficinaMotos.slnx`
-- [ ] T-025.3 — Instalar: Moq, FluentAssertions, InMemory, Mvc.Testing
-- [ ] T-025.4 — Criar `Helpers/TestDbContextFactory.cs`
+- [x] T-025.1 — `dotnet new xunit -n OficinaMotos.Tests` em `src/`
+- [x] T-025.2 — Adicionar ao `OficinaMotos.slnx`
+- [x] T-025.3 — Instalar: Moq, FluentAssertions, InMemory, Mvc.Testing
+- [x] T-025.4 — Criar `Helpers/TestDbContextFactory.cs`
 
 ---
 
@@ -444,10 +444,10 @@
 **Prioridade:** 🟡 Should | **Estimativa:** M | **Sprint:** 5 | **Depende:** US-025
 
 **Tasks:**
-- [ ] T-026.1 — `Login_ValidCredentials_ReturnsJwtToken`
-- [ ] T-026.2 — `Login_InvalidPassword_ReturnsNull`
-- [ ] T-026.3 — `Login_BlockedAccount_ThrowsException`
-- [ ] T-026.4 — `GenerateToken_ContainsExpectedClaims`
+- [x] T-026.1 — `Login_ValidCredentials_ReturnsJwtToken`
+- [x] T-026.2 — `Login_InvalidPassword_ReturnsNull`
+- [x] T-026.3 — `Login_BlockedAccount_ThrowsException`
+- [x] T-026.4 — `GenerateToken_ContainsExpectedClaims`
 
 ---
 
