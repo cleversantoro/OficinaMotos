@@ -18,6 +18,7 @@ namespace OficinaMotos.Application.DTOs.Requests.Seguranca
         public string Login { get; set; } = string.Empty;
         public string? Telefone { get; set; }
         public int Status { get; set; }
+        public long? PerfilId { get; set; }
     }
 
     public class AlterarSenhaDTO

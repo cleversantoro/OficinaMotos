@@ -85,6 +85,24 @@ namespace OficinaMotos.Application.Services.Seguranca
 
             await _usuarioRepository.UpdateAsync(entity);
 
+            if (request.PerfilId.HasValue && request.PerfilId.Value > 0)
+            {
+                var perfisAtuais = await _usuarioPerfilRepository.GetByUsuarioAsync(id);
+                var jaPossui = perfisAtuais.Any(p => p.PerfilId == request.PerfilId.Value);
+                if (!jaPossui)
+                {
+                    foreach (var antigo in perfisAtuais)
+                    {
+                        await _usuarioPerfilRepository.DeleteAsync(antigo.Id);
+                    }
+                    await _usuarioPerfilRepository.AddAsync(new SegUsuarioPerfil
+                    {
+                        UsuarioId = id,
+                        PerfilId = request.PerfilId.Value
+                    });
+                }
+            }
+
             var withPerfis = await _usuarioRepository.GetWithPerfisAsync(id);
             return _mapper.Map<SegUsuarioResponseDTO>(withPerfis!);
         }

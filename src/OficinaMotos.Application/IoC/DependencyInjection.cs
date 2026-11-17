@@ -12,6 +12,7 @@ using OficinaMotos.Application.Services.Fornecedor;
 using OficinaMotos.Application.Services.Mecanico;
 using OficinaMotos.Application.Services.OrdemServicoRepo;
 using OficinaMotos.Application.Services.Veiculo;
+using QuestPDF.Infrastructure;
 using System.Reflection;
 
 namespace OficinaMotos.Application.IoC
@@ -20,6 +21,9 @@ namespace OficinaMotos.Application.IoC
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
+            // 0. QuestPDF Community License
+            QuestPDF.Settings.License = LicenseType.Community;
+
             // 1. AutoMapper
             services.AddAutoMapper(cfg => cfg.AddProfile<DomainToDTOMappingProfile>());
 
@@ -51,6 +55,7 @@ namespace OficinaMotos.Application.IoC
             services.AddScoped<Interfaces.Financeiro.IFinanceiroHistoricoService, OficinaMotos.Application.Services.Financeiro.FinanceiroHistoricoService>();
             services.AddScoped<Interfaces.Financeiro.IFinanceiroLancamentoService, OficinaMotos.Application.Services.Financeiro.FinanceiroLancamentoService>();
             services.AddScoped<Interfaces.OrdemServico.IOrdemServicoService, OrdemServicoService>();
+            services.AddScoped<Interfaces.OrdemServico.IPdfService, PdfService>();
             services.AddScoped<Interfaces.OrdemServico.IOrdemServicoAnexoService, OrdemServicoAnexoService>();
             services.AddScoped<Interfaces.OrdemServico.IOrdemServicoAvaliacaoService, OrdemServicoAvaliacaoService>();
             services.AddScoped<Interfaces.OrdemServico.IOrdemServicoChecklistService, OrdemServicoChecklistService>();

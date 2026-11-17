@@ -12,10 +12,12 @@ namespace OficinaMotos.API.Controllers.OrdemServico
     public class OrdemServicosController : ControllerBase
     {
         private readonly IOrdemServicoService _service;
+        private readonly IPdfService _pdfService;
 
-        public OrdemServicosController(IOrdemServicoService service)
+        public OrdemServicosController(IOrdemServicoService service, IPdfService pdfService)
         {
             _service = service;
+            _pdfService = pdfService;
         }
 
         [HttpGet]
@@ -34,6 +36,20 @@ namespace OficinaMotos.API.Controllers.OrdemServico
             var item = await _service.GetByIdAsync(id);
             if (item == null) return NotFound(new { message = "Ordem de serviço não encontrada." });
             return Ok(item);
+        }
+
+        [HttpGet("{id:long}/pdf")]
+        [ProducesResponseType(typeof(FileContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetPdf(long id)
+        {
+            var pdfBytes = await _pdfService.GerarOrdemServicoPdfAsync(id);
+            if (pdfBytes == null || pdfBytes.Length == 0)
+            {
+                return NotFound(new { message = "Ordem de serviço não encontrada." });
+            }
+
+            return File(pdfBytes, "application/pdf", $"os-{id}.pdf");
         }
 
         [HttpPost]
