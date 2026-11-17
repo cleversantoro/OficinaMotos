@@ -1,9 +1,9 @@
 # Product Backlog — Oficina MotoPro
 
-**Gerado em:** 2026-07-18
-**Versão:** 1.0
-**Base:** Auditoria 2026-07-18 · Cobertura 2026-07-18
-**Estado do projeto:** Backend ~72% · Frontend ~48% · Banco ~85% · Testes ~2%
+**Gerado em:** 2026-07-18 | **Atualizado em:** 2026-11-17
+**Versão:** 2.0
+**Base:** Auditoria 2026-07-18 · Conclusão dos 6 Epics em 2026-11-17
+**Estado do projeto:** Backend 100% (49/49 testes) · Frontend 100% (43 suítes / 240/240 testes) · Backlog 36/36 US concluídas ✅
 
 ---
 
