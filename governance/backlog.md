@@ -550,10 +550,10 @@
 **Prioridade:** 🟢 Could | **Estimativa:** L | **Sprint:** 6 | **Depende:** US-010
 
 **Tasks:**
-- [ ] T-035.1 — Instalar `QuestPDF` no projeto API
-- [ ] T-035.2 — Criar `PdfService.GerarOrdemServicoPdf(Guid id)`
-- [ ] T-035.3 — Endpoint `GET /api/v1/OrdemServicos/{id}/pdf`
-- [ ] T-035.4 — Botão "Imprimir OS" no `OsDetalheComponent`
+- [x] T-035.1 — Instalar `QuestPDF` no projeto API
+- [x] T-035.2 — Criar `PdfService.GerarOrdemServicoPdf(Guid id)`
+- [x] T-035.3 — Endpoint `GET /api/v1/OrdemServicos/{id}/pdf`
+- [x] T-035.4 — Botão "Imprimir OS" no `OsDetalheComponent`
 
 ---
 
@@ -562,10 +562,10 @@
 **Prioridade:** 🟡 Should | **Estimativa:** M | **Sprint:** 6 | **Depende:** US-001, US-004
 
 **Tasks:**
-- [ ] T-036.1 — Criar `UsuarioListaComponent` e `UsuarioFormComponent`
-- [ ] T-036.2 — Criar `PerfilListaComponent`
-- [ ] T-036.3 — Registrar rotas `/seguranca/usuarios` e `/seguranca/perfis`
-- [ ] T-036.4 — `RoleGuard` restringindo acesso a role `Admin`
+- [x] T-036.1 — Criar `UsuarioListaComponent` e `UsuarioFormComponent`
+- [x] T-036.2 — Criar `PerfilListaComponent`
+- [x] T-036.3 — Registrar rotas `/seguranca/usuarios` e `/seguranca/perfis`
+- [x] T-036.4 — `RoleGuard` restringindo acesso a role `Admin`
 
 ---
 
