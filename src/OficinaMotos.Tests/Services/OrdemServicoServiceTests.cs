@@ -186,5 +186,44 @@ namespace OficinaMotos.Tests.Services
             totalSync.Should().Be(275.50m);
             totalAsync.Should().Be(275.50m);
         }
+
+        [Fact]
+        public async Task GetAllAsync_MapsClienteMecanicoEVeiculoSummaryFields()
+        {
+            // Arrange
+            var ordem = new OrdemServico
+            {
+                ClienteId = 1,
+                Cliente = new Cliente { Nome = "João Silva", NomeExibicao = "João" }.WithId(1),
+                MecanicoId = 2,
+                Mecanico = new Mecanico { Codigo = "MEC-002", Nome = "Carlos", Sobrenome = "Souza" }.WithId(2),
+                VeiculoId = 3,
+                Veiculo = new Veiculo
+                {
+                    Placa = "ABC1D23",
+                    Modelo = new VeiculoModelo { Nome = "CB 500F" }.WithId(10)
+                }.WithId(3),
+                DescricaoProblema = "Revisão completa",
+                Status = OrdemServicoStatus.Aberta
+            }.WithId(1);
+
+            _repositoryMock
+                .Setup(r => r.GetAllAsync())
+                .ReturnsAsync(new List<OrdemServico> { ordem });
+
+            // Act
+            var result = await _sut.GetAllAsync();
+
+            // Assert
+            result.Should().HaveCount(1);
+            var dto = result[0];
+            dto.ClienteNome.Should().Be("João Silva");
+            dto.ClienteNomeExibicao.Should().Be("João");
+            dto.MecanicoCodigo.Should().Be("MEC-002");
+            dto.MecanicoNome.Should().Be("Carlos");
+            dto.MecanicoSobrenome.Should().Be("Souza");
+            dto.VeiculoPlaca.Should().Be("ABC1D23");
+            dto.VeiculoModeloNome.Should().Be("CB 500F");
+        }
     }
 }
