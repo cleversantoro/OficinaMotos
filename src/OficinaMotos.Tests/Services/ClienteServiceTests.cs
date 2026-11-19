@@ -5,6 +5,7 @@ using OficinaMotos.Application.Services.Cliente;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Exceptions;
 using OficinaMotos.Infrastructure.Repositories.Cliente;
+using OficinaMotos.Infrastructure.Context;
 using OficinaMotos.Tests.Helpers;
 using System;
 using System.Threading.Tasks;
@@ -14,11 +15,27 @@ namespace OficinaMotos.Tests.Services
 {
     public class ClienteServiceTests
     {
+        private static async Task CreatePessoaAsync(OficinaContext context, long id, string documento)
+        {
+            if (await context.Pessoas.AnyAsync(p => p.Id == id)) return;
+            var pessoa = new Pessoa
+            {
+                Codigo = id,
+                TipoPessoa = "PF",
+                Documento = documento,
+                Nome = "Pessoa Cliente",
+                NomeExibicao = "Pessoa Cliente"
+            };
+            pessoa.GetType().GetProperty("Id")?.SetValue(pessoa, id);
+            context.Pessoas.Add(pessoa);
+            await context.SaveChangesAsync();
+        }
         [Fact]
         public async Task Create_PF_WithValidCpf_Succeeds()
         {
             // Arrange (T-027.1)
             await using var context = TestDbContextFactory.Create();
+            await CreatePessoaAsync(context, 1, "52998224725");
             var repository = new ClienteRepository(context);
             var mapper = TestDbContextFactory.CreateMapper();
             var sut = new ClienteService(repository, mapper);
@@ -57,6 +74,8 @@ namespace OficinaMotos.Tests.Services
         {
             // Arrange (T-027.2)
             await using var context = TestDbContextFactory.Create();
+            await CreatePessoaAsync(context, 1, "11144477735");
+            await CreatePessoaAsync(context, 2, "11144477735");
             var repository = new ClienteRepository(context);
             var mapper = TestDbContextFactory.CreateMapper();
             var sut = new ClienteService(repository, mapper);
@@ -97,6 +116,7 @@ namespace OficinaMotos.Tests.Services
         {
             // Arrange (T-027.3)
             await using var context = TestDbContextFactory.Create();
+            await CreatePessoaAsync(context, 1, "98765432100");
             var repository = new ClienteRepository(context);
             var mapper = TestDbContextFactory.CreateMapper();
             var sut = new ClienteService(repository, mapper);
@@ -130,6 +150,7 @@ namespace OficinaMotos.Tests.Services
         {
             // Arrange (T-027.4)
             await using var context = TestDbContextFactory.Create();
+            await CreatePessoaAsync(context, 1, "12312312387");
             var repository = new ClienteRepository(context);
             var mapper = TestDbContextFactory.CreateMapper();
             var sut = new ClienteService(repository, mapper);

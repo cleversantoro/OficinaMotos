@@ -59,7 +59,9 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.MecanicoConfig
             builder.Property(x => x.Nivel).HasColumnName("nivel").HasMaxLength(40);
             builder.Property(x => x.Principal).HasColumnName("principal").HasColumnType("tinyint(1)");
             builder.Property(x => x.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)");
-            builder.Property(x => x.PrestadorPrincipalId).HasColumnName("prestador_principal_id").ValueGeneratedOnAddOrUpdate();
+            builder.Property(x => x.PrestadorPrincipalId)
+                .HasColumnName("prestador_principal_id")
+                .HasComputedColumnSql("CASE WHEN principal = 1 THEN prestador_id ELSE NULL END", stored: true);
             builder.Property(x => x.CreatedAt).HasColumnName("created_at");
             builder.HasOne(x => x.Prestador).WithMany(x => x.Atividades).HasForeignKey(x => x.PrestadorId).OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(x => x.AtividadeProfissional).WithMany(x => x.Prestadores).HasForeignKey(x => x.AtividadeProfissionalId).OnDelete(DeleteBehavior.Restrict);

@@ -26,7 +26,19 @@ namespace OficinaMotos.Application.Services.Cliente
         public async Task<List<ClienteResponseDTO>> GetAllAsync()
         {
             var clientes = await _repository.GetAllAsync();
-            return _mapper.Map<List<ClienteResponseDTO>>(clientes);
+            var result = _mapper.Map<List<ClienteResponseDTO>>(clientes);
+            for (var i = 0; i < clientes.Count; i++)
+            {
+                var pessoa = clientes[i].Pessoa;
+                if (pessoa == null) continue;
+                result[i].PessoaId = clientes[i].PessoaId;
+                result[i].Documento = pessoa.Documento;
+                result[i].Nome = pessoa.Nome;
+                result[i].NomeExibicao = pessoa.NomeExibicao;
+                result[i].Email = pessoa.Contatos.FirstOrDefault(c => c.Tipo.Equals("EMAIL", StringComparison.OrdinalIgnoreCase))?.Valor;
+                result[i].Telefone = pessoa.Contatos.FirstOrDefault(c => c.Tipo.Equals("TELEFONE", StringComparison.OrdinalIgnoreCase) || c.Tipo.Equals("CELULAR", StringComparison.OrdinalIgnoreCase))?.Valor;
+            }
+            return result;
         }
 
         public async Task<List<ClienteResponseTableDTO>> GetAllForTableAsync()
@@ -38,7 +50,17 @@ namespace OficinaMotos.Application.Services.Cliente
         public async Task<ClienteResponseDTO?> GetByIdAsync(long id)
         {
             var cliente = await _repository.GetByIdAsync(id);
-            return _mapper.Map<ClienteResponseDTO?>(cliente);
+            var response = _mapper.Map<ClienteResponseDTO?>(cliente);
+            if (response != null && cliente?.Pessoa != null)
+            {
+                response.PessoaId = cliente.PessoaId;
+                response.Documento = cliente.Pessoa.Documento;
+                response.Nome = cliente.Pessoa.Nome;
+                response.NomeExibicao = cliente.Pessoa.NomeExibicao;
+                response.Email = cliente.Pessoa.Contatos.FirstOrDefault(c => c.Tipo.Equals("EMAIL", StringComparison.OrdinalIgnoreCase))?.Valor;
+                response.Telefone = cliente.Pessoa.Contatos.FirstOrDefault(c => c.Tipo.Equals("TELEFONE", StringComparison.OrdinalIgnoreCase) || c.Tipo.Equals("CELULAR", StringComparison.OrdinalIgnoreCase))?.Valor;
+            }
+            return response;
         }
 
         public async Task<ClienteResponseDTO> CreateAsync(CreateClienteDTO request)
@@ -59,8 +81,16 @@ namespace OficinaMotos.Application.Services.Cliente
             cliente.Documento = doc;
             cliente.NomeExibicao = string.IsNullOrWhiteSpace(request.NomeExibicao) ? request.Nome : request.NomeExibicao;
             var novoCliente = await _repository.AddAsync(cliente);
-
-            return _mapper.Map<ClienteResponseDTO>(novoCliente);
+            await _repository.SyncPessoaContatosAsync(cliente.PessoaId, request.Email, request.Telefone);
+            var response = _mapper.Map<ClienteResponseDTO>(novoCliente);
+            response.PessoaId = novoCliente.PessoaId;
+            response.Documento = doc;
+            response.Nome = request.Nome;
+            response.NomeExibicao = string.IsNullOrWhiteSpace(request.NomeExibicao) ? request.Nome : request.NomeExibicao;
+            response.Email = request.Email;
+            response.Telefone = request.Telefone;
+            response.Tipo = request.Tipo;
+            return response;
         }
 
         public async Task<ClienteResponseDTO?> UpdateAsync(long id, UpdateClienteDTO request)
@@ -85,7 +115,16 @@ namespace OficinaMotos.Application.Services.Cliente
             cliente.SetUpdated();
 
             await _repository.UpdateAsync(cliente);
-            return _mapper.Map<ClienteResponseDTO>(cliente);
+            await _repository.SyncPessoaContatosAsync(cliente.PessoaId, request.Email, request.Telefone);
+            var response = _mapper.Map<ClienteResponseDTO>(cliente);
+            response.PessoaId = cliente.PessoaId;
+            response.Documento = request.Documento;
+            response.Nome = request.Nome;
+            response.NomeExibicao = string.IsNullOrWhiteSpace(request.NomeExibicao) ? request.Nome : request.NomeExibicao;
+            response.Email = request.Email;
+            response.Telefone = request.Telefone;
+            response.Tipo = request.Tipo;
+            return response;
         }
 
         public async Task<bool> DeleteAsync(long id)

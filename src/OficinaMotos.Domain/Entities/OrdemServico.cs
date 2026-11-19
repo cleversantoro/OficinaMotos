@@ -7,6 +7,7 @@ namespace OficinaMotos.Domain.Entities
 {
     public class OrdemServico : BaseEntity
     {
+        public long Numero { get; set; }
         public long ClienteId { get; set; }
         public Cliente? Cliente { get; set; }
         [Obsolete("A associação mecânico agora é feita por item de serviço.")]
@@ -16,9 +17,17 @@ namespace OficinaMotos.Domain.Entities
         public long? VeiculoId { get; set; }
         public Veiculo? Veiculo { get; set; }
         public string DescricaoProblema { get; set; } = string.Empty;
+        public string? Diagnostico { get; set; }
+        public string Prioridade { get; set; } = "NORMAL";
         public OrdemServicoStatus Status { get; set; } = OrdemServicoStatus.Aberta;
         public DateTime DataAbertura { get; set; } = DateTime.UtcNow;
+        public DateTime? PrevisaoEntrega { get; set; }
         public DateTime? DataConclusao { get; set; }
+        public decimal ValorPecas { get; set; }
+        public decimal ValorServicos { get; set; }
+        public decimal Desconto { get; set; }
+        public decimal ValorTotal { get; set; }
+        public string? ObservacaoGeral { get; set; }
 
         public ICollection<OrdemServicoAnexo> Anexos { get; set; } = new HashSet<OrdemServicoAnexo>();
         public ICollection<OrdemServicoAvaliacao> Avaliacoes { get; set; } = new HashSet<OrdemServicoAvaliacao>();
@@ -70,9 +79,13 @@ namespace OficinaMotos.Domain.Entities
         public long? PrestadorId { get; set; }
         public Prestador? Prestador { get; set; }
         public string Descricao { get; set; } = string.Empty;
-        public int Quantidade { get; set; }
+        public string Tipo { get; set; } = "SERVICO";
+        public decimal Quantidade { get; set; } = 1;
         public decimal ValorUnitario { get; set; }
+        public decimal Desconto { get; set; }
         public decimal Total { get; set; } //=> Quantidade * ValorUnitario;
+        public string Status { get; set; } = "PENDENTE";
+        public string? Observacoes { get; set; }
     }
 
     public class OrdemServicoObservacao : BaseEntity

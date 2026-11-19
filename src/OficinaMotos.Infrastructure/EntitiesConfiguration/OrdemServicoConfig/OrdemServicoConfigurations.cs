@@ -12,9 +12,23 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.ToTable("os_ordens");
             builder.HasKey(e => e.Id);
 
+            builder.Property(e => e.Numero).HasColumnName("numero").IsRequired();
             builder.Property(e => e.ClienteId).HasColumnName("cliente_id");
             builder.Property(e => e.VeiculoId).HasColumnName("veiculo_id");
-            builder.Property(e => e.DescricaoProblema).HasColumnName("descricao_problema").HasMaxLength(500).IsRequired();
+            builder.Property(e => e.DescricaoProblema).HasColumnName("descricao_problema").HasMaxLength(1000).IsRequired();
+            builder.Property(e => e.Diagnostico).HasColumnName("diagnostico").HasColumnType("text");
+            builder.Property(e => e.Prioridade).HasColumnName("prioridade").HasMaxLength(20).IsRequired();
+            builder.Property(e => e.PrevisaoEntrega).HasColumnName("previsao_entrega");
+            builder.Property(e => e.ValorPecas).HasColumnName("valor_pecas").HasPrecision(18,2);
+            builder.Property(e => e.ValorServicos).HasColumnName("valor_servicos").HasPrecision(18,2);
+            builder.Property(e => e.Desconto).HasColumnName("desconto").HasPrecision(18,2);
+            builder.Property(e => e.ValorTotal).HasColumnName("valor_total").HasPrecision(18,2);
+            builder.Property(e => e.ObservacaoGeral).HasColumnName("observacoes").HasMaxLength(1000);
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+            builder.Ignore(e => e.IsDeleted);
+            builder.Ignore(e => e.MecanicoId);
+            builder.Ignore(e => e.Mecanico);
+            builder.HasQueryFilter(e => e.DeletedAt == null);
             builder.Property(e => e.Status)
                 .HasConversion(
                     v => v.ToString(),
@@ -31,12 +45,12 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.HasOne(e => e.Cliente)
                    .WithMany(c => c.OrdensServico)
                    .HasForeignKey(e => e.ClienteId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Veiculo)
                    .WithMany(v => v.OrdensServico)
                    .HasForeignKey(e => e.VeiculoId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasMany(e => e.Anexos)
                    .WithOne(a => a.OrdemServico)
@@ -129,7 +143,13 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.Property(e => e.PecaId).HasColumnName("peca_id");
             builder.Property(e => e.AtividadeProfissionalId).HasColumnName("atividade_profissional_id");
             builder.Property(e => e.PrestadorId).HasColumnName("prestador_id");
+            builder.Property(e => e.Tipo).HasColumnName("tipo").HasMaxLength(20).IsRequired();
             builder.Property(e => e.Descricao).HasMaxLength(240).IsRequired();
+            builder.Property(e => e.Observacoes).HasColumnName("observacoes").HasMaxLength(500);
+            builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(30).IsRequired();
+            builder.Property(e => e.Desconto).HasColumnName("desconto").HasPrecision(18,2);
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+            builder.Ignore(e => e.IsDeleted);
             builder.Property(e => e.Quantidade).HasColumnName("quantidade").IsRequired();
             builder.Property(e => e.ValorUnitario).HasColumnName("valor_unitario").HasPrecision(18, 2).IsRequired();
             builder.Property(e => e.Total)

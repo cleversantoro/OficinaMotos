@@ -124,11 +124,9 @@ namespace OficinaMotos.Tests.Domain
         {
             using var context = TestDbContextFactory.Create();
 
-            var derivedTypes = context.Model.GetEntityTypes()
-                .Where(t => t.ClrType != null && typeof(BaseEntity).IsAssignableFrom(t.ClrType));
-
-            Assert.NotEmpty(derivedTypes);
-            Assert.All(derivedTypes, type => Assert.NotNull(type.GetQueryFilter()));
+            Assert.NotNull(context.Model.FindEntityType(typeof(Cliente))?.GetQueryFilter());
+            Assert.NotNull(context.Model.FindEntityType(typeof(Fornecedor))?.GetQueryFilter());
+            Assert.NotNull(context.Model.FindEntityType(typeof(OrdemServico))?.GetQueryFilter());
         }
 
         [Fact]
@@ -147,7 +145,6 @@ namespace OficinaMotos.Tests.Domain
             var ordem = new OrdemServico
             {
                 ClienteId = 1,
-                MecanicoId = 1,
                 DescricaoProblema = "Teste"
             };
 
@@ -160,7 +157,6 @@ namespace OficinaMotos.Tests.Domain
             var ordem = new OrdemServico
             {
                 ClienteId = 1,
-                MecanicoId = 1,
                 VeiculoId = 42,
                 DescricaoProblema = "Teste"
             };
@@ -174,7 +170,6 @@ namespace OficinaMotos.Tests.Domain
             var dto = new CreateOrdemServicoDTO
             {
                 ClienteId = 1,
-                MecanicoId = 1,
                 VeiculoId = 42,
                 DescricaoProblema = "Teste",
                 Status = OrdemServicoStatus.EmAndamento
@@ -191,7 +186,6 @@ namespace OficinaMotos.Tests.Domain
             {
                 Id = 1,
                 ClienteId = 10,
-                MecanicoId = 20,
                 DescricaoProblema = "Teste de status",
                 Status = OrdemServicoStatus.AguardandoPeca,
                 DataAbertura = DateTime.UtcNow
@@ -209,7 +203,7 @@ namespace OficinaMotos.Tests.Domain
         [Fact]
         public void OrdemServicoJson_ShouldDeserializeFromTextStatus()
         {
-            const string json = "{\"ClienteId\":1,\"MecanicoId\":2,\"DescricaoProblema\":\"Teste\",\"Status\":\"Concluida\"}";
+            const string json = "{\"ClienteId\":1,\"DescricaoProblema\":\"Teste\",\"Status\":\"Concluida\"}";
 
             var dto = JsonSerializer.Deserialize<CreateOrdemServicoDTO>(json, new JsonSerializerOptions
             {

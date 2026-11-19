@@ -14,38 +14,38 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
             builder.Property(c => c.PessoaId).HasColumnName("pessoa_id").IsRequired();
             builder.HasOne(c => c.Pessoa).WithMany().HasForeignKey(c => c.PessoaId).OnDelete(DeleteBehavior.Restrict);
 
-            builder.Property(c => c.Codigo).HasColumnName("Codigo");
-            builder.Property(c => c.Nome).HasColumnName("Nome").HasMaxLength(160).IsRequired();
-            builder.Property(c => c.NomeExibicao).HasColumnName("NomeExibicao").HasMaxLength(160).IsRequired();
-            builder.Property(c => c.Documento).HasColumnName("Documento").HasMaxLength(20).IsRequired();
-            builder.Property(c => c.Tipo).HasColumnName("Tipo").IsRequired();
-            builder.Property(c => c.Status).HasColumnName("Status").IsRequired();
-            builder.Property(c => c.Vip).HasColumnName("Vip").HasColumnType("tinyint(1)").IsRequired();
-            builder.Property(c => c.Observacoes).HasColumnName("Observacoes").HasMaxLength(500);
-            builder.Property(c => c.OrigemCadastroId).HasColumnName("OrigemCadastroId");
-            builder.Property(c => c.Telefone).HasColumnName("Telefone").HasMaxLength(20);
-            builder.Property(c => c.Email).HasColumnName("Email").HasMaxLength(160);
-            builder.Property(c => c.OrigemId).HasColumnName("Origem_Id");
+            builder.Property(c => c.Codigo).HasColumnName("codigo").IsRequired();
+            builder.Property(c => c.Status).HasColumnName("status").HasMaxLength(30).IsRequired();
+            builder.Property(c => c.Vip).HasColumnName("vip").HasColumnType("tinyint(1)").IsRequired();
+            builder.Property(c => c.Observacoes).HasColumnName("observacoes").HasMaxLength(500);
+            builder.Property(c => c.OrigemId).HasColumnName("origem_id");
+            builder.Property(c => c.CreatedAt).HasColumnName("created_at");
+            builder.Property(c => c.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(c => c.DeletedAt).HasColumnName("deleted_at");
+            builder.HasQueryFilter(c => c.DeletedAt == null);
 
+            builder.Ignore(c => c.IsDeleted);
+            builder.Ignore(c => c.Nome);
+            builder.Ignore(c => c.NomeExibicao);
+            builder.Ignore(c => c.Documento);
+            builder.Ignore(c => c.Tipo);
+            builder.Ignore(c => c.OrigemCadastroId);
+            builder.Ignore(c => c.Telefone);
+            builder.Ignore(c => c.Email);
+            builder.Ignore(c => c.PessoaFisica);
+            builder.Ignore(c => c.PessoaJuridica);
+            builder.Ignore(c => c.Financeiro);
+            builder.Ignore(c => c.Anexos);
+            builder.Ignore(c => c.Contatos);
+            builder.Ignore(c => c.Documentos);
+            builder.Ignore(c => c.Enderecos);
+            builder.Ignore(c => c.Indicacoes);
+            builder.Ignore(c => c.ConsentimentosLgpd);
 
             builder.HasOne(c => c.Origem).WithMany(o => o.Clientes).HasForeignKey(c => c.OrigemId).OnDelete(DeleteBehavior.SetNull);
 
-            builder.HasMany(c => c.Anexos).WithOne(a => a.Cliente).HasForeignKey(a => a.ClienteId);
-            builder.HasMany(c => c.Contatos).WithOne(a => a.Cliente).HasForeignKey(a => a.ClienteId);
-            builder.HasMany(c => c.Documentos).WithOne(a => a.Cliente).HasForeignKey(a => a.ClienteId);
-            builder.HasMany(c => c.Enderecos).WithOne(a => a.Cliente).HasForeignKey(a => a.ClienteId);
-            builder.HasMany(c => c.Indicacoes).WithOne(a => a.Cliente).HasForeignKey(a => a.ClienteId);
-            builder.HasMany(c => c.ConsentimentosLgpd).WithOne(a => a.Cliente).HasForeignKey(a => a.ClienteId);
-
             builder.HasMany(c => c.Veiculos).WithOne(a => a.Cliente).HasForeignKey(a => a.ClienteId);
             builder.HasMany(c => c.OrdensServico).WithOne(a => a.Cliente).HasForeignKey(a => a.ClienteId);
-            
-            builder.HasOne(c => c.PessoaFisica).WithOne(pf => pf.Cliente).HasForeignKey<ClientePf>(pf => pf.ClienteId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(c => c.PessoaJuridica).WithOne(pj => pj.Cliente).HasForeignKey<ClientePj>(pj => pj.ClienteId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(c => c.Financeiro).WithOne(f => f.Cliente).HasForeignKey<ClienteFinanceiro>(f => f.ClienteId).OnDelete(DeleteBehavior.Cascade);
-
-            builder.Property(c => c.CreatedAt).HasColumnName("Created_At");
-            builder.Property(c => c.UpdatedAt).HasColumnName("Updated_At");
         }
     }
 

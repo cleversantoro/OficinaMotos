@@ -12,14 +12,16 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.HasKey(m => m.Id);
 
             builder.Property(m => m.Nome).HasColumnName("nome").HasMaxLength(80).IsRequired();
-            builder.Property(m => m.Descricao).HasColumnName("Descricao").HasMaxLength(240);
-            builder.Property(m => m.Icone).HasColumnName("Icone").HasMaxLength(100);
-            builder.Property(m => m.Rota).HasColumnName("Rota").HasMaxLength(200);
-            builder.Property(m => m.ModuloPaiId).HasColumnName("Modulo_Pai_Id");
-            builder.Property(m => m.Ordem).HasColumnName("Ordem").IsRequired();
-            builder.Property(m => m.Ativo).HasColumnName("Ativo").HasColumnType("tinyint(1)").IsRequired();
-            builder.Property(m => m.CreatedAt).HasColumnName("Created_At");
-            builder.Property(m => m.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(m => m.Descricao).HasColumnName("descricao").HasMaxLength(240);
+            builder.Property(m => m.Icone).HasColumnName("icone").HasMaxLength(100);
+            builder.Property(m => m.Rota).HasColumnName("rota").HasMaxLength(200);
+            builder.Property(m => m.ModuloPaiId).HasColumnName("modulo_pai_id");
+            builder.Property(m => m.Ordem).HasColumnName("ordem").IsRequired();
+            builder.Property(m => m.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)").IsRequired();
+            builder.Property(m => m.CreatedAt).HasColumnName("created_at");
+            builder.Property(m => m.UpdatedAt).HasColumnName("updated_at");
+            builder.Ignore(m => m.IsDeleted);
+            builder.Ignore(m => m.DeletedAt);
 
             builder.HasOne(m => m.ModuloPai)
                 .WithMany(m => m.SubModulos)
@@ -40,12 +42,15 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.ToTable("seg_perfis");
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.Nome).HasColumnName("Nome").HasMaxLength(80).IsRequired();
-            builder.Property(p => p.Descricao).HasColumnName("Descricao").HasMaxLength(240);
-            builder.Property(p => p.Nivel).HasColumnName("Nivel").IsRequired();
-            builder.Property(p => p.Status).HasColumnName("Status").IsRequired();
-            builder.Property(p => p.CreatedAt).HasColumnName("Created_At");
-            builder.Property(p => p.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(p => p.Nome).HasColumnName("nome").HasMaxLength(80).IsRequired();
+            builder.Property(p => p.Descricao).HasColumnName("descricao").HasMaxLength(240);
+            builder.Property(p => p.Nivel).HasColumnName("nivel").IsRequired();
+            builder.Property(p => p.Status).HasColumnName("status").IsRequired();
+            builder.Property(p => p.CreatedAt).HasColumnName("created_at");
+            builder.Property(p => p.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(p => p.DeletedAt).HasColumnName("deleted_at");
+            builder.Ignore(p => p.IsDeleted);
+            builder.HasQueryFilter(p => p.DeletedAt == null);
 
             builder.HasMany(p => p.PerfisPermissoes)
                 .WithOne(pp => pp.Perfil)
@@ -66,10 +71,12 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.ToTable("seg_permissoes");
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.ModuloId).HasColumnName("Modulo_Id").IsRequired();
-            builder.Property(p => p.Acao).HasColumnName("Acao").HasMaxLength(30).IsRequired();
-            builder.Property(p => p.Descricao).HasColumnName("Descricao").HasMaxLength(200);
-            builder.Property(p => p.CreatedAt).HasColumnName("Created_At");
+            builder.Property(p => p.ModuloId).HasColumnName("modulo_id").IsRequired();
+            builder.Property(p => p.Acao).HasColumnName("acao").HasMaxLength(30).IsRequired();
+            builder.Property(p => p.Descricao).HasColumnName("descricao").HasMaxLength(200);
+            builder.Property(p => p.CreatedAt).HasColumnName("created_at");
+            builder.Ignore(p => p.IsDeleted);
+            builder.Ignore(p => p.DeletedAt);
             // seg_permissoes não tem Updated_At
             builder.Ignore(p => p.UpdatedAt);
 
@@ -89,9 +96,11 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.ToTable("seg_perfis_permissoes");
             builder.HasKey(pp => pp.Id);
 
-            builder.Property(pp => pp.PerfilId).HasColumnName("Perfil_Id").IsRequired();
-            builder.Property(pp => pp.PermissaoId).HasColumnName("Permissao_Id").IsRequired();
-            builder.Property(pp => pp.CreatedAt).HasColumnName("Created_At");
+            builder.Property(pp => pp.PerfilId).HasColumnName("perfil_id").IsRequired();
+            builder.Property(pp => pp.PermissaoId).HasColumnName("permissao_id").IsRequired();
+            builder.Property(pp => pp.CreatedAt).HasColumnName("created_at");
+            builder.Ignore(pp => pp.IsDeleted);
+            builder.Ignore(pp => pp.DeletedAt);
             // seg_perfis_permissoes não tem Updated_At
             builder.Ignore(pp => pp.UpdatedAt);
 
@@ -106,21 +115,24 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.ToTable("seg_usuarios");
             builder.HasKey(u => u.Id);
 
-            builder.Property(u => u.Nome).HasColumnName("Nome").HasMaxLength(160).IsRequired();
-            builder.Property(u => u.Email).HasColumnName("Email").HasMaxLength(160).IsRequired();
-            builder.Property(u => u.Login).HasColumnName("Login").HasMaxLength(80).IsRequired();
-            builder.Property(u => u.Senha).HasColumnName("Senha").HasMaxLength(255).IsRequired();
-            builder.Property(u => u.Telefone).HasColumnName("Telefone").HasMaxLength(20);
-            builder.Property(u => u.FotoUrl).HasColumnName("Foto_Url").HasMaxLength(500);
-            builder.Property(u => u.Status).HasColumnName("Status").IsRequired();
-            builder.Property(u => u.UltimoLogin).HasColumnName("Ultimo_Login");
-            builder.Property(u => u.TokenReset).HasColumnName("Token_Reset").HasMaxLength(255);
-            builder.Property(u => u.TokenResetExpiraEm).HasColumnName("Token_Reset_Expira_Em");
-            builder.Property(u => u.TentativasLogin).HasColumnName("Tentativas_Login").IsRequired();
-            builder.Property(u => u.BloqueadoAte).HasColumnName("Bloqueado_Ate");
-            builder.Property(u => u.CriadoPor).HasColumnName("Criado_Por");
-            builder.Property(u => u.CreatedAt).HasColumnName("Created_At");
-            builder.Property(u => u.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(u => u.Nome).HasColumnName("nome").HasMaxLength(160).IsRequired();
+            builder.Property(u => u.Email).HasColumnName("email").HasMaxLength(160).IsRequired();
+            builder.Property(u => u.Login).HasColumnName("login").HasMaxLength(80).IsRequired();
+            builder.Property(u => u.Senha).HasColumnName("senha").HasMaxLength(255).IsRequired();
+            builder.Property(u => u.Telefone).HasColumnName("telefone").HasMaxLength(20);
+            builder.Property(u => u.FotoUrl).HasColumnName("foto_url").HasMaxLength(500);
+            builder.Property(u => u.Status).HasColumnName("status").IsRequired();
+            builder.Property(u => u.UltimoLogin).HasColumnName("ultimo_login");
+            builder.Property(u => u.TokenReset).HasColumnName("token_reset").HasMaxLength(255);
+            builder.Property(u => u.TokenResetExpiraEm).HasColumnName("token_reset_expira_em");
+            builder.Property(u => u.TentativasLogin).HasColumnName("tentativas_login").IsRequired();
+            builder.Property(u => u.BloqueadoAte).HasColumnName("bloqueado_ate");
+            builder.Property(u => u.CriadoPor).HasColumnName("criado_por");
+            builder.Property(u => u.CreatedAt).HasColumnName("created_at");
+            builder.Property(u => u.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(u => u.DeletedAt).HasColumnName("deleted_at");
+            builder.Ignore(u => u.IsDeleted);
+            builder.HasQueryFilter(u => u.DeletedAt == null);
 
             builder.HasIndex(u => u.Email).IsUnique().HasDatabaseName("UQ_seg_usuarios_email");
             builder.HasIndex(u => u.Login).IsUnique().HasDatabaseName("UQ_seg_usuarios_login");
@@ -149,11 +161,13 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.ToTable("seg_usuarios_perfis");
             builder.HasKey(up => up.Id);
 
-            builder.Property(up => up.UsuarioId).HasColumnName("Usuario_Id").IsRequired();
-            builder.Property(up => up.PerfilId).HasColumnName("Perfil_Id").IsRequired();
-            builder.Property(up => up.Ativo).HasColumnName("Ativo").HasColumnType("tinyint(1)").IsRequired();
-            builder.Property(up => up.CreatedAt).HasColumnName("Created_At");
-            builder.Property(up => up.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(up => up.UsuarioId).HasColumnName("usuario_id").IsRequired();
+            builder.Property(up => up.PerfilId).HasColumnName("perfil_id").IsRequired();
+            builder.Property(up => up.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)").IsRequired();
+            builder.Property(up => up.CreatedAt).HasColumnName("created_at");
+            builder.Ignore(up => up.UpdatedAt);
+            builder.Ignore(up => up.IsDeleted);
+            builder.Ignore(up => up.DeletedAt);
 
             builder.HasIndex(up => new { up.UsuarioId, up.PerfilId }).IsUnique().HasDatabaseName("UQ_seg_usuarios_perfis");
         }
@@ -166,18 +180,20 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.ToTable("seg_audit_log");
             builder.HasKey(al => al.Id);
 
-            builder.Property(al => al.UsuarioId).HasColumnName("Usuario_Id");
-            builder.Property(al => al.Login).HasColumnName("Login").HasMaxLength(80);
-            builder.Property(al => al.Acao).HasColumnName("Acao").HasMaxLength(30).IsRequired();
-            builder.Property(al => al.Modulo).HasColumnName("Modulo").HasMaxLength(80);
-            builder.Property(al => al.Tabela).HasColumnName("Tabela").HasMaxLength(80);
-            builder.Property(al => al.RegistroId).HasColumnName("Registro_Id").HasMaxLength(40);
-            builder.Property(al => al.Descricao).HasColumnName("Descricao").HasMaxLength(500);
-            builder.Property(al => al.DadosAntes).HasColumnName("Dados_Antes").HasColumnType("json");
-            builder.Property(al => al.DadosDepois).HasColumnName("Dados_Depois").HasColumnType("json");
-            builder.Property(al => al.Ip).HasColumnName("Ip").HasMaxLength(45);
-            builder.Property(al => al.UserAgent).HasColumnName("User_Agent").HasMaxLength(500);
-            builder.Property(al => al.CreatedAt).HasColumnName("Created_At");
+            builder.Property(al => al.UsuarioId).HasColumnName("usuario_id");
+            builder.Property(al => al.Login).HasColumnName("login").HasMaxLength(80);
+            builder.Property(al => al.Acao).HasColumnName("acao").HasMaxLength(30).IsRequired();
+            builder.Property(al => al.Modulo).HasColumnName("modulo").HasMaxLength(80);
+            builder.Property(al => al.Tabela).HasColumnName("tabela").HasMaxLength(80);
+            builder.Property(al => al.RegistroId).HasColumnName("registro_id").HasMaxLength(40);
+            builder.Property(al => al.Descricao).HasColumnName("descricao").HasMaxLength(500);
+            builder.Property(al => al.DadosAntes).HasColumnName("dados_antes").HasColumnType("json");
+            builder.Property(al => al.DadosDepois).HasColumnName("dados_depois").HasColumnType("json");
+            builder.Property(al => al.Ip).HasColumnName("ip").HasMaxLength(45);
+            builder.Property(al => al.UserAgent).HasColumnName("user_agent").HasMaxLength(500);
+            builder.Property(al => al.CreatedAt).HasColumnName("created_at");
+            builder.Ignore(al => al.IsDeleted);
+            builder.Ignore(al => al.DeletedAt);
             // seg_audit_log é INSERT-ONLY — sem Updated_At
             builder.Ignore(al => al.UpdatedAt);
         }
@@ -192,14 +208,16 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
 
             builder.Property(rt => rt.UsuarioId).HasColumnName("usuario_id").IsRequired();
             builder.Property(rt => rt.TokenHash).HasColumnName("token_hash").HasMaxLength(255).IsRequired();
-            builder.Property(rt => rt.ExpiraEm).HasColumnName("Expira_Em").IsRequired();
-            builder.Property(rt => rt.RevogadoEm).HasColumnName("Revogado_Em");
-            builder.Property(rt => rt.MotivoRevogacao).HasColumnName("Motivo_Revogacao").HasMaxLength(160);
-            builder.Property(rt => rt.IpCriacao).HasColumnName("Ip_Criacao").HasMaxLength(45);
-            builder.Property(rt => rt.UserAgentCriacao).HasColumnName("User_Agent_Criacao").HasMaxLength(500);
-            builder.Property(rt => rt.UltimoUsoEm).HasColumnName("Ultimo_Uso_Em");
-            builder.Property(rt => rt.CreatedAt).HasColumnName("Created_At");
-            builder.Property(rt => rt.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(rt => rt.ExpiraEm).HasColumnName("expira_em").IsRequired();
+            builder.Property(rt => rt.RevogadoEm).HasColumnName("revogado_em");
+            builder.Property(rt => rt.MotivoRevogacao).HasColumnName("motivo_revogacao").HasMaxLength(160);
+            builder.Property(rt => rt.IpCriacao).HasColumnName("ip_criacao").HasMaxLength(45);
+            builder.Property(rt => rt.UserAgentCriacao).HasColumnName("user_agent_criacao").HasMaxLength(500);
+            builder.Property(rt => rt.UltimoUsoEm).HasColumnName("ultimo_uso_em");
+            builder.Property(rt => rt.CreatedAt).HasColumnName("created_at");
+            builder.Property(rt => rt.UpdatedAt).HasColumnName("updated_at");
+            builder.Ignore(rt => rt.IsDeleted);
+            builder.Ignore(rt => rt.DeletedAt);
 
             builder.HasIndex(rt => rt.TokenHash).IsUnique().HasDatabaseName("UQ_seg_refresh_tokens_hash");
 

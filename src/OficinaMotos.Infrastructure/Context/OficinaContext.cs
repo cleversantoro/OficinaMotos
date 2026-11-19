@@ -99,6 +99,29 @@ namespace OficinaMotos.Infrastructure.Context
             // de uma vez só. Você não precisa adicionar uma por uma.
             builder.ApplyConfigurationsFromAssembly(typeof(OficinaContext).Assembly);
 
+            builder.Ignore<ClienteAnexo>();
+            builder.Ignore<ClienteContato>();
+            builder.Ignore<ClienteDocumento>();
+            builder.Ignore<ClienteEndereco>();
+            builder.Ignore<ClientePf>();
+            builder.Ignore<ClientePj>();
+            builder.Ignore<ClienteFinanceiro>();
+            builder.Ignore<ClienteIndicacao>();
+            builder.Ignore<ClienteLgpdConsentimento>();
+
+            builder.Ignore<FornecedorEndereco>();
+            builder.Ignore<FornecedorContato>();
+            builder.Ignore<FornecedorDocumento>();
+
+            builder.Ignore<MecanicoEspecialidade>();
+            builder.Ignore<MecanicoEspecialidadeRel>();
+            builder.Ignore<MecanicoContato>();
+            builder.Ignore<MecanicoDocumento>();
+            builder.Ignore<MecanicoEndereco>();
+            builder.Ignore<MecanicoExperiencia>();
+            builder.Ignore<MecanicoCertificacao>();
+            builder.Ignore<MecanicoDisponibilidade>();
+
             // Aplica filtro global de exclusão lógica para qualquer entidade derivada de BaseEntity.
             foreach (var entityType in builder.Model.GetEntityTypes())
             {
@@ -107,11 +130,21 @@ namespace OficinaMotos.Infrastructure.Context
                 {
                     continue;
                 }
+                var entity = builder.Entity(clrType);
+                if (entity.Metadata.FindProperty(nameof(BaseEntity.IsDeleted)) == null)
+                {
+                    continue;
+                }
                 if (clrType.Name.StartsWith("Pessoa", StringComparison.Ordinal))
                 {
                     continue;
                 }
                 if (clrType == typeof(Prestador))
+                {
+                    continue;
+                }
+                if (clrType.Name.StartsWith("Seg", StringComparison.Ordinal) ||
+                    clrType == typeof(RefreshToken))
                 {
                     continue;
                 }

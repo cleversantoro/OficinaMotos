@@ -10,5 +10,6 @@ namespace OficinaMotos.Domain.Interfaces.Repositories.ClienteRepo
         Task<Cliente?> GetByCpfAsync(string cpf);
         
         Task<Cliente?> GetByEmailAsync(string email);
+        Task SyncPessoaContatosAsync(long pessoaId, string? email, string? telefone);
     }
 }
