@@ -43,13 +43,18 @@ namespace OficinaMotos.Application.Services.Cliente
 
         public async Task<ClienteResponseDTO> CreateAsync(CreateClienteDTO request)
         {
-            var clienteExistente = await _repository.GetByCpfAsync(request.Cpf);
+            var doc = !string.IsNullOrWhiteSpace(request.Documento) ? request.Documento : request.Cpf;
+            var clienteExistente = await _repository.GetByCpfAsync(doc);
             if (clienteExistente != null)
             {
-                throw new DomainException("Ja existe um cliente cadastrado com este CPF.");
+                var tipoDoc = request.Tipo == 2 ? "CNPJ" : "CPF";
+                throw new DomainException($"Ja existe um cliente cadastrado com este {tipoDoc}.");
             }
 
             var cliente = _mapper.Map<ClienteEntity>(request);
+            cliente.Tipo = request.Tipo == 2 ? ClienteTipo.PessoaJuridica : ClienteTipo.PessoaFisica;
+            cliente.Documento = doc;
+            cliente.NomeExibicao = string.IsNullOrWhiteSpace(request.NomeExibicao) ? request.Nome : request.NomeExibicao;
             var novoCliente = await _repository.AddAsync(cliente);
 
             return _mapper.Map<ClienteResponseDTO>(novoCliente);

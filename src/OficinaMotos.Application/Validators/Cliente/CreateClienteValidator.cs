@@ -1,5 +1,6 @@
-﻿using FluentValidation;
+using FluentValidation;
 using OficinaMotos.Application.DTOs.Requests.Cliente;
+using System.Linq;
 
 namespace OficinaMotos.Application.Validators.Cliente
 {
@@ -11,20 +12,26 @@ namespace OficinaMotos.Application.Validators.Cliente
                 .NotEmpty().WithMessage("O nome é obrigatório")
                 .Length(3, 150).WithMessage("O nome deve ter entre 3 e 150 caracteres");
 
-            RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("O email é obrigatório")
-                .EmailAddress().WithMessage("Email inválido");
+            RuleFor(x => x.Tipo)
+                .Must(t => t == 1 || t == 2)
+                .WithMessage("O tipo de cliente deve ser 1 (Pessoa Física) ou 2 (Pessoa Jurídica)");
 
-            RuleFor(x => x.Cpf)
-                .NotEmpty().WithMessage("O CPF é obrigatório")
-                .Must(ValidarCpf).WithMessage("CPF inválido"); // Método customizado
+            RuleFor(x => x.Email)
+                .EmailAddress().When(x => !string.IsNullOrWhiteSpace(x.Email))
+                .WithMessage("Email inválido");
+
+            RuleFor(x => x)
+                .Must(ValidarDocumentoPorTipo)
+                .WithMessage(x => x.Tipo == 2 ? "CNPJ inválido" : "CPF inválido");
         }
 
-        private bool ValidarCpf(string cpf)
+        private bool ValidarDocumentoPorTipo(CreateClienteDTO dto)
         {
-            // Aqui entraria o algoritmo de validação de CPF (mod11)
-            // Para simplificar o exemplo, retornarei true se tiver 11 digitos
-            return cpf.Length == 11;
+            var raw = !string.IsNullOrWhiteSpace(dto.Documento) ? dto.Documento : dto.Cpf;
+            if (string.IsNullOrWhiteSpace(raw)) return false;
+
+            var digits = new string(raw.Where(char.IsDigit).ToArray());
+            return dto.Tipo == 2 ? digits.Length == 14 : digits.Length == 11;
         }
     }
 }

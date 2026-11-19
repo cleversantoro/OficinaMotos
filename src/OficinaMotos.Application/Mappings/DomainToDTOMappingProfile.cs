@@ -31,11 +31,11 @@ namespace OficinaMotos.Application.Mappings
                 .ForMember(dest => dest.OrigemDescricao, opt => opt.MapFrom(src => src.Origem != null ? src.Origem.Nome : null));
 
             CreateMap<CreateClienteDTO, Cliente>()
-                .ForMember(dest => dest.NomeExibicao, opt => opt.MapFrom(src => src.Nome))
-                .ForMember(dest => dest.Documento, opt => opt.MapFrom(src => src.Cpf))
-                .ForMember(dest => dest.Tipo, opt => opt.MapFrom(_ => 1))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(_ => 1))
-                .ForMember(dest => dest.Vip, opt => opt.MapFrom(_ => false));
+                .ForMember(dest => dest.NomeExibicao, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.NomeExibicao) ? src.NomeExibicao : src.Nome))
+                .ForMember(dest => dest.Documento, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.Documento) ? src.Documento : src.Cpf))
+                .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => src.Tipo == 2 ? ClienteTipo.PessoaJuridica : ClienteTipo.PessoaFisica))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (ClienteStatus)src.Status))
+                .ForMember(dest => dest.Vip, opt => opt.MapFrom(src => src.Vip));
             //.ForMember(dest => dest.PessoaFisica, opt => opt.MapFrom(src => new ClientePf { Cpf = src.Cpf }));
 
             CreateMap<Cliente, ClienteResponseTableDTO>()
