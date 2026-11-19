@@ -10,6 +10,7 @@
 - [ ] Não há dependências ou abstrações desnecessárias.
 
 ## Angular
+- [ ] Preferência pelo **Angular Material** (`@angular/material`) avaliada e **confirmada previamente com o usuário** antes de criar ou alterar páginas ou componentes.
 - [ ] Componentes standalone conforme versão.
 - [ ] Controle de fluxo nativo quando apropriado.
 - [ ] `track` estável em listas.

@@ -50,3 +50,15 @@
 5. **Critério de Conclusão (Definition of Done)**:
    - Nenhuma funcionalidade ou tarefa que altere o banco de dados pode ser considerada concluída sem que o script `.sql` correspondente tenha sido criado e testado nesta pasta.
 
+---
+
+## 🎨 Regra Obrigatória de Frontend: Preferência por Angular Material (Perguntar Primeiro)
+
+> [!IMPORTANT]
+> **Sempre que criar ou alterar páginas ou componentes no frontend (`oficina-motos-web`):**
+
+1. **Preferência por Angular Material**:
+   - Dê preferência ao uso de componentes do **Angular Material** (`@angular/material` e `@angular/cdk`), mantendo a identidade visual escura/laranja do projeto e os componentes compartilhados padronizados (como `<app-datatable>` para tabelas e `<app-confirm-modal>` para confirmações de exclusão).
+2. **Consulta Prévia Obrigatória ao Usuário**:
+   - **Antes de implementar** a criação ou alteração de qualquer página ou componente, **pergunte primeiro ao usuário** se ele confirma o uso do Angular Material (e quais componentes do Angular Material deseja aplicar naquela tela/componente).
+

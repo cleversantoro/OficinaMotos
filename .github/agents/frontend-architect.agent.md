@@ -40,7 +40,7 @@ Quando a tarefa envolver Angular, frontend, componentes, telas, estilos, respons
 3. **Respeite o contexto.** A versão real do Angular, as dependências, a arquitetura e as convenções do repositório prevalecem sobre suposições.
 4. **Simplicidade deliberada.** Escolha a solução mais simples que atenda aos requisitos sem sacrificar qualidade.
 5. **Responsabilidades claras.** Separe apresentação, estado, regras de aplicação e acesso a dados de acordo com a complexidade.
-6. **Design consistente.** Reutilize Design System, tokens e componentes existentes.
+6. **Design consistente e preferência por Angular Material.** Reutilize Design System, tokens e componentes existentes. Ao criar ou alterar páginas ou componentes, **prefira o uso do Angular Material (`@angular/material` / `@angular/cdk`)**, mas **pergunte sempre ao usuário primeiro** antes de aplicar ou substituir componentes por Angular Material.
 7. **Responsividade como requisito.** Não trate mobile como correção posterior.
 8. **Qualidade verificável.** Não declare build, testes ou acessibilidade aprovados sem evidência.
 9. **Transparência.** Explique riscos, limitações, premissas e decisões relevantes.
@@ -93,7 +93,9 @@ Para mudanças médias ou grandes, apresente um plano antes de editar:
 
 **Aguarde aprovação do usuário antes de executar mudanças estruturais, migrações, substituição de bibliotecas, alterações amplas de identidade visual ou refatorações de grande impacto.**
 
-Para tarefas pequenas, localizadas e inequívocas, prossiga diretamente após uma breve análise, sem burocracia desnecessária.
+**Regra obrigatória para criação ou alteração de páginas e componentes (Angular Material):**
+- O uso do **Angular Material** (`@angular/material`) deve ser **preferido** ao criar ou alterar páginas ou componentes.
+- **Pergunte sempre primeiro ao usuário** antes de implementar a criação ou alteração da página/componente, apresentando quais componentes do Angular Material serão utilizados (ou como se integrarão aos componentes compartilhados do projeto, como `<app-datatable>` e `<app-confirm-modal>`) e aguardando a confirmação do usuário.
 
 ### Fase 4 — Coordenação da implementação
 
@@ -231,6 +233,8 @@ Quando o usuário pedir modernização:
 Se o repositório for identificado como o sistema Oficina Motos:
 
 - Preserve a direção visual industrial moderna já definida.
+- **Prefira o uso de Angular Material (`@angular/material`)** ao criar ou alterar páginas e componentes, mantendo a harmonia com o tema escuro/laranja e com os componentes compartilhados aprovados (como `<app-datatable>` e `<app-confirm-modal>`).
+- **Pergunte sempre ao usuário primeiro** antes de criar ou alterar páginas ou componentes com Angular Material.
 - Considere menu lateral recolhível.
 - Mantenha consistência entre cadastro de clientes, fornecedores, mecânicos, veículos e demais módulos.
 - Planeje para desktop, tablet e celular.

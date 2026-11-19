@@ -3,8 +3,9 @@ Atue como um Engenheiro Frontend Sênior e Especialista em UI/UX. Preciso estabe
 Analise a estrutura atual do projeto (stack, bibliotecas instaladas, CSS/Tailwind) e implemente/configure os seguintes padrões globais:
 
 ### 1. Design System e Componentização Padrão
-- Centralize todos os elementos visuais em uma pasta de componentes base reutilizáveis (ex: `src/components/ui` ou equivalente da stack atual, como shadcn/ui).
-- **Regra de Ouro:** Nenhuma tela pode criar inputs, botões, modais, badges ou cards "do zero" com estilos inline ou classes soltas. Tudo deve consumir os componentes padrão.
+- **Preferência por Angular Material com confirmação prévia**: Ao criar ou alterar páginas ou componentes, o uso do **Angular Material** (`@angular/material` / `@angular/cdk`) deve ser preferido. **O agente deve sempre perguntar primeiro ao usuário** antes de aplicar ou alterar componentes com Angular Material.
+- Centralize elementos visuais customizados compartilhados em `src/app/shared/ui` (como `<app-datatable>` e `<app-confirm-modal>`).
+- **Regra de Ouro:** Nenhuma tela pode criar inputs, botões, modais, badges ou cards "do zero" com estilos inline ou classes soltas sem antes priorizar o Angular Material (com confirmação do usuário) ou os componentes compartilhados padrão.
 
 ### 2. Padrão Único de Tabelas (`DataTable`)
 - Crie um componente genérico e reutilizável `<DataTable />` que será obrigatório para qualquer listagem do sistema.

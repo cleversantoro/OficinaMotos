@@ -13,7 +13,7 @@
 | ORM | Entity Framework Core + Pomelo (MySQL) | 8.0.3 | `OficinaMotos.API.csproj` |
 | Banco de dados | MySQL | 8+ | `appsettings.json` |
 | Frontend | Angular | 21.0.0 | `package.json` |
-| UI components | PrimeNG | 21.0.1 | `package.json` |
+| UI components | Angular Material (`@angular/material` / `@angular/cdk`) + Shared UI (`<app-datatable>`, `<app-confirm-modal>`) | 21.2.14 | `package.json` |
 | CSS utilitário | TailwindCSS | 3.4.14 | `tailwind.config.js` |
 | Gráficos | Chart.js | 4.5.1 | `package.json` |
 | Máscaras | ngx-mask | 21.0.1 | `package.json` |

@@ -29,6 +29,7 @@ Não seja apenas um gerador de código. Antes de implementar, compreenda o proje
 12. Não altere arquivos fora do escopo solicitado.
 13. Preserve acessibilidade e responsividade em toda alteração visual.
 14. Não declare uma tarefa concluída sem executar as verificações possíveis e informar o que não pôde ser validado.
+15. **Preferência por Angular Material com confirmação prévia obrigatória**: Ao criar ou alterar páginas ou componentes, **prefira o uso de componentes do Angular Material (`@angular/material` e `@angular/cdk`)** (preservando componentes compartilhados padronizados do projeto, como `<app-datatable>` e `<app-confirm-modal>`, quando aplicável). **SEMPRE pergunte primeiro ao usuário** antes de criar ou alterar páginas/componentes com Angular Material, indicando quais componentes do Angular Material pretende usar e aguardando sua aprovação.
 
 ## 3. Fluxo obrigatório de trabalho
 
@@ -52,13 +53,14 @@ Não faça uma migração arquitetural apenas porque existe uma alternativa mais
 Apresente um plano curto contendo:
 
 1. Arquivos e áreas que serão afetados.
-2. Componentes, serviços, modelos ou rotas envolvidos.
+2. Componentes, serviços, modelos ou rotas envolvidos (priorizando **Angular Material** para criação ou alteração de páginas e componentes).
 3. Comportamento esperado.
 4. Impactos em responsividade e acessibilidade.
 5. Testes e verificações que serão executados.
 6. Riscos ou informações ausentes.
 
-Para uma alteração pequena e inequívoca, mantenha o planejamento proporcional e prossiga sem burocracia. Faça pergunta somente quando uma informação ausente impedir uma implementação correta.
+**Regra de consulta prévia ao usuário (Angular Material):**
+Sempre que a tarefa envolver **criar ou alterar páginas ou componentes**, dê preferência ao **Angular Material** (`@angular/material`) e **pergunte primeiro ao usuário** antes de iniciar a implementação, confirmando quais elementos/componentes serão construídos ou atualizados com Angular Material.
 
 ### Etapa C — Implementação
 
@@ -247,8 +249,9 @@ Antes de criar estilos:
 1. Identifique cores, fontes, ícones, espaçamentos e componentes existentes.
 2. Localize tokens CSS, SCSS ou variáveis do tema.
 3. Verifique padrões de botões, campos, tabelas, modais, cards, alertas e navegação.
-4. Reutilize o Design System existente.
-5. Se não houver Design System, proponha tokens mínimos e consistentes antes de espalhar valores pelo projeto.
+4. **Prefira o uso do Angular Material (`@angular/material` / `@angular/cdk`)** ao criar ou alterar páginas e componentes, estilizando e integrando-o de forma consistente com os tokens do Design System do projeto, e **pergunte sempre primeiro ao usuário** antes de aplicá-lo.
+5. Reutilize o Design System e os componentes compartilhados aprovados existentes (como `<app-datatable>` e `<app-confirm-modal>`).
+6. Se não houver Design System, proponha tokens mínimos e consistentes antes de espalhar valores pelo projeto.
 
 Padrões:
 
@@ -383,25 +386,27 @@ Outras boas práticas:
 Ao criar uma página:
 
 1. Identifique o layout e os componentes compartilhados.
-2. Defina hierarquia: título, descrição, ações principais, conteúdo e navegação contextual.
-3. Defina estados de loading, erro, vazio e sucesso.
-4. Projete o comportamento responsivo antes de finalizar o CSS.
-5. Use componentes de formulário e validação existentes.
-6. Garanta teclado, foco, labels e feedback.
-7. Conecte à API somente com contratos confirmados.
-8. Teste os fluxos principais e viewports definidos.
+2. **Dê preferência aos componentes do Angular Material (`@angular/material`)** para estruturar formulários, controles, botões, cards, abas, diálogos e feedbacks, e **pergunte primeiro ao usuário** confirmando o uso antes de codificar.
+3. Defina hierarquia: título, descrição, ações principais, conteúdo e navegação contextual.
+4. Defina estados de loading, erro, vazio e sucesso.
+5. Projete o comportamento responsivo antes de finalizar o CSS.
+6. Use componentes de formulário e validação existentes.
+7. Garanta teclado, foco, labels e feedback.
+8. Conecte à API somente com contratos confirmados.
+9. Teste os fluxos principais e viewports definidos.
 
 ## 14. Padrões para modificar telas existentes
 
 Ao modificar uma tela:
 
 1. Entenda o comportamento atual e identifique regressões possíveis.
-2. Preserve funcionalidades não relacionadas à solicitação.
-3. Compare com telas equivalentes para manter consistência.
-4. Reutilize componentes e tokens existentes.
-5. Evite reescrever a página inteira para uma mudança localizada.
-6. Revise desktop e mobile, mesmo quando a alteração parecer apenas visual.
-7. Atualize testes afetados e valide os fluxos existentes.
+2. **Prefira o uso do Angular Material (`@angular/material`)** nos elementos novos ou alterados da página/componente, **perguntando primeiro ao usuário** se ele deseja aplicar Angular Material na alteração antes de executar a mudança.
+3. Preserve funcionalidades não relacionadas à solicitação.
+4. Compare com telas equivalentes para manter consistência.
+5. Reutilize componentes e tokens existentes.
+6. Evite reescrever a página inteira para uma mudança localizada.
+7. Revise desktop e mobile, mesmo quando a alteração parecer apenas visual.
+8. Atualize testes afetados e valide os fluxos existentes.
 
 ## 15. Padrões para refatoração
 
@@ -445,6 +450,6 @@ Uma tarefa de frontend só está concluída quando os itens aplicáveis forem at
 
 A Skill é reutilizável e não deve impor identidade visual de um projeto a outro.
 
-Quando o repositório for identificado como Oficina Motos, preserve a direção visual já estabelecida: estilo industrial moderno, menu lateral recolhível, identidade consistente entre módulos e adaptação para desktop, tablet e celular. Reaproveite cores, componentes e padrões já aprovados no próprio projeto; não invente uma nova identidade visual a cada tela.
+Quando o repositório for identificado como Oficina Motos, preserve a direção visual já estabelecida: estilo industrial moderno, menu lateral recolhível, identidade consistente entre módulos e adaptação para desktop, tablet e celular. **Prefira o uso de Angular Material (`@angular/material`) ao criar ou alterar páginas ou componentes, perguntando sempre primeiro ao usuário antes de implementar**, e reaproveite cores, tokens e componentes compartilhados já aprovados no próprio projeto (como `<app-datatable>` e `<app-confirm-modal>`); não invente uma nova identidade visual a cada tela.
 
 Em qualquer projeto, a implementação deve respeitar a documentação existente, os requisitos de negócio, os contratos da API e as decisões arquiteturais registradas no repositório.

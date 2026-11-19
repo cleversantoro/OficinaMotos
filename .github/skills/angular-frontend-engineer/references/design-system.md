@@ -5,8 +5,9 @@
 1. Procure tokens CSS/SCSS e tema atual.
 2. Identifique fontes, ícones, cores, raios, sombras e espaçamentos.
 3. Localize componentes compartilhados e biblioteca visual.
-4. Reutilize o padrão existente se estiver consistente.
-5. Se não existir padrão, proponha uma base mínima e mantenha-a centralizada.
+4. **Preferência por Angular Material (`@angular/material` e `@angular/cdk`)**: Ao criar ou alterar páginas ou componentes, dê preferência ao uso de componentes do Angular Material integrados ao tema do projeto, **perguntando sempre primeiro ao usuário** antes de aplicá-los.
+5. Reutilize o padrão e os componentes compartilhados aprovados existentes (ex.: `<app-datatable>` e `<app-confirm-modal>`).
+6. Se não existir padrão, proponha uma base mínima e mantenha-a centralizada.
 
 ## Tokens semânticos sugeridos
 
