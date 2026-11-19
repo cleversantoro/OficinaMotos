@@ -8,6 +8,7 @@ namespace OficinaMotos.API.Controllers.Seguranca
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Tags("Seguranca Modulos")]
     [Authorize]
     public class ModulosController : ControllerBase
     {

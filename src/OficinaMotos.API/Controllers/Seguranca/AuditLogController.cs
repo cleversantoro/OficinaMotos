@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OficinaMotos.Application.DTOs.Responses.Seguranca;
 using OficinaMotos.Application.Interfaces.Seguranca;
@@ -7,6 +8,7 @@ namespace OficinaMotos.API.Controllers.Seguranca
 {
     [ApiController]
     [Route("api/v1/audit-log")]
+    [Tags("Seguranca Audit")]
     [Authorize]
     public class AuditLogController : ControllerBase
     {
