@@ -13,7 +13,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.ClienteId).HasColumnName("cliente_id");
-            builder.Property(e => e.MecanicoId).HasColumnName("mecanico_id");
             builder.Property(e => e.VeiculoId).HasColumnName("veiculo_id");
             builder.Property(e => e.DescricaoProblema).HasColumnName("descricao_problema").HasMaxLength(500).IsRequired();
             builder.Property(e => e.Status)
@@ -33,11 +32,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
                    .WithMany(c => c.OrdensServico)
                    .HasForeignKey(e => e.ClienteId)
                    .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(e => e.Mecanico)
-                   .WithMany(m => m.OrdensServico)
-                   .HasForeignKey(e => e.MecanicoId)
-                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Veiculo)
                    .WithMany(v => v.OrdensServico)
@@ -133,6 +127,8 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
 
             builder.Property(e => e.OrdemServicoId).HasColumnName("ordem_servico_id");
             builder.Property(e => e.PecaId).HasColumnName("peca_id");
+            builder.Property(e => e.AtividadeProfissionalId).HasColumnName("atividade_profissional_id");
+            builder.Property(e => e.PrestadorId).HasColumnName("prestador_id");
             builder.Property(e => e.Descricao).HasMaxLength(240).IsRequired();
             builder.Property(e => e.Quantidade).HasColumnName("quantidade").IsRequired();
             builder.Property(e => e.ValorUnitario).HasColumnName("valor_unitario").HasPrecision(18, 2).IsRequired();
@@ -148,6 +144,14 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
                    .WithMany(p => p.OrdemServicoItens)
                    .HasForeignKey(e => e.PecaId)
                    .OnDelete(DeleteBehavior.SetNull);
+            builder.HasOne(e => e.AtividadeProfissional)
+                   .WithMany()
+                   .HasForeignKey(e => e.AtividadeProfissionalId)
+                   .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(e => e.Prestador)
+                   .WithMany()
+                   .HasForeignKey(e => e.PrestadorId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 

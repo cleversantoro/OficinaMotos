@@ -11,7 +11,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.ToTable("seg_modulos");
             builder.HasKey(m => m.Id);
 
-            builder.Property(m => m.Nome).HasColumnName("Nome").HasMaxLength(80).IsRequired();
+            builder.Property(m => m.Nome).HasColumnName("nome").HasMaxLength(80).IsRequired();
             builder.Property(m => m.Descricao).HasColumnName("Descricao").HasMaxLength(240);
             builder.Property(m => m.Icone).HasColumnName("Icone").HasMaxLength(100);
             builder.Property(m => m.Rota).HasColumnName("Rota").HasMaxLength(200);
@@ -190,8 +190,8 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.ToTable("seg_refresh_tokens");
             builder.HasKey(rt => rt.Id);
 
-            builder.Property(rt => rt.UsuarioId).HasColumnName("Usuario_Id").IsRequired();
-            builder.Property(rt => rt.TokenHash).HasColumnName("Token_Hash").HasMaxLength(255).IsRequired();
+            builder.Property(rt => rt.UsuarioId).HasColumnName("usuario_id").IsRequired();
+            builder.Property(rt => rt.TokenHash).HasColumnName("token_hash").HasMaxLength(255).IsRequired();
             builder.Property(rt => rt.ExpiraEm).HasColumnName("Expira_Em").IsRequired();
             builder.Property(rt => rt.RevogadoEm).HasColumnName("Revogado_Em");
             builder.Property(rt => rt.MotivoRevogacao).HasColumnName("Motivo_Revogacao").HasMaxLength(160);
@@ -206,7 +206,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.HasOne(rt => rt.Usuario)
                 .WithMany(u => u.RefreshTokens)
                 .HasForeignKey(rt => rt.UsuarioId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

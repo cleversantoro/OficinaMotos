@@ -7,6 +7,7 @@ namespace OficinaMotos.Application.DTOs.Responses.Cliente
     public class ClienteResponseDTO
     {
         public long Id { get; set; }
+        public long PessoaId { get; set; }
         public long Codigo { get; set; }
         public string Nome { get; set; } = string.Empty;
         public string NomeExibicao { get; set; } = string.Empty;

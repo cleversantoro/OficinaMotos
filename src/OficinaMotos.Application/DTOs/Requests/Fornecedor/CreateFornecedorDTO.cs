@@ -2,6 +2,7 @@ namespace OficinaMotos.Application.DTOs.Requests.Fornecedor
 {
     public class CreateFornecedorDTO
     {
+        public long PessoaId { get; set; }
         public string Codigo { get; set; } = string.Empty;
         public string Tipo { get; set; } = string.Empty;
         public string RazaoSocial { get; set; } = string.Empty;

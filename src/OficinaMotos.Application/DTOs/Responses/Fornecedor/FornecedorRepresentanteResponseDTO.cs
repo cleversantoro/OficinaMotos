@@ -4,6 +4,7 @@ namespace OficinaMotos.Application.DTOs.Responses.Fornecedor
     {
         public long Id { get; set; }
         public long FornecedorId { get; set; }
+        public long PessoaId { get; set; }
         public string Nome { get; set; } = string.Empty;
         public string? Cargo { get; set; }
         public string? Email { get; set; }

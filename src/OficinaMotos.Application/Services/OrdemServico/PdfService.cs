@@ -42,9 +42,9 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                 return null;
             }
 
-            if (ordem.Veiculo == null && ordem.VeiculoId > 0 && _veiculoRepository != null)
+            if (ordem.Veiculo == null && ordem.VeiculoId.HasValue && ordem.VeiculoId.Value > 0 && _veiculoRepository != null)
             {
-                ordem.Veiculo = await _veiculoRepository.GetByIdAsync(ordem.VeiculoId);
+                ordem.Veiculo = await _veiculoRepository.GetByIdAsync(ordem.VeiculoId.Value);
             }
 
             return BuildOrdemServicoPdf(ordem);
@@ -81,15 +81,20 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                 ? ordem.Cliente!.NomeExibicao
                 : (!string.IsNullOrWhiteSpace(ordem.Cliente?.Nome) ? ordem.Cliente!.Nome : $"Cliente #{ordem.ClienteId}");
 
-            var mecanicoNome = ordem.Mecanico != null
-                ? string.Join(" ", new[] { ordem.Mecanico.Nome, ordem.Mecanico.Sobrenome }.Where(s => !string.IsNullOrWhiteSpace(s)))
-                : $"Mecânico #{ordem.MecanicoId}";
+            var prestadores = itens
+                .Where(i => i.Prestador != null)
+                .Select(i => i.Prestador!.Codigo)
+                .Distinct()
+                .ToList();
+            var executoresNome = prestadores.Count > 0
+                ? string.Join(", ", prestadores)
+                : "Não informado";
 
             var veiculoTexto = ordem.Veiculo != null
                 ? $"{ordem.Veiculo.Placa}" +
                   (!string.IsNullOrWhiteSpace(ordem.Veiculo.Cor) ? $" · {ordem.Veiculo.Cor}" : string.Empty) +
                   (ordem.Veiculo.AnoMod.HasValue ? $" · Ano {ordem.Veiculo.AnoMod}" : string.Empty)
-                : $"Veículo #{ordem.VeiculoId}";
+                : "Não informado";
 
             var document = Document.Create(container =>
             {
@@ -152,8 +157,8 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                                 });
                                 row.RelativeItem().Text(t =>
                                 {
-                                    t.Span("Mecânico Responsável: ").SemiBold();
-                                    t.Span(string.IsNullOrWhiteSpace(mecanicoNome) ? "-" : mecanicoNome);
+                                    t.Span("Prestadores Responsáveis: ").SemiBold();
+                                    t.Span(executoresNome);
                                 });
                             });
 

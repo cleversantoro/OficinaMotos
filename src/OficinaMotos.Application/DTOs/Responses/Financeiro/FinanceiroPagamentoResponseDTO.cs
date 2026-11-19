@@ -5,6 +5,8 @@ namespace OficinaMotos.Application.DTOs.Responses.Financeiro
     public class FinanceiroPagamentoResponseDTO
     {
         public long Id { get; set; }
+        public long? ContaPagarId { get; set; }
+        public long? ContaReceberId { get; set; }
         public long? OrdemServicoId { get; set; }
         public long? ClienteId { get; set; }
         public long? FornecedorId { get; set; }

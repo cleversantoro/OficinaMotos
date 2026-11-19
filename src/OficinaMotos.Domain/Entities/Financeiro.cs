@@ -7,6 +7,10 @@ namespace OficinaMotos.Domain.Entities
     public class FinanceiroMetodoPagamento : BaseEntity
     {
         public string Nome { get; set; } = string.Empty;
+        public string Tipo { get; set; } = string.Empty;
+        public bool Ativo { get; set; } = true;
+        public decimal TaxaPercentual { get; set; }
+        public decimal TaxaFixa { get; set; }
         public string? Descricao { get; set; }
 
         public ICollection<FinanceiroPagamento> Pagamentos { get; set; } = new HashSet<FinanceiroPagamento>();
@@ -16,6 +20,10 @@ namespace OficinaMotos.Domain.Entities
 
     public class FinanceiroPagamento : BaseEntity
     {
+        public long? ContaPagarId { get; set; }
+        public FinanceiroContaPagar? ContaPagar { get; set; }
+        public long? ContaReceberId { get; set; }
+        public FinanceiroContaReceber? ContaReceber { get; set; }
         public long? OrdemServicoId { get; set; }
         public OrdemServico? OrdemServico { get; set; }
         public long? ClienteId { get; set; }
@@ -52,6 +60,10 @@ namespace OficinaMotos.Domain.Entities
         public long? FornecedorId { get; set; }
         public Fornecedor? Fornecedor { get; set; }
         public string Descricao { get; set; } = string.Empty;
+        public string? Documento { get; set; }
+        public decimal ValorOriginal { get; set; }
+        public decimal ValorPago { get; set; }
+        public DateTime? DataEmissao { get; set; }
         public decimal Valor { get; set; }
         public DateTime Vencimento { get; set; }
         public string Status { get; set; } = string.Empty;
@@ -67,7 +79,12 @@ namespace OficinaMotos.Domain.Entities
     {
         public long? ClienteId { get; set; }
         public Cliente? Cliente { get; set; }
+        public long? OrdemServicoId { get; set; }
+        public OrdemServico? OrdemServico { get; set; }
         public string Descricao { get; set; } = string.Empty;
+        public decimal ValorOriginal { get; set; }
+        public decimal ValorRecebido { get; set; }
+        public DateTime? DataEmissao { get; set; }
         public decimal Valor { get; set; }
         public DateTime Vencimento { get; set; }
         public string Status { get; set; } = string.Empty;

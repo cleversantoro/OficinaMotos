@@ -6,6 +6,8 @@ namespace OficinaMotos.Domain.Entities
     public class Veiculo : BaseEntity
     {
         public long ClienteId { get; set; }
+        public long? MarcaId { get; set; }
+        public string? Codigo { get; set; }
         public string Placa { get; set; } = string.Empty;
         public long? ModeloId { get; set; }
         public int? AnoFab { get; set; }

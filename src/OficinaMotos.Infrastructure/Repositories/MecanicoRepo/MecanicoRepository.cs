@@ -4,16 +4,17 @@ using OficinaMotos.Domain.Interfaces.Repositories.Mecanico;
 using OficinaMotos.Infrastructure.Context;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MecanicoEntity = OficinaMotos.Domain.Entities.Mecanico;
 
 namespace OficinaMotos.Infrastructure.Repositories
 {
-    public class MecanicoRepository : Repository<Mecanico>, IMecanicoRepository
+    public class MecanicoRepository : Repository<MecanicoEntity>, IMecanicoRepository
     {
         public MecanicoRepository(OficinaContext context) : base(context)
         {
         }
 
-        public override async Task<List<Mecanico>> GetAllAsync()
+        public override async Task<List<MecanicoEntity>> GetAllAsync()
         {
             return await _dbSet
                 .Include(m => m.EspecialidadePrincipal)
@@ -28,7 +29,7 @@ namespace OficinaMotos.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public override async Task<Mecanico?> GetByIdAsync(long id)
+        public override async Task<MecanicoEntity?> GetByIdAsync(long id)
         {
             return await _dbSet
                 .Include(m => m.EspecialidadePrincipal)

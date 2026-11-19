@@ -14,6 +14,8 @@ using OficinaMotos.Application.Services.OrdemServicoRepo;
 using OficinaMotos.Application.Services.Veiculo;
 using QuestPDF.Infrastructure;
 using System.Reflection;
+using OficinaMotos.Application.Services.Pessoas;
+using OficinaMotos.Application.Interfaces.Pessoas;
 
 namespace OficinaMotos.Application.IoC
 {
@@ -29,6 +31,7 @@ namespace OficinaMotos.Application.IoC
 
             // 2. Services
             services.AddScoped<Interfaces.Cliente.IClienteService, ClienteService>();
+            services.AddScoped<IPessoaService, PessoaService>();
             services.AddScoped<Interfaces.Cliente.IClienteOrigemService, ClienteOrigemService>();
             services.AddScoped<Interfaces.Cliente.IClienteAnexoService, ClienteAnexoService>();
             services.AddScoped<Interfaces.Cliente.IClienteContatoService, ClienteContatoService>();
@@ -72,6 +75,7 @@ namespace OficinaMotos.Application.IoC
             services.AddScoped<Interfaces.Mecanico.IMecanicoEnderecoService, MecanicoEnderecoService>();
             services.AddScoped<Interfaces.Mecanico.IMecanicoEspecialidadeRelService, MecanicoEspecialidadeRelService>();
             services.AddScoped<Interfaces.Mecanico.IMecanicoExperienciaService, MecanicoExperienciaService>();
+            services.AddScoped<Interfaces.Mecanico.IPrestadorService, PrestadorService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorService, FornecedorService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorSegmentoService, FornecedorSegmentoService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorSegmentoRelService, FornecedorSegmentoRelService>();

@@ -21,6 +21,13 @@ namespace OficinaMotos.Infrastructure.Context
         public DbSet<ClienteLgpdConsentimento> ClienteLgpdConsentimentos { get; set; }
         public DbSet<ClientePf> ClientePfs { get; set; }
         public DbSet<ClientePj> ClientePjs { get; set; }
+        public DbSet<Pessoa> Pessoas { get; set; }
+        public DbSet<PessoaPf> PessoasPf { get; set; }
+        public DbSet<PessoaPj> PessoasPj { get; set; }
+        public DbSet<PessoaContato> PessoaContatos { get; set; }
+        public DbSet<PessoaEndereco> PessoaEnderecos { get; set; }
+        public DbSet<PessoaDocumento> PessoaDocumentos { get; set; }
+        public DbSet<PessoaAnexo> PessoaAnexos { get; set; }
         public DbSet<EstoqueCategoria> EstoqueCategorias { get; set; }
         public DbSet<EstoqueFabricante> EstoqueFabricantes { get; set; }
         public DbSet<EstoqueLocalizacao> EstoqueLocalizacoes { get; set; }
@@ -55,6 +62,12 @@ namespace OficinaMotos.Infrastructure.Context
         public DbSet<MecanicoEndereco> MecanicoEnderecos { get; set; }
         public DbSet<MecanicoEspecialidadeRel> MecanicoEspecialidadesRel { get; set; }
         public DbSet<MecanicoExperiencia> MecanicoExperiencias { get; set; }
+        public DbSet<Prestador> Prestadores { get; set; }
+        public DbSet<AtividadeProfissional> AtividadesProfissionais { get; set; }
+        public DbSet<PrestadorAtividade> PrestadoresAtividades { get; set; }
+        public DbSet<PrestadorDisponibilidade> PrestadoresDisponibilidades { get; set; }
+        public DbSet<PrestadorExperiencia> PrestadoresExperiencias { get; set; }
+        public DbSet<PrestadorCertificacao> PrestadoresCertificacoes { get; set; }
         public DbSet<OrdemServico> OrdensServico { get; set; }
         public DbSet<OrdemServicoAnexo> OrdemServicoAnexos { get; set; }
         public DbSet<OrdemServicoAvaliacao> OrdemServicoAvaliacoes { get; set; }
@@ -91,6 +104,14 @@ namespace OficinaMotos.Infrastructure.Context
             {
                 var clrType = entityType.ClrType;
                 if (clrType == null || !typeof(BaseEntity).IsAssignableFrom(clrType))
+                {
+                    continue;
+                }
+                if (clrType.Name.StartsWith("Pessoa", StringComparison.Ordinal))
+                {
+                    continue;
+                }
+                if (clrType == typeof(Prestador))
                 {
                     continue;
                 }

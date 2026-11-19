@@ -78,7 +78,6 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             }
 
             entity.ClienteId = request.ClienteId;
-            entity.MecanicoId = request.MecanicoId;
             entity.VeiculoId = request.VeiculoId;
             entity.DescricaoProblema = request.DescricaoProblema;
             entity.Status = request.Status;
@@ -179,7 +178,6 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                 ordem.SetUpdated();
 
                 ordem.Cliente = null;
-                ordem.Mecanico = null;
                 ordem.Veiculo = null;
                 ordem.Itens?.Clear();
                 ordem.Pagamentos?.Clear();

@@ -6,6 +6,8 @@ using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using OficinaMotos.Domain.Exceptions;
+using OficinaMotos.Domain.Interfaces.Repositories.Mecanico;
 
 namespace OficinaMotos.Application.Services.OrdemServicoRepo
 {
@@ -13,11 +15,16 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
     {
         private readonly IOrdemServicoItemRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IPrestadorRepository _prestadorRepository;
+        private readonly IAtividadeProfissionalRepository _atividadeRepository;
 
-        public OrdemServicoItemService(IOrdemServicoItemRepository repository, IMapper mapper)
+        public OrdemServicoItemService(IOrdemServicoItemRepository repository, IMapper mapper,
+            IPrestadorRepository prestadorRepository, IAtividadeProfissionalRepository atividadeRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _prestadorRepository = prestadorRepository;
+            _atividadeRepository = atividadeRepository;
         }
 
         public async Task<List<OrdemServicoItemResponseDTO>> GetAllAsync()
@@ -34,6 +41,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
         public async Task<OrdemServicoItemResponseDTO> CreateAsync(CreateOrdemServicoItemDTO request)
         {
+            await ValidarExecucao(request.PrestadorId, request.AtividadeProfissionalId);
             var entity = _mapper.Map<OrdemServicoItem>(request);
             var created = await _repository.AddAsync(entity);
             return _mapper.Map<OrdemServicoItemResponseDTO>(created);
@@ -46,6 +54,9 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
             entity.OrdemServicoId = request.OrdemServicoId;
             entity.PecaId = request.PecaId;
+            entity.AtividadeProfissionalId = request.AtividadeProfissionalId;
+            entity.PrestadorId = request.PrestadorId;
+            await ValidarExecucao(request.PrestadorId, request.AtividadeProfissionalId);
             entity.Descricao = request.Descricao;
             entity.Quantidade = request.Quantidade;
             entity.ValorUnitario = request.ValorUnitario;
@@ -60,6 +71,26 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             if (!await _repository.ExistsAsync(id)) return false;
             await _repository.DeleteAsync(id);
             return true;
+        }
+
+        private async Task ValidarExecucao(long? prestadorId, long? atividadeId)
+        {
+            if (prestadorId.HasValue != atividadeId.HasValue)
+                throw new DomainException("Prestador e atividade profissional devem ser informados juntos.");
+            if (!prestadorId.HasValue) return;
+
+            var prestador = await _prestadorRepository.GetByIdAsync(prestadorId.Value);
+            if (prestador == null)
+                throw new DomainException($"Prestador #{prestadorId.Value} não encontrado.");
+
+            var atividade = await _atividadeRepository.GetByIdAsync(atividadeId!.Value);
+            if (atividade == null)
+                throw new DomainException($"Atividade profissional #{atividadeId.Value} não encontrada.");
+
+            var habilitado = prestador.Atividades.Any(x =>
+                x.AtividadeProfissionalId == atividadeId.Value && x.Ativo);
+            if (!habilitado)
+                throw new DomainException("O prestador não está habilitado para esta atividade profissional.");
         }
     }
 }

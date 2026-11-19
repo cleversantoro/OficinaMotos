@@ -35,6 +35,11 @@ namespace OficinaMotos.Application.Services.Estoque
         public async Task<EstoqueMovimentacaoResponseDTO> CreateAsync(CreateEstoqueMovimentacaoDTO request)
         {
             var entity = _mapper.Map<EstoqueMovimentacao>(request);
+            entity.QuantidadeDecimal = request.Quantidade;
+            entity.CustoUnitario = request.CustoUnitario;
+            entity.OrigemTipo = request.OrigemTipo;
+            entity.OrigemId = request.OrigemId;
+            entity.UsuarioId = request.UsuarioId;
             var created = await _repository.AddAsync(entity);
             return _mapper.Map<EstoqueMovimentacaoResponseDTO>(created);
         }

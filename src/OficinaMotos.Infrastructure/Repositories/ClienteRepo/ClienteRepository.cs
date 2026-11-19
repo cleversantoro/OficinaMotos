@@ -17,6 +17,8 @@ namespace OficinaMotos.Infrastructure.Repositories.Cliente
         {
             // Carrega todas as dependencias para evitar listas vazias no retorno da API
             return await _dbSet
+                .Include(c => c.Pessoa)
+                .Include(c => c.Pessoa)
                 .Include(c => c.Origem)
                 .Include(c => c.Anexos)
                 .Include(c => c.Contatos)

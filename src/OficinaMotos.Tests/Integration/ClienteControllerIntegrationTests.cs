@@ -34,6 +34,7 @@ namespace OficinaMotos.Tests.Integration
 
             var createDto = new CreateClienteDTO
             {
+                PessoaId = 1,
                 Nome = "Carlos Eduardo Moto",
                 Cpf = "52998224725",
                 Email = "carlos.moto@oficina.com",
@@ -70,6 +71,7 @@ namespace OficinaMotos.Tests.Integration
             // 4. PUT /api/v1/Clientes/{id} (Update)
             var updateDto = new UpdateClienteDTO
             {
+                PessoaId = 1,
                 Nome = "Carlos Eduardo Moto Atualizado",
                 NomeExibicao = "Carlos Moto VIP",
                 Documento = "52998224725",

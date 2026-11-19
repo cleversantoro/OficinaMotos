@@ -40,25 +40,26 @@ namespace OficinaMotos.Tests.Services
         }
 
         [Fact]
-        public async Task Create_WithoutVeiculoId_ThrowsValidationException()
+        public async Task Create_WithoutVeiculoId_Succeeds()
         {
             // Arrange (T-028.1)
             var request = new CreateOrdemServicoDTO
             {
                 ClienteId = 10,
-                MecanicoId = 5,
-                VeiculoId = 0, // VeiculoId ausente/inválido (US-007)
+                VeiculoId = null,
                 DescricaoProblema = "Troca de pastilha de freio dianteiro",
                 Status = OrdemServicoStatus.Aberta
             };
+            _repositoryMock.Setup(r => r.AddAsync(It.IsAny<OrdemServico>()))
+                .ReturnsAsync((OrdemServico o) => o);
 
             // Act
-            Func<Task> act = async () => await _sut.CreateAsync(request);
+            var result = await _sut.CreateAsync(request);
 
             // Assert
-            var exceptionAssertion = await act.Should().ThrowAsync<ValidationException>();
-            exceptionAssertion.Which.Errors.Should().Contain(e => e.PropertyName == nameof(CreateOrdemServicoDTO.VeiculoId));
-            _repositoryMock.Verify(r => r.AddAsync(It.IsAny<OrdemServico>()), Times.Never);
+            result.Should().NotBeNull();
+            result.VeiculoId.Should().BeNull();
+            _repositoryMock.Verify(r => r.AddAsync(It.Is<OrdemServico>(o => o.VeiculoId == null)), Times.Once);
         }
 
         [Fact]

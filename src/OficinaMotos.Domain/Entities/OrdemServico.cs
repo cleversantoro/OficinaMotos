@@ -9,9 +9,11 @@ namespace OficinaMotos.Domain.Entities
     {
         public long ClienteId { get; set; }
         public Cliente? Cliente { get; set; }
+        [Obsolete("A associação mecânico agora é feita por item de serviço.")]
         public long MecanicoId { get; set; }
+        [Obsolete("A associação mecânico agora é feita por item de serviço.")]
         public Mecanico? Mecanico { get; set; }
-        public long VeiculoId { get; set; }
+        public long? VeiculoId { get; set; }
         public Veiculo? Veiculo { get; set; }
         public string DescricaoProblema { get; set; } = string.Empty;
         public OrdemServicoStatus Status { get; set; } = OrdemServicoStatus.Aberta;
@@ -63,6 +65,10 @@ namespace OficinaMotos.Domain.Entities
         public OrdemServico? OrdemServico { get; set; }
         public long? PecaId { get; set; }
         public EstoquePeca? Peca { get; set; }
+        public long? AtividadeProfissionalId { get; set; }
+        public AtividadeProfissional? AtividadeProfissional { get; set; }
+        public long? PrestadorId { get; set; }
+        public Prestador? Prestador { get; set; }
         public string Descricao { get; set; } = string.Empty;
         public int Quantidade { get; set; }
         public decimal ValorUnitario { get; set; }

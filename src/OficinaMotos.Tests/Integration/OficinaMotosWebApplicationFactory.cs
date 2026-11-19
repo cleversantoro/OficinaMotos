@@ -171,6 +171,14 @@ namespace OficinaMotos.Tests.Integration
                         Nome = "Balcão",
                         Descricao = "Atendimento presencial"
                     });
+                    db.Pessoas.Add(new Pessoa
+                    {
+                        Codigo = 1,
+                        TipoPessoa = "PF",
+                        Documento = "52998224725",
+                        Nome = "Pessoa Integração",
+                        NomeExibicao = "Pessoa Integração"
+                    });
 
                     db.SaveChanges();
                 }

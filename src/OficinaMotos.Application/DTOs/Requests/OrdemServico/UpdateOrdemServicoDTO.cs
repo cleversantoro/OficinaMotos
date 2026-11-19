@@ -8,10 +8,9 @@ namespace OficinaMotos.Application.DTOs.Requests.OrdemServico
     {
         [Required]
         public long ClienteId { get; set; }
-        [Required]
+        [Obsolete("Use PrestadorId e AtividadeProfissionalId nos itens.")]
         public long MecanicoId { get; set; }
-        [Required]
-        public long VeiculoId { get; set; }
+        public long? VeiculoId { get; set; }
         [Required]
         [StringLength(500)]
         public string DescricaoProblema { get; set; } = string.Empty;

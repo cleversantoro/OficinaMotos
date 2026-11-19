@@ -35,6 +35,8 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
         {
             builder.ToTable("cad_fornecedores");
             builder.HasKey(e => e.Id);
+            builder.Property(e => e.PessoaId).HasColumnName("pessoa_id").IsRequired();
+            builder.HasOne(e => e.Pessoa).WithMany().HasForeignKey(e => e.PessoaId).OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(e => e.Codigo).HasColumnName("Codigo").HasMaxLength(40).IsRequired();
             builder.Property(e => e.Tipo).HasColumnName("Tipo").HasMaxLength(50).IsRequired();
@@ -180,6 +182,13 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.FornecedorId).HasColumnName("Fornecedor_Id");
+            builder.Property(e => e.PessoaId).HasColumnName("pessoa_id").IsRequired();
+            builder.Ignore(e => e.Nome);
+            builder.Ignore(e => e.Email);
+            builder.Ignore(e => e.Telefone);
+            builder.Ignore(e => e.Celular);
+            builder.Ignore(e => e.PreferenciaContato);
+            builder.HasOne(e => e.Pessoa).WithMany().HasForeignKey(e => e.PessoaId).OnDelete(DeleteBehavior.Restrict);
             builder.Property(e => e.Nome).HasColumnName("Nome").HasMaxLength(160).IsRequired();
             builder.Property(e => e.Cargo).HasColumnName("Cargo").HasMaxLength(100);
             builder.Property(e => e.Email).HasColumnName("Email").HasMaxLength(160);

@@ -17,13 +17,15 @@ namespace OficinaMotos.Infrastructure.Repositories.OrdemServicoRepo
         {
             return await _dbSet
                 .Include(o => o.Cliente)
-                .Include(o => o.Mecanico)
                 .Include(o => o.Veiculo)
                     .ThenInclude(v => v!.Modelo)
                 .Include(o => o.Anexos)
                 .Include(o => o.Avaliacoes)
                 .Include(o => o.Checklists)
                 .Include(o => o.Itens)
+                    .ThenInclude(i => i.Prestador)
+                .Include(o => o.Itens)
+                    .ThenInclude(i => i.AtividadeProfissional)
                 .Include(o => o.Observacoes)
                 .Include(o => o.Historico)
                 .Include(o => o.Pagamentos)
@@ -35,13 +37,15 @@ namespace OficinaMotos.Infrastructure.Repositories.OrdemServicoRepo
         {
             return await _dbSet
                 .Include(o => o.Cliente)
-                .Include(o => o.Mecanico)
                 .Include(o => o.Veiculo)
                     .ThenInclude(v => v!.Modelo)
                 .Include(o => o.Anexos)
                 .Include(o => o.Avaliacoes)
                 .Include(o => o.Checklists)
                 .Include(o => o.Itens)
+                    .ThenInclude(i => i.Prestador)
+                .Include(o => o.Itens)
+                    .ThenInclude(i => i.AtividadeProfissional)
                 .Include(o => o.Observacoes)
                 .Include(o => o.Historico)
                 .Include(o => o.Pagamentos)

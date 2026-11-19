@@ -8,6 +8,9 @@ namespace OficinaMotos.Domain.Entities
     {
         public string Nome { get; set; } = string.Empty;
         public string? Descricao { get; set; }
+        public long? CategoriaPaiId { get; set; }
+        public bool Ativo { get; set; } = true;
+        public EstoqueCategoria? CategoriaPai { get; set; }
 
         public ICollection<EstoquePeca> Pecas { get; set; } = new HashSet<EstoquePeca>();
     }
@@ -15,6 +18,9 @@ namespace OficinaMotos.Domain.Entities
     public class EstoqueFabricante : BaseEntity
     {
         public string Nome { get; set; } = string.Empty;
+        public string? Documento { get; set; }
+        public string? Website { get; set; }
+        public bool Ativo { get; set; } = true;
         public string? Cnpj { get; set; }
         public string? Contato { get; set; }
 
@@ -23,9 +29,11 @@ namespace OficinaMotos.Domain.Entities
 
     public class EstoqueLocalizacao : BaseEntity
     {
+        public string Codigo { get; set; } = string.Empty;
         public string Descricao { get; set; } = string.Empty;
         public string? Corredor { get; set; }
         public string? Prateleira { get; set; }
+        public bool Ativo { get; set; } = true;
 
         public ICollection<EstoquePeca> Pecas { get; set; } = new HashSet<EstoquePeca>();
     }
@@ -33,6 +41,8 @@ namespace OficinaMotos.Domain.Entities
     public class EstoquePeca : BaseEntity
     {
         public string Codigo { get; set; } = string.Empty;
+        public string? CodigoBarras { get; set; }
+        public string Nome { get; set; } = string.Empty;
         public string Descricao { get; set; } = string.Empty;
         public long? FabricanteId { get; set; }
         public EstoqueFabricante? Fabricante { get; set; }
@@ -41,6 +51,8 @@ namespace OficinaMotos.Domain.Entities
         public long? LocalizacaoId { get; set; }
         public EstoqueLocalizacao? Localizacao { get; set; }
         public decimal PrecoUnitario { get; set; }
+        public decimal CustoMedio { get; set; }
+        public decimal PrecoVenda { get; set; }
         public int Quantidade { get; set; }
         public int EstoqueMinimo { get; set; }
         public int EstoqueMaximo { get; set; }
@@ -59,6 +71,11 @@ namespace OficinaMotos.Domain.Entities
     public class EstoqueMovimentacao : BaseEntity
     {
         public long PecaId { get; set; }
+        public decimal QuantidadeDecimal { get; set; }
+        public decimal? CustoUnitario { get; set; }
+        public string? OrigemTipo { get; set; }
+        public long? OrigemId { get; set; }
+        public long? UsuarioId { get; set; }
         public int Quantidade { get; set; }
         public string Tipo { get; set; } = string.Empty;
         public string? Referencia { get; set; }
@@ -84,6 +101,10 @@ namespace OficinaMotos.Domain.Entities
     {
         public long PecaId { get; set; }
         public long FornecedorId { get; set; }
+        public string? CodigoFornecedor { get; set; }
+        public decimal? CustoAtual { get; set; }
+        public int? PrazoEntregaDias { get; set; }
+        public bool Principal { get; set; }
         public decimal? Preco { get; set; }
         public int? PrazoEntrega { get; set; }
         public string? Observacao { get; set; }

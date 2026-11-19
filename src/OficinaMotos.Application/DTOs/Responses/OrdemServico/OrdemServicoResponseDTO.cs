@@ -8,13 +8,17 @@ namespace OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO
     {
         public long Id { get; set; }
         public long ClienteId { get; set; }
+        [Obsolete("Use os prestadores associados aos itens.")]
+        public long MecanicoId { get; set; }
+        [Obsolete("Use os prestadores associados aos itens.")]
+        public string? MecanicoCodigo { get; set; }
+        [Obsolete("Use os prestadores associados aos itens.")]
+        public string? MecanicoNome { get; set; }
+        [Obsolete("Use os prestadores associados aos itens.")]
+        public string? MecanicoSobrenome { get; set; }
         public string? ClienteNome { get; set; }
         public string? ClienteNomeExibicao { get; set; }
-        public long MecanicoId { get; set; }
-        public string? MecanicoCodigo { get; set; }
-        public string? MecanicoNome { get; set; }
-        public string? MecanicoSobrenome { get; set; }
-        public long VeiculoId { get; set; }
+        public long? VeiculoId { get; set; }
         public string? VeiculoPlaca { get; set; }
         public string? VeiculoModeloNome { get; set; }
         public string DescricaoProblema { get; set; } = string.Empty;

@@ -6,6 +6,7 @@ using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Interfaces.Repositories.FinanceiroRepo;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using OficinaMotos.Domain.Exceptions;
 
 namespace OficinaMotos.Application.Services.Financeiro
 {
@@ -34,6 +35,8 @@ namespace OficinaMotos.Application.Services.Financeiro
 
         public async Task<FinanceiroPagamentoResponseDTO> CreateAsync(CreateFinanceiroPagamentoDTO request)
         {
+            if ((request.ContaPagarId.HasValue) == (request.ContaReceberId.HasValue))
+                throw new DomainException("O pagamento deve estar vinculado a exatamente uma conta: pagar ou receber.");
             var entity = _mapper.Map<FinanceiroPagamento>(request);
             var created = await _repository.AddAsync(entity);
             return _mapper.Map<FinanceiroPagamentoResponseDTO>(created);

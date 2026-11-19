@@ -3,6 +3,7 @@ namespace OficinaMotos.Application.DTOs.Responses.Fornecedor
     public class FornecedorResponseDTO
     {
         public long Id { get; set; }
+        public long PessoaId { get; set; }
         public string Codigo { get; set; } = string.Empty;
         public string Tipo { get; set; } = string.Empty;
         public string RazaoSocial { get; set; } = string.Empty;

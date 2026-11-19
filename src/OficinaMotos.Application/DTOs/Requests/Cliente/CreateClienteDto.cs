@@ -4,6 +4,7 @@ namespace OficinaMotos.Application.DTOs.Requests.Cliente
 {
     public class CreateClienteDTO
     {
+        public long PessoaId { get; set; }
         public string Nome { get; set; } = string.Empty;
         public string? NomeExibicao { get; set; }
         public string Cpf { get; set; } = string.Empty;

@@ -17,6 +17,8 @@ namespace OficinaMotos.Infrastructure.Repositories.Fornecedor
         public override async Task<List<FornecedorEntity>> GetAllAsync()
         {
             return await _dbSet
+                .Include(f => f.Pessoa)
+                .Include(f => f.Pessoa)
                 .Include(f => f.SegmentoPrincipal)
                 .Include(f => f.Segmentos)
                 .Include(f => f.Enderecos)

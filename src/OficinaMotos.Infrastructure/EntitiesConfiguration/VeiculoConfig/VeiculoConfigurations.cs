@@ -11,20 +11,23 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.VeiculoConfig
             builder.ToTable("cad_veiculos");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Placa).HasMaxLength(12).IsRequired();
-            builder.Property(e => e.AnoFab).HasMaxLength(4).HasColumnName("Ano_Fab");
-            builder.Property(e => e.AnoMod).HasMaxLength(4).HasColumnName("Ano_Mod");
-            builder.Property(e => e.Cor).HasMaxLength(50);
-            builder.Property(e => e.Chassi).HasMaxLength(80);
+            builder.Property(e => e.ClienteId).HasColumnName("cliente_id");
+            builder.Property(e => e.MarcaId).HasColumnName("marca_id");
+            builder.Property(e => e.ModeloId).HasColumnName("modelo_id");
+            builder.Property(e => e.Codigo).HasColumnName("codigo").HasMaxLength(40);
+            builder.Property(e => e.Placa).HasColumnName("placa").HasMaxLength(10);
+            builder.Property(e => e.AnoFab).HasColumnName("ano_fabricacao");
+            builder.Property(e => e.AnoMod).HasColumnName("ano_modelo");
+            builder.Property(e => e.Cor).HasColumnName("cor").HasMaxLength(40);
+            builder.Property(e => e.Chassi).HasColumnName("chassi").HasMaxLength(40);
             builder.Property(e => e.Renavam).HasMaxLength(20);
-            builder.Property(e => e.Km).HasMaxLength(20);
+            builder.Property(e => e.Km).HasColumnName("quilometragem").HasMaxLength(20);
             builder.Property(e => e.ProximoKmRevisao).HasColumnName("proximo_km_revisao");
             builder.Property(e => e.Combustivel).HasMaxLength(50);
             builder.Property(e => e.Observacao).HasMaxLength(240);
-            builder.Property(e => e.ClienteId).HasColumnName("Cliente_Id");
-            builder.Property(e => e.ModeloId).HasColumnName("Modelo_Id");
-            builder.Property(e => e.CreatedAt).HasColumnName("Created_At");
-            builder.Property(e => e.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(e => e.CreatedAt).HasColumnName("created_at");
+            builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
             builder.HasOne(e => e.Cliente)
                    .WithMany(c => c.Veiculos)

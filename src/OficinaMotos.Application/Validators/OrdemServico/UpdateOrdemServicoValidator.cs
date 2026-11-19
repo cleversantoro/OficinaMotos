@@ -8,8 +8,7 @@ namespace OficinaMotos.Application.Validators.OrdemServico
         public UpdateOrdemServicoValidator()
         {
             RuleFor(x => x.ClienteId).GreaterThan(0);
-            RuleFor(x => x.MecanicoId).GreaterThan(0);
-            RuleFor(x => x.VeiculoId).GreaterThan(0);
+            RuleFor(x => x.VeiculoId).GreaterThan(0).When(x => x.VeiculoId.HasValue);
             RuleFor(x => x.DescricaoProblema).NotEmpty().MaximumLength(500);
             RuleFor(x => x.Status)
                 .IsInEnum()

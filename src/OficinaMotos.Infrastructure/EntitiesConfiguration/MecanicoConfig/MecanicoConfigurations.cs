@@ -35,6 +35,9 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.MecanicoConfig
         {
             builder.ToTable("cad_mecanicos");
             builder.HasKey(e => e.Id);
+            builder.Property(e => e.PrestadorId).HasColumnName("prestador_id");
+            builder.Property(e => e.Matricula).HasColumnName("matricula").HasMaxLength(40);
+            builder.HasOne(e => e.Prestador).WithOne(p => p.Mecanico).HasForeignKey<Mecanico>(e => e.PrestadorId).OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(e => e.Codigo).HasMaxLength(40).IsRequired();
             builder.Property(e => e.Nome).HasMaxLength(160).IsRequired();

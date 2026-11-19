@@ -17,6 +17,8 @@ namespace OficinaMotos.Domain.Entities
 
     public class Fornecedor : BaseEntity
     {
+        public long PessoaId { get; set; }
+        public Pessoa? Pessoa { get; set; }
         public string Codigo { get; set; } = string.Empty;
         public string Tipo { get; set; } = string.Empty;
         public string RazaoSocial { get; set; } = string.Empty;
@@ -97,6 +99,8 @@ namespace OficinaMotos.Domain.Entities
     public class FornecedorRepresentante : BaseEntity
     {
         public long FornecedorId { get; set; }
+        public long PessoaId { get; set; }
+        public Pessoa? Pessoa { get; set; }
         public string Nome { get; set; } = string.Empty;
         public string? Cargo { get; set; }
         public string? Email { get; set; }

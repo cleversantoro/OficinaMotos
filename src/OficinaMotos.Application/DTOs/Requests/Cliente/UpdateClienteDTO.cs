@@ -2,6 +2,7 @@ namespace OficinaMotos.Application.DTOs.Requests.Cliente
 {
     public class UpdateClienteDTO
     {
+        public long PessoaId { get; set; }
         public string Nome { get; set; } = string.Empty;
         public string NomeExibicao { get; set; } = string.Empty;
         public string Documento { get; set; } = string.Empty;

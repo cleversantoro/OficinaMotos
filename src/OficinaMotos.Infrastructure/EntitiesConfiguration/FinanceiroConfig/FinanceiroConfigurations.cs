@@ -12,6 +12,10 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(160).IsRequired();
+            builder.Property(e => e.Tipo).HasColumnName("tipo").HasMaxLength(40).IsRequired();
+            builder.Property(e => e.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)");
+            builder.Property(e => e.TaxaPercentual).HasColumnName("taxa_percentual").HasPrecision(8,4);
+            builder.Property(e => e.TaxaFixa).HasColumnName("taxa_fixa").HasPrecision(18,2);
             builder.Property(e => e.Descricao).HasColumnName("descricao").HasMaxLength(300);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
@@ -40,9 +44,11 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
             builder.ToTable("fin_pagamentos");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.OrdemServicoId).HasColumnName("ordem_servico_id");
-            builder.Property(e => e.ClienteId).HasColumnName("cliente_id");
-            builder.Property(e => e.FornecedorId).HasColumnName("fornecedor_id");
+            builder.Property(e => e.ContaPagarId).HasColumnName("conta_pagar_id");
+            builder.Property(e => e.ContaReceberId).HasColumnName("conta_receber_id");
+            builder.Ignore(e => e.OrdemServicoId);
+            builder.Ignore(e => e.ClienteId);
+            builder.Ignore(e => e.FornecedorId);
             builder.Property(e => e.Valor).HasColumnName("valor").HasPrecision(18, 2).IsRequired();
             builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(50).IsRequired();
             builder.Property(e => e.DataPagamento).HasColumnName("data_pagamento");
@@ -51,25 +57,21 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
 
-            builder.HasOne(e => e.Cliente)
-                   .WithMany()
-                   .HasForeignKey(e => e.ClienteId)
-                   .OnDelete(DeleteBehavior.SetNull);
-
-            builder.HasOne(e => e.Fornecedor)
-                   .WithMany(f => f.Pagamentos)
-                   .HasForeignKey(e => e.FornecedorId)
-                   .OnDelete(DeleteBehavior.SetNull);
-
-            builder.HasOne(e => e.OrdemServico)
-                   .WithMany(o => o.PagamentosFinanceiros)
-                   .HasForeignKey(e => e.OrdemServicoId)
-                   .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasOne(e => e.Metodo)
                    .WithMany(m => m.Pagamentos)
                    .HasForeignKey(e => e.MetodoId)
                    .OnDelete(DeleteBehavior.SetNull);
+
+            builder.HasOne(e => e.ContaPagar)
+                   .WithMany()
+                   .HasForeignKey(e => e.ContaPagarId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.ContaReceber)
+                   .WithMany()
+                   .HasForeignKey(e => e.ContaReceberId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(e => e.Anexos)
                    .WithOne(a => a.Pagamento)
@@ -98,17 +100,17 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
             builder.HasOne(e => e.Pagamento)
                    .WithMany(p => p.Anexos)
                    .HasForeignKey(e => e.PagamentoId)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.ContaPagar)
                    .WithMany(c => c.Anexos)
                    .HasForeignKey(e => e.ContaPagarId)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.ContaReceber)
                    .WithMany(c => c.Anexos)
                    .HasForeignKey(e => e.ContaReceberId)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -121,6 +123,10 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
 
             builder.Property(e => e.FornecedorId).HasColumnName("fornecedor_id");
             builder.Property(e => e.Descricao).HasColumnName("descricao").HasMaxLength(240).IsRequired();
+            builder.Property(e => e.Documento).HasColumnName("documento").HasMaxLength(80);
+            builder.Property(e => e.ValorOriginal).HasColumnName("valor_original").HasPrecision(18,2).IsRequired();
+            builder.Property(e => e.ValorPago).HasColumnName("valor_pago").HasPrecision(18,2);
+            builder.Property(e => e.DataEmissao).HasColumnName("data_emissao");
             builder.Property(e => e.Valor).HasColumnName("valor").HasPrecision(18, 2).IsRequired();
             builder.Property(e => e.Vencimento).HasColumnName("vencimento").IsRequired();
             builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(50).IsRequired();
@@ -154,7 +160,11 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.ClienteId).HasColumnName("cliente_id");
+            builder.Property(e => e.OrdemServicoId).HasColumnName("ordem_servico_id");
             builder.Property(e => e.Descricao).HasColumnName("descricao").HasMaxLength(240).IsRequired();
+            builder.Property(e => e.ValorOriginal).HasColumnName("valor_original").HasPrecision(18,2).IsRequired();
+            builder.Property(e => e.ValorRecebido).HasColumnName("valor_recebido").HasPrecision(18,2);
+            builder.Property(e => e.DataEmissao).HasColumnName("data_emissao");
             builder.Property(e => e.Valor).HasColumnName("valor").HasPrecision(18, 2).IsRequired();
             builder.Property(e => e.Vencimento).HasColumnName("vencimento").IsRequired();
             builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(50).IsRequired();

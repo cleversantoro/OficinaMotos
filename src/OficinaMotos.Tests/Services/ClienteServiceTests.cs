@@ -25,6 +25,7 @@ namespace OficinaMotos.Tests.Services
 
             var request = new CreateClienteDTO
             {
+                PessoaId = 1,
                 Nome = "Carlos Eduardo Oliveira",
                 Cpf = "52998224725",
                 Email = "carlos.oliveira@oficinamotos.com",
@@ -62,6 +63,7 @@ namespace OficinaMotos.Tests.Services
 
             var firstRequest = new CreateClienteDTO
             {
+                PessoaId = 1,
                 Nome = "Cliente Original",
                 Cpf = "11144477735",
                 Email = "original@oficinamotos.com",
@@ -71,6 +73,7 @@ namespace OficinaMotos.Tests.Services
 
             var duplicateRequest = new CreateClienteDTO
             {
+                PessoaId = 2,
                 Nome = "Cliente Duplicado",
                 Cpf = "11144477735",
                 Email = "duplicado@oficinamotos.com",
@@ -100,6 +103,7 @@ namespace OficinaMotos.Tests.Services
 
             var created = await sut.CreateAsync(new CreateClienteDTO
             {
+                PessoaId = 1,
                 Nome = "Cliente Para Exclusao Logica",
                 Cpf = "98765432100",
                 Email = "exclusao@oficinamotos.com",
@@ -132,6 +136,7 @@ namespace OficinaMotos.Tests.Services
 
             var created = await sut.CreateAsync(new CreateClienteDTO
             {
+                PessoaId = 1,
                 Nome = "Cliente Oculto Apos Delete",
                 Cpf = "12312312387",
                 Email = "oculto@oficinamotos.com",

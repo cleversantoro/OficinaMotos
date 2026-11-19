@@ -52,6 +52,9 @@ namespace OficinaMotos.Application.Services.Cliente
             }
 
             var cliente = _mapper.Map<ClienteEntity>(request);
+            if (request.PessoaId <= 0)
+                throw new DomainException("PessoaId é obrigatório para vincular o cliente.");
+            cliente.PessoaId = request.PessoaId;
             cliente.Tipo = request.Tipo == 2 ? ClienteTipo.PessoaJuridica : ClienteTipo.PessoaFisica;
             cliente.Documento = doc;
             cliente.NomeExibicao = string.IsNullOrWhiteSpace(request.NomeExibicao) ? request.Nome : request.NomeExibicao;
@@ -64,7 +67,10 @@ namespace OficinaMotos.Application.Services.Cliente
         {
             var cliente = await _repository.GetByIdAsync(id);
             if (cliente == null) return null;
+            if (request.PessoaId <= 0)
+                throw new DomainException("PessoaId é obrigatório para vincular o cliente.");
 
+            cliente.PessoaId = request.PessoaId;
             cliente.Nome = request.Nome;
             cliente.NomeExibicao = string.IsNullOrWhiteSpace(request.NomeExibicao) ? request.Nome : request.NomeExibicao;
             cliente.Documento = request.Documento;

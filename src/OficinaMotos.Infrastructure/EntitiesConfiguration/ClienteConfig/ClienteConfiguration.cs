@@ -11,6 +11,8 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
             builder.ToTable("cad_clientes");
 
             builder.HasKey(c => c.Id);
+            builder.Property(c => c.PessoaId).HasColumnName("pessoa_id").IsRequired();
+            builder.HasOne(c => c.Pessoa).WithMany().HasForeignKey(c => c.PessoaId).OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(c => c.Codigo).HasColumnName("Codigo");
             builder.Property(c => c.Nome).HasColumnName("Nome").HasMaxLength(160).IsRequired();

@@ -13,6 +13,8 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.EstoqueConfig
 
             builder.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(160).IsRequired();
             builder.Property(e => e.Descricao).HasColumnName("descricao").HasMaxLength(300);
+            builder.Property(e => e.CategoriaPaiId).HasColumnName("categoria_pai_id");
+            builder.Property(e => e.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)");
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
 
@@ -32,6 +34,9 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.EstoqueConfig
 
             builder.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(160).IsRequired();
             builder.Property(e => e.Cnpj).HasColumnName("cnpj").HasMaxLength(32);
+            builder.Property(e => e.Documento).HasColumnName("documento").HasMaxLength(30);
+            builder.Property(e => e.Website).HasColumnName("website").HasMaxLength(200);
+            builder.Property(e => e.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)");
             builder.Property(e => e.Contato).HasColumnName("contato").HasMaxLength(160);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
@@ -51,6 +56,8 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.EstoqueConfig
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Descricao).HasColumnName("descricao").HasMaxLength(200).IsRequired();
+            builder.Property(e => e.Codigo).HasColumnName("codigo").HasMaxLength(40).IsRequired();
+            builder.Property(e => e.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)");
             builder.Property(e => e.Corredor).HasColumnName("corredor").HasMaxLength(50);
             builder.Property(e => e.Prateleira).HasColumnName("prateleira").HasMaxLength(50);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
@@ -71,11 +78,15 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.EstoqueConfig
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Codigo).HasColumnName("codigo").HasMaxLength(80).IsRequired();
+            builder.Property(e => e.CodigoBarras).HasColumnName("codigo_barras").HasMaxLength(80);
+            builder.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(180).IsRequired();
             builder.Property(e => e.Descricao).HasColumnName("descricao").HasMaxLength(240).IsRequired();
             builder.Property(e => e.FabricanteId).HasColumnName("fabricante_id");
             builder.Property(e => e.CategoriaId).HasColumnName("categoria_id");
             builder.Property(e => e.LocalizacaoId).HasColumnName("localizacao_id");
             builder.Property(e => e.PrecoUnitario).HasColumnName("preco_unitario").HasPrecision(18, 2).IsRequired();
+            builder.Property(e => e.CustoMedio).HasColumnName("custo_medio").HasPrecision(18,2);
+            builder.Property(e => e.PrecoVenda).HasColumnName("preco_venda").HasPrecision(18,2);
             builder.Property(e => e.Quantidade).HasColumnName("quantidade").IsRequired();
             builder.Property(e => e.EstoqueMinimo).HasColumnName("estoque_minimo").HasDefaultValue(0);
             builder.Property(e => e.EstoqueMaximo).HasColumnName("estoque_maximo").HasDefaultValue(0);
@@ -128,6 +139,10 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.EstoqueConfig
 
             builder.Property(e => e.PecaId).HasColumnName("peca_id");
             builder.Property(e => e.Quantidade).HasColumnName("quantidade").IsRequired();
+            builder.Property(e => e.CustoUnitario).HasColumnName("custo_unitario").HasPrecision(18,2);
+            builder.Property(e => e.OrigemTipo).HasColumnName("origem_tipo").HasMaxLength(40);
+            builder.Property(e => e.OrigemId).HasColumnName("origem_id");
+            builder.Property(e => e.UsuarioId).HasColumnName("usuario_id");
             builder.Property(e => e.Tipo).HasColumnName("tipo").HasMaxLength(50).IsRequired();
             builder.Property(e => e.Referencia).HasColumnName("referencia").HasMaxLength(120);
             builder.Property(e => e.Usuario).HasColumnName("usuario").HasMaxLength(120);
@@ -138,7 +153,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.EstoqueConfig
             builder.HasOne(e => e.Peca)
                    .WithMany(p => p.Movimentacoes)
                    .HasForeignKey(e => e.PecaId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -161,7 +176,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.EstoqueConfig
             builder.HasOne(e => e.Peca)
                    .WithMany(p => p.Anexos)
                    .HasForeignKey(e => e.PecaId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -175,6 +190,10 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.EstoqueConfig
             builder.Property(e => e.PecaId).HasColumnName("peca_id");
             builder.Property(e => e.FornecedorId).HasColumnName("fornecedor_id");
             builder.Property(e => e.Preco).HasColumnName("preco").HasPrecision(18, 2);
+            builder.Property(e => e.CodigoFornecedor).HasColumnName("codigo_fornecedor").HasMaxLength(80);
+            builder.Property(e => e.CustoAtual).HasColumnName("custo_atual").HasPrecision(18,2);
+            builder.Property(e => e.PrazoEntregaDias).HasColumnName("prazo_entrega_dias");
+            builder.Property(e => e.Principal).HasColumnName("principal").HasColumnType("tinyint(1)");
             builder.Property(e => e.PrazoEntrega).HasColumnName("prazo_entrega");
             builder.Property(e => e.Observacao).HasColumnName("observacao").HasMaxLength(240);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
@@ -183,12 +202,12 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.EstoqueConfig
             builder.HasOne(e => e.Peca)
                    .WithMany(p => p.Fornecedores)
                    .HasForeignKey(e => e.PecaId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Fornecedor)
                    .WithMany(f => f.PecasOfertadas)
                    .HasForeignKey(e => e.FornecedorId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -211,7 +230,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.EstoqueConfig
             builder.HasOne(e => e.Peca)
                    .WithMany(p => p.Historico)
                    .HasForeignKey(e => e.PecaId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

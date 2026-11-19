@@ -19,6 +19,7 @@ using OficinaMotos.Infrastructure.Repositories.FinanceiroRepo;
 using OficinaMotos.Infrastructure.Repositories.Fornecedor;
 using OficinaMotos.Infrastructure.Repositories.OrdemServicoRepo;
 using OficinaMotos.Infrastructure.Repositories.Veiculo;
+using OficinaMotos.Infrastructure.Repositories.Mecanico;
 
 namespace OficinaMotos.Infrastructure.IoC
 {
@@ -49,6 +50,7 @@ namespace OficinaMotos.Infrastructure.IoC
             services.AddScoped<IClienteLgpdConsentimentoRepository, ClienteLgpdConsentimentoRepository>();
             services.AddScoped<IClientePfRepository, ClientePfRepository>();
             services.AddScoped<IClientePjRepository, ClientePjRepository>();
+            services.AddScoped<IPessoaRepository, PessoaRepository>();
             services.AddScoped<IEstoqueCategoriaRepository, EstoqueCategoriaRepository>();
             services.AddScoped<IEstoqueFabricanteRepository, EstoqueFabricanteRepository>();
             services.AddScoped<IEstoqueLocalizacaoRepository, EstoqueLocalizacaoRepository>();
@@ -81,6 +83,8 @@ namespace OficinaMotos.Infrastructure.IoC
             services.AddScoped<IMecanicoEnderecoRepository, MecanicoEnderecoRepository>();
             services.AddScoped<IMecanicoEspecialidadeRelRepository, MecanicoEspecialidadeRelRepository>();
             services.AddScoped<IMecanicoExperienciaRepository, MecanicoExperienciaRepository>();
+            services.AddScoped<IPrestadorRepository, PrestadorRepository>();
+            services.AddScoped<IAtividadeProfissionalRepository, AtividadeProfissionalRepository>();
             services.AddScoped<IFornecedorRepository, FornecedorRepository>();
             services.AddScoped<IFornecedorSegmentoRepository, FornecedorSegmentoRepository>();
             services.AddScoped<IFornecedorSegmentoRelRepository, FornecedorSegmentoRelRepository>();

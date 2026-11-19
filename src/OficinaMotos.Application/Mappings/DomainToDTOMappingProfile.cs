@@ -121,9 +121,6 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<OrdemServico, OrdemServicoResponseDTO>()
                 .ForMember(dest => dest.ClienteNome, opt => opt.MapFrom(src => src.Cliente != null ? src.Cliente.Nome : null))
                 .ForMember(dest => dest.ClienteNomeExibicao, opt => opt.MapFrom(src => src.Cliente != null ? src.Cliente.NomeExibicao : null))
-                .ForMember(dest => dest.MecanicoCodigo, opt => opt.MapFrom(src => src.Mecanico != null ? src.Mecanico.Codigo : null))
-                .ForMember(dest => dest.MecanicoNome, opt => opt.MapFrom(src => src.Mecanico != null ? src.Mecanico.Nome : null))
-                .ForMember(dest => dest.MecanicoSobrenome, opt => opt.MapFrom(src => src.Mecanico != null ? src.Mecanico.Sobrenome : null))
                 .ForMember(dest => dest.VeiculoPlaca, opt => opt.MapFrom(src => src.Veiculo != null ? src.Veiculo.Placa : null))
                 .ForMember(dest => dest.VeiculoModeloNome, opt => opt.MapFrom(src => src.Veiculo != null && src.Veiculo.Modelo != null ? src.Veiculo.Modelo.Nome : null));
             CreateMap<CreateOrdemServicoDTO, OrdemServico>();

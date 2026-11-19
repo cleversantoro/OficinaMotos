@@ -6,6 +6,8 @@ namespace OficinaMotos.Domain.Entities
 {
     public class Cliente : BaseEntity
     {
+        public long PessoaId { get; set; }
+        public Pessoa? Pessoa { get; set; }
         public long Codigo { get; set; }
         public string Nome { get; set; } = string.Empty;
         public string NomeExibicao { get; set; } = string.Empty;
