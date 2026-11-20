@@ -21,7 +21,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.MecanicoConfig
             builder.Property(x => x.CreatedAt).HasColumnName("created_at");
             builder.Property(x => x.UpdatedAt).HasColumnName("updated_at");
             builder.Property(x => x.DeletedAt).HasColumnName("deleted_at");
-            builder.Ignore(x => x.IsDeleted);
             builder.HasQueryFilter(x => x.DeletedAt == null);
             builder.HasIndex(x => x.PessoaId).IsUnique();
             builder.HasIndex(x => x.Codigo).IsUnique();

@@ -1,12 +1,12 @@
 using AutoMapper;
 using OficinaMotos.Application.Interfaces.Mecanico;
 using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories.Mecanico;
 using MecanicoEntity = OficinaMotos.Domain.Entities.Mecanico;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OficinaMotos.Application.DTOs.Requests.Mecanico;
 using OficinaMotos.Application.DTOs.Responses.Mecanico;
+using OficinaMotos.Domain.Interfaces.Repositories.MecanicoRepo;
 
 namespace OficinaMotos.Application.Services.Mecanico
 {

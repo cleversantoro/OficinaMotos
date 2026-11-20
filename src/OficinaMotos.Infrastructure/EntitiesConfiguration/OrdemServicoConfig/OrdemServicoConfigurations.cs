@@ -25,7 +25,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.Property(e => e.ValorTotal).HasColumnName("valor_total").HasPrecision(18,2);
             builder.Property(e => e.ObservacaoGeral).HasColumnName("observacoes").HasMaxLength(1000);
             builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
-            builder.Ignore(e => e.IsDeleted);
             builder.Ignore(e => e.MecanicoId);
             builder.Ignore(e => e.Mecanico);
             builder.HasQueryFilter(e => e.DeletedAt == null);
@@ -149,7 +148,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(30).IsRequired();
             builder.Property(e => e.Desconto).HasColumnName("desconto").HasPrecision(18,2);
             builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
-            builder.Ignore(e => e.IsDeleted);
             builder.Property(e => e.Quantidade).HasColumnName("quantidade").IsRequired();
             builder.Property(e => e.ValorUnitario).HasColumnName("valor_unitario").HasPrecision(18, 2).IsRequired();
             builder.Property(e => e.Total)

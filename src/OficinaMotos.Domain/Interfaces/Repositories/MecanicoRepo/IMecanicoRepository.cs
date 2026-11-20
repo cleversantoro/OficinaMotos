@@ -1,9 +1,8 @@
 using OficinaMotos.Domain.Entities;
-using MecanicoEntity = OficinaMotos.Domain.Entities.Mecanico;
 
-namespace OficinaMotos.Domain.Interfaces.Repositories.Mecanico
+namespace OficinaMotos.Domain.Interfaces.Repositories.MecanicoRepo
 {
-    public interface IMecanicoRepository : IRepository<MecanicoEntity>
+    public interface IMecanicoRepository : IRepository<Mecanico>
     {
     }
 }

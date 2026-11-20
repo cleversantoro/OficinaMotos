@@ -1,12 +1,12 @@
 using OficinaMotos.Application.DTOs.Requests.Mecanico;
-using OficinaMotos.Application.DTOs.Responses.Mecanico;
+using OficinaMotos.Application.DTOs.Responses.PrestadorRepo;
 using OficinaMotos.Application.Interfaces.Mecanico;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Exceptions;
-using OficinaMotos.Domain.Interfaces.Repositories.Mecanico;
-using MecanicoEntity = OficinaMotos.Domain.Entities.Mecanico;
+using OficinaMotos.Domain.Interfaces.Repositories.PrestadorRepo;
+using PrestadorEntity = OficinaMotos.Domain.Entities.Prestador;
 
-namespace OficinaMotos.Application.Services.Mecanico
+namespace OficinaMotos.Application.Services.Prestador
 {
     public class PrestadorService : IPrestadorService
     {
@@ -42,7 +42,7 @@ namespace OficinaMotos.Application.Services.Mecanico
 
             await ValidarExistenciaAtividades(request.Atividades);
 
-            var prestador = new Prestador
+            var prestador = new PrestadorEntity
             {
                 PessoaId = request.PessoaId,
                 Codigo = request.Codigo.Trim(),
@@ -63,17 +63,17 @@ namespace OficinaMotos.Application.Services.Mecanico
                 PrestadorPrincipalId = x.Principal && x.Ativo ? prestador.Id : null
             }).ToHashSet();
 
-            if (request.MecanicamenteEspecializado)
-            {
-                prestador.Mecanico = new MecanicoEntity
-                {
-                    Prestador = prestador,
-                    Codigo = request.Matricula ?? request.Codigo,
-                    Matricula = request.Matricula,
-                    Nivel = request.NivelMecanico ?? "Pleno",
-                    DataAdmissao = request.DataInicio ?? DateTime.UtcNow
-                };
-            }
+            //if (request.MecanicamenteEspecializado)
+            //{
+            //    prestador.Mecanico = new MecanicoEntity
+            //    {
+            //        Prestador = prestador,
+            //        Codigo = request.Matricula ?? request.Codigo,
+            //        Matricula = request.Matricula,
+            //        Nivel = request.NivelMecanico ?? "Pleno",
+            //        DataAdmissao = request.DataInicio ?? DateTime.UtcNow
+            //    };
+            //}
 
             var criado = await _repository.AddAsync(prestador);
             return Map(criado);
@@ -133,7 +133,7 @@ namespace OficinaMotos.Application.Services.Mecanico
             }
         }
 
-        private static PrestadorResponseDTO Map(Prestador prestador)
+        private static PrestadorResponseDTO Map(PrestadorEntity prestador)
         {
             return new PrestadorResponseDTO
             {

@@ -9,21 +9,18 @@ namespace OficinaMotos.Domain.Common
 
         public DateTime CreatedAt { get; private set; }
         public DateTime? UpdatedAt { get; private set; }
-        public bool IsDeleted { get; private set; }
         public DateTime? DeletedAt { get; private set; }
 
         protected BaseEntity()
         {
             CreatedAt = DateTime.UtcNow;
-            IsDeleted = false;
         }
 
         // Marks the entity as deleted without removing the row
         public void Delete()
         {
-            if (IsDeleted) return;
+            if (DeletedAt.HasValue) return;
 
-            IsDeleted = true;
             DeletedAt = DateTime.UtcNow;
             UpdatedAt = DeletedAt;
         }

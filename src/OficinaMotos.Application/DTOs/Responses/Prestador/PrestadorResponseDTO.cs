@@ -1,4 +1,4 @@
-namespace OficinaMotos.Application.DTOs.Responses.Mecanico
+namespace OficinaMotos.Application.DTOs.Responses.PrestadorRepo
 {
     public class PrestadorResponseDTO
     {

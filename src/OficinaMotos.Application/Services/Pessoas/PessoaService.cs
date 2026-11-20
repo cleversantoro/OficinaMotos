@@ -3,7 +3,7 @@ using OficinaMotos.Application.DTOs.Responses.Pessoas;
 using OficinaMotos.Application.Interfaces.Pessoas;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Exceptions;
-using OficinaMotos.Domain.Interfaces.Repositories;
+using OficinaMotos.Domain.Interfaces.Repositories.PessoaRepo;
 
 namespace OficinaMotos.Application.Services.Pessoas
 {

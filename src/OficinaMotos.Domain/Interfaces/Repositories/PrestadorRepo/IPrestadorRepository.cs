@@ -1,6 +1,6 @@
 using OficinaMotos.Domain.Entities;
 
-namespace OficinaMotos.Domain.Interfaces.Repositories.Mecanico
+namespace OficinaMotos.Domain.Interfaces.Repositories.PrestadorRepo
 {
     public interface IPrestadorRepository : IRepository<Prestador>
     {

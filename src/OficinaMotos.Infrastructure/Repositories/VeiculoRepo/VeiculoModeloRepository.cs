@@ -2,7 +2,7 @@ using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Interfaces.Repositories.VeiculoRepo;
 using OficinaMotos.Infrastructure.Context;
 
-namespace OficinaMotos.Infrastructure.Repositories.Veiculo
+namespace OficinaMotos.Infrastructure.Repositories.VeiculoRepo
 {
     public class VeiculoModeloRepository : Repository<VeiculoModelo>, IVeiculoModeloRepository
     {

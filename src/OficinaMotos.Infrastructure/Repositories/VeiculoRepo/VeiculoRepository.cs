@@ -2,19 +2,18 @@ using Microsoft.EntityFrameworkCore;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Interfaces.Repositories.VeiculoRepo;
 using OficinaMotos.Infrastructure.Context;
-using VeiculoEntity = OficinaMotos.Domain.Entities.Veiculo;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OficinaMotos.Infrastructure.Repositories.Veiculo
+namespace OficinaMotos.Infrastructure.Repositories.VeiculoRepo
 {
-    public class VeiculoRepository : Repository<VeiculoEntity>, IVeiculoRepository
+    public class VeiculoRepository : Repository<Veiculo>, IVeiculoRepository
     {
         public VeiculoRepository(OficinaContext context) : base(context)
         {
         }
 
-        public override async Task<List<VeiculoEntity>> GetAllAsync()
+        public override async Task<List<Veiculo>> GetAllAsync()
         {
             return await _dbSet
                 .Include(v => v.Modelo)
@@ -22,7 +21,7 @@ namespace OficinaMotos.Infrastructure.Repositories.Veiculo
                 .ToListAsync();
         }
 
-        public override async Task<VeiculoEntity?> GetByIdAsync(long id)
+        public override async Task<Veiculo?> GetByIdAsync(long id)
         {
             return await _dbSet
                 .Include(v => v.Modelo)

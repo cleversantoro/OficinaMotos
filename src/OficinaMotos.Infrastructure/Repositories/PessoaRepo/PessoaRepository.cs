@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories;
+using OficinaMotos.Domain.Interfaces.Repositories.PessoaRepo;
 using OficinaMotos.Infrastructure.Context;
 
-namespace OficinaMotos.Infrastructure.Repositories
+namespace OficinaMotos.Infrastructure.Repositories.PessoaRepo
 {
     public class PessoaRepository : Repository<Pessoa>, IPessoaRepository
     {

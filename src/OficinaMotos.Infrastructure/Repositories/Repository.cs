@@ -62,6 +62,13 @@ namespace OficinaMotos.Infrastructure.Repositories
 
         public async Task SoftDeleteAsync(long id)
         {
+            var entityType = _context.Model.FindEntityType(typeof(T));
+            if (entityType?.FindProperty(nameof(BaseEntity.DeletedAt)) == null)
+            {
+                throw new NotSupportedException(
+                    $"A entidade {typeof(T).Name} não possui a coluna deleted_at e não suporta exclusão lógica.");
+            }
+
             var entity = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
             if (entity != null)
             {

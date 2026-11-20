@@ -56,7 +56,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
             builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
-            builder.Ignore(e => e.IsDeleted);
             builder.Ignore(e => e.RazaoSocial);
             builder.Ignore(e => e.NomeFantasia);
             builder.Ignore(e => e.Documento);

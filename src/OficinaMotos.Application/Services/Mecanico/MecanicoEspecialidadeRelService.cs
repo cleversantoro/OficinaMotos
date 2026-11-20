@@ -3,7 +3,7 @@ using OficinaMotos.Application.DTOs.Requests.Mecanico;
 using OficinaMotos.Application.DTOs.Responses.Mecanico;
 using OficinaMotos.Application.Interfaces.Mecanico;
 using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories.Mecanico;
+using OficinaMotos.Domain.Interfaces.Repositories.MecanicoRepo;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

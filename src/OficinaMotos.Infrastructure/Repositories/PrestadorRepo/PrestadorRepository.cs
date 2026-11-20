@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories.Mecanico;
+using OficinaMotos.Domain.Interfaces.Repositories.PrestadorRepo;
 using OficinaMotos.Infrastructure.Context;
 
-namespace OficinaMotos.Infrastructure.Repositories.Mecanico
+namespace OficinaMotos.Infrastructure.Repositories.PrestadorRepo
 {
     public class PrestadorRepository : Repository<Prestador>, IPrestadorRepository
     {
@@ -11,12 +11,28 @@ namespace OficinaMotos.Infrastructure.Repositories.Mecanico
 
         public override async Task<List<Prestador>> GetAllAsync()
         {
-            return await _dbSet.Include(x => x.Pessoa).Include(x => x.Mecanico).Include(x => x.Atividades).ThenInclude(x => x.AtividadeProfissional).Include(x => x.Disponibilidades).Include(x => x.Experiencias).Include(x => x.Certificacoes).AsNoTracking().ToListAsync();
+            return await _dbSet.
+                Include(x => x.Pessoa)
+                .Include(x => x.Mecanico)
+                .Include(x => x.Atividades)
+                .ThenInclude(x => x.AtividadeProfissional)
+                .Include(x => x.Disponibilidades)
+                .Include(x => x.Experiencias)
+                .Include(x => x.Certificacoes)
+                .AsNoTracking().ToListAsync();
         }
 
         public override async Task<Prestador?> GetByIdAsync(long id)
         {
-            return await _dbSet.Include(x => x.Pessoa).Include(x => x.Mecanico).Include(x => x.Atividades).ThenInclude(x => x.AtividadeProfissional).Include(x => x.Disponibilidades).Include(x => x.Experiencias).Include(x => x.Certificacoes).AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbSet
+                .Include(x => x.Pessoa)
+                .Include(x => x.Mecanico)
+                .Include(x => x.Atividades)
+                .ThenInclude(x => x.AtividadeProfissional)
+                .Include(x => x.Disponibilidades)
+                .Include(x => x.Experiencias)
+                .Include(x => x.Certificacoes)
+                .AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public Task<Prestador?> GetByPessoaIdAsync(long pessoaId) =>

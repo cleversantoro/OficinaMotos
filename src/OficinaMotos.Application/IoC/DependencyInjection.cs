@@ -16,6 +16,7 @@ using QuestPDF.Infrastructure;
 using System.Reflection;
 using OficinaMotos.Application.Services.Pessoas;
 using OficinaMotos.Application.Interfaces.Pessoas;
+using OficinaMotos.Application.Services.Prestador;
 
 namespace OficinaMotos.Application.IoC
 {

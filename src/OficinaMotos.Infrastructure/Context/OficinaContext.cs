@@ -1,12 +1,78 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OficinaMotos.Domain.Common;
 using OficinaMotos.Domain.Entities;
+using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace OficinaMotos.Infrastructure.Context
 {
     public class OficinaContext : DbContext
     {
+        private static readonly HashSet<string> TablesWithoutCreatedAt = new(StringComparer.Ordinal)
+        {
+            "fin_lancamentos",
+            "os_avaliacoes",
+            "os_ordens_historico"
+        };
+
+        private static readonly HashSet<string> TablesWithoutUpdatedAt = new(StringComparer.Ordinal)
+        {
+            "cad_fornecedores_segmentos_rel",
+            "cad_prestadores_atividades",
+            "cad_prestadores_disponibilidades",
+            "cad_veiculos_marcas",
+            "cad_veiculos_modelos",
+            "est_localizacoes",
+            "est_movimentacoes",
+            "est_pecas_anexos",
+            "est_pecas_historico",
+            "fin_anexos",
+            "fin_historico",
+            "fin_lancamentos",
+            "fin_pagamentos",
+            "os_anexos",
+            "os_avaliacoes",
+            "os_observacoes",
+            "os_ordens_historico",
+            "seg_audit_log",
+            "seg_perfis_permissoes",
+            "seg_permissoes",
+            "seg_usuarios_perfis"
+        };
+
+        private static readonly HashSet<string> TablesWithDeletedAt = new(StringComparer.Ordinal)
+        {
+            "cad_clientes",
+            "cad_clientes_financeiro",
+            "cad_clientes_indicacoes",
+            "cad_clientes_lgpd_consentimentos",
+            "cad_fornecedores",
+            "cad_fornecedores_avaliacoes",
+            "cad_fornecedores_bancos",
+            "cad_fornecedores_certificacoes",
+            "cad_fornecedores_representantes",
+            "cad_mecanicos",
+            "cad_pessoas",
+            "cad_pessoas_anexos",
+            "cad_pessoas_contatos",
+            "cad_pessoas_documentos",
+            "cad_pessoas_enderecos",
+            "cad_prestadores",
+            "cad_veiculos",
+            "est_pecas",
+            "est_pecas_anexos",
+            "fin_contas_pagar",
+            "fin_contas_receber",
+            "os_anexos",
+            "os_itens",
+            "os_observacoes",
+            "os_ordens",
+            "seg_perfis",
+            "seg_usuarios"
+        };
+
         public OficinaContext(DbContextOptions<OficinaContext> options) : base(options)
         { }
 
@@ -122,7 +188,7 @@ namespace OficinaMotos.Infrastructure.Context
             builder.Ignore<MecanicoCertificacao>();
             builder.Ignore<MecanicoDisponibilidade>();
 
-            // Aplica filtro global de exclusão lógica para qualquer entidade derivada de BaseEntity.
+            // BaseEntity columns vary by table in DDL V2.
             foreach (var entityType in builder.Model.GetEntityTypes())
             {
                 var clrType = entityType.ClrType;
@@ -130,37 +196,52 @@ namespace OficinaMotos.Infrastructure.Context
                 {
                     continue;
                 }
+
+                var tableName = entityType.GetTableName();
+                if (tableName == null)
+                {
+                    continue;
+                }
+
                 var entity = builder.Entity(clrType);
-                if (entity.Metadata.FindProperty(nameof(BaseEntity.IsDeleted)) == null)
-                {
-                    continue;
-                }
-                if (clrType.Name.StartsWith("Pessoa", StringComparison.Ordinal))
-                {
-                    continue;
-                }
-                if (clrType == typeof(Prestador))
-                {
-                    continue;
-                }
-                if (clrType.Name.StartsWith("Seg", StringComparison.Ordinal) ||
-                    clrType == typeof(RefreshToken))
+
+                ConfigureBaseColumn(entity, nameof(BaseEntity.CreatedAt), "created_at", !TablesWithoutCreatedAt.Contains(tableName));
+                ConfigureBaseColumn(entity, nameof(BaseEntity.UpdatedAt), "updated_at", !TablesWithoutUpdatedAt.Contains(tableName));
+                ConfigureBaseColumn(entity, nameof(BaseEntity.DeletedAt), "deleted_at", TablesWithDeletedAt.Contains(tableName));
+
+                if (!TablesWithDeletedAt.Contains(tableName))
                 {
                     continue;
                 }
 
                 var parameter = Expression.Parameter(clrType, "e");
-                var isDeletedProperty = Expression.Call(
+                var deletedAtProperty = Expression.Call(
                     typeof(EF),
                     nameof(EF.Property),
-                    new[] { typeof(bool) },
+                    new[] { typeof(DateTime?) },
                     parameter,
-                    Expression.Constant(nameof(BaseEntity.IsDeleted))
+                    Expression.Constant(nameof(BaseEntity.DeletedAt))
                 );
-                var filter = Expression.Equal(isDeletedProperty, Expression.Constant(false));
+                var filter = Expression.Equal(deletedAtProperty, Expression.Constant(null, typeof(DateTime?)));
                 var lambda = Expression.Lambda(filter, parameter);
 
                 builder.Entity(clrType).HasQueryFilter(lambda);
+            }
+        }
+
+        private static void ConfigureBaseColumn(
+            EntityTypeBuilder entity,
+            string propertyName,
+            string columnName,
+            bool columnExists)
+        {
+            if (columnExists)
+            {
+                entity.Property(propertyName).HasColumnName(columnName);
+            }
+            else
+            {
+                entity.Ignore(propertyName);
             }
         }
     }

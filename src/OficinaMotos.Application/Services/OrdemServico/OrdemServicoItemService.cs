@@ -7,7 +7,7 @@ using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OficinaMotos.Domain.Exceptions;
-using OficinaMotos.Domain.Interfaces.Repositories.Mecanico;
+using OficinaMotos.Domain.Interfaces.Repositories.PrestadorRepo;
 
 namespace OficinaMotos.Application.Services.OrdemServicoRepo
 {

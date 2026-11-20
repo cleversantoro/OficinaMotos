@@ -3,23 +3,28 @@ using OficinaMotos.Infrastructure.Repositories.SegurancaRepo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OficinaMotos.Domain.Interfaces.Repositories;
-using OficinaMotos.Domain.Interfaces.Repositories.ClienteRepo;
-using OficinaMotos.Domain.Interfaces.Repositories.Estoque;
-using OficinaMotos.Domain.Interfaces.Repositories.FinanceiroRepo;
-using OficinaMotos.Domain.Interfaces.Repositories.Fornecedor;
-using OficinaMotos.Domain.Interfaces.Repositories.Mecanico;
-using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
-using OficinaMotos.Domain.Interfaces.Repositories.VeiculoRepo;
 using OficinaMotos.Infrastructure.Context;
 using OficinaMotos.Infrastructure.Repositories;
+using OficinaMotos.Domain.Interfaces.Repositories;
+using OficinaMotos.Domain.Interfaces.Repositories.Estoque;
+using OficinaMotos.Domain.Interfaces.Repositories.PessoaRepo;
+using OficinaMotos.Domain.Interfaces.Repositories.Fornecedor;
+using OficinaMotos.Domain.Interfaces.Repositories.ClienteRepo;
+using OficinaMotos.Domain.Interfaces.Repositories.VeiculoRepo;
+using OficinaMotos.Domain.Interfaces.Repositories.MecanicoRepo;
+using OficinaMotos.Domain.Interfaces.Repositories.PrestadorRepo;
+using OficinaMotos.Domain.Interfaces.Repositories.FinanceiroRepo;
+using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
+
 using OficinaMotos.Infrastructure.Repositories.Cliente;
 using OficinaMotos.Infrastructure.Repositories.Estoque;
-using OficinaMotos.Infrastructure.Repositories.FinanceiroRepo;
 using OficinaMotos.Infrastructure.Repositories.Fornecedor;
+using OficinaMotos.Infrastructure.Repositories.PessoaRepo;
+using OficinaMotos.Infrastructure.Repositories.VeiculoRepo;
+using OficinaMotos.Infrastructure.Repositories.MecanicoRepo;
+using OficinaMotos.Infrastructure.Repositories.PrestadorRepo;
+using OficinaMotos.Infrastructure.Repositories.FinanceiroRepo;
 using OficinaMotos.Infrastructure.Repositories.OrdemServicoRepo;
-using OficinaMotos.Infrastructure.Repositories.Veiculo;
-using OficinaMotos.Infrastructure.Repositories.Mecanico;
 
 namespace OficinaMotos.Infrastructure.IoC
 {

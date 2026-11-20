@@ -1,5 +1,5 @@
 using OficinaMotos.Application.DTOs.Requests.Mecanico;
-using OficinaMotos.Application.DTOs.Responses.Mecanico;
+using OficinaMotos.Application.DTOs.Responses.PrestadorRepo;
 
 namespace OficinaMotos.Application.Interfaces.Mecanico
 {

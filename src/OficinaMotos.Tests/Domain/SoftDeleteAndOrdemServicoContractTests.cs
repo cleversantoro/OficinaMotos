@@ -24,7 +24,6 @@ namespace OficinaMotos.Tests.Domain
 
             entity.Delete();
 
-            Assert.True(entity.IsDeleted);
             Assert.NotNull(entity.DeletedAt);
             Assert.NotNull(entity.UpdatedAt);
         }
@@ -33,9 +32,9 @@ namespace OficinaMotos.Tests.Domain
         public async Task Repository_DeleteAsync_ShouldSoftDeleteWithoutHardDelete()
         {
             await using var context = TestDbContextFactory.Create();
-            var repository = new Repository<ClienteOrigem>(context);
+            var repository = new Repository<SegPerfil>(context);
 
-            var entity = new ClienteOrigem { Nome = "Origem Teste" };
+            var entity = new SegPerfil { Nome = "Perfil Teste" };
             await repository.AddAsync(entity);
 
             var id = entity.Id;
@@ -44,22 +43,20 @@ namespace OficinaMotos.Tests.Domain
             var activeLookup = await repository.GetByIdAsync(id);
             Assert.Null(activeLookup);
 
-            var deletedEntity = await context.Set<ClienteOrigem>()
+            var retainedEntity = await context.Set<SegPerfil>()
                 .IgnoreQueryFilters()
                 .SingleAsync(x => x.Id == id);
-
-            Assert.True(deletedEntity.IsDeleted);
-            Assert.NotNull(deletedEntity.DeletedAt);
+            Assert.NotNull(retainedEntity.DeletedAt);
         }
 
         [Fact]
         public async Task Repository_GetAllAndFind_ShouldIgnoreSoftDeletedRows()
         {
             await using var context = TestDbContextFactory.Create();
-            var repository = new Repository<ClienteOrigem>(context);
+            var repository = new Repository<SegPerfil>(context);
 
-            var active = await repository.AddAsync(new ClienteOrigem { Nome = "Ativa" });
-            var toDelete = await repository.AddAsync(new ClienteOrigem { Nome = "Excluir" });
+            var active = await repository.AddAsync(new SegPerfil { Nome = "Ativa" });
+            var toDelete = await repository.AddAsync(new SegPerfil { Nome = "Excluir" });
 
             await repository.SoftDeleteAsync(toDelete.Id);
 
@@ -73,60 +70,102 @@ namespace OficinaMotos.Tests.Domain
         }
 
         [Fact]
-        public async Task Repository_DeleteAsync_ShouldWorkForThreeEntityFlows()
+        public async Task Repository_DeleteAsync_ShouldRejectEntitiesWithoutDeletedAtColumn()
         {
             await using var context = TestDbContextFactory.Create();
+            var repository = new Repository<ClienteOrigem>(context);
+            var entity = await repository.AddAsync(new ClienteOrigem { Nome = "Web" });
 
-            var clienteOrigemRepository = new Repository<ClienteOrigem>(context);
-            var veiculoMarcaRepository = new Repository<VeiculoMarca>(context);
-            var fornecedorSegmentoRepository = new Repository<FornecedorSegmento>(context);
-
-            var origem = await clienteOrigemRepository.AddAsync(new ClienteOrigem { Nome = "Web" });
-            var marca = await veiculoMarcaRepository.AddAsync(new VeiculoMarca { Nome = "Marca X" });
-            var segmento = await fornecedorSegmentoRepository.AddAsync(new FornecedorSegmento { Codigo = "S001", Nome = "Moto Peças" });
-
-            await clienteOrigemRepository.DeleteAsync(origem.Id);
-            await veiculoMarcaRepository.DeleteAsync(marca.Id);
-            await fornecedorSegmentoRepository.DeleteAsync(segmento.Id);
-
-            Assert.Null(await clienteOrigemRepository.GetByIdAsync(origem.Id));
-            Assert.Null(await veiculoMarcaRepository.GetByIdAsync(marca.Id));
-            Assert.Null(await fornecedorSegmentoRepository.GetByIdAsync(segmento.Id));
+            await Assert.ThrowsAsync<NotSupportedException>(() => repository.DeleteAsync(entity.Id));
+            Assert.NotNull(await repository.GetByIdAsync(entity.Id));
         }
 
         [Fact]
-        public void NewEntity_ShouldStartAsNotDeleted()
+        public void NewEntity_ShouldHaveNoDeletionTimestamp()
         {
             var entity = new ClienteOrigem { Nome = "Nova" };
 
-            Assert.False(entity.IsDeleted);
             Assert.Null(entity.DeletedAt);
         }
 
         [Fact]
-        public async Task AddedEntity_ShouldPersistWithIsDeletedFalse()
+        public async Task AddedEntity_ShouldPersistWithNoDeletionTimestamp()
         {
             await using var context = TestDbContextFactory.Create();
-            var repository = new Repository<ClienteOrigem>(context);
+            var repository = new Repository<SegPerfil>(context);
 
-            var entity = await repository.AddAsync(new ClienteOrigem { Nome = "Persistida" });
+            var entity = await repository.AddAsync(new SegPerfil { Nome = "Persistida" });
 
-            var persisted = await context.Set<ClienteOrigem>()
+            var persisted = await context.Set<SegPerfil>()
                 .IgnoreQueryFilters()
                 .SingleAsync(x => x.Id == entity.Id);
 
-            Assert.False(persisted.IsDeleted);
             Assert.Null(persisted.DeletedAt);
         }
 
         [Fact]
-        public void DbContext_ShouldApplyGlobalFilterToAllBaseEntities()
+        public void DbContext_ShouldMapBaseTimestampsAndFilterOnlySoftDeleteTables()
         {
             using var context = TestDbContextFactory.Create();
 
-            Assert.NotNull(context.Model.FindEntityType(typeof(Cliente))?.GetQueryFilter());
-            Assert.NotNull(context.Model.FindEntityType(typeof(Fornecedor))?.GetQueryFilter());
-            Assert.NotNull(context.Model.FindEntityType(typeof(OrdemServico))?.GetQueryFilter());
+            foreach (var entityType in context.Model.GetEntityTypes()
+                         .Where(type => type.ClrType != null && typeof(BaseEntity).IsAssignableFrom(type.ClrType)))
+            {
+                Assert.Null(entityType.FindProperty("IsDeleted"));
+
+                var createdAt = entityType.FindProperty(nameof(BaseEntity.CreatedAt));
+                if (createdAt != null)
+                {
+                    Assert.Equal("created_at", createdAt.GetColumnName());
+                }
+
+                var updatedAt = entityType.FindProperty(nameof(BaseEntity.UpdatedAt));
+                if (updatedAt != null)
+                {
+                    Assert.Equal("updated_at", updatedAt.GetColumnName());
+                }
+
+                var deletedAt = entityType.FindProperty(nameof(BaseEntity.DeletedAt));
+                Assert.Equal(deletedAt != null, entityType.GetQueryFilter() != null);
+                if (deletedAt != null)
+                {
+                    Assert.Equal("deleted_at", deletedAt.GetColumnName());
+                }
+            }
+
+            var softDeleteTypes = new[]
+            {
+                typeof(Cliente),
+                typeof(Fornecedor),
+                typeof(FinanceiroContaPagar),
+                typeof(Mecanico),
+                typeof(OrdemServicoItem),
+                typeof(Pessoa),
+                typeof(Prestador),
+                typeof(SegPerfil),
+                typeof(SegUsuario),
+                typeof(EstoquePeca),
+                typeof(Veiculo)
+            };
+            var nonSoftDeleteEntity = context.Model.FindEntityType(typeof(ClienteOrigem))!;
+            var marcaEntity = context.Model.FindEntityType(typeof(VeiculoMarca))!;
+
+            foreach (var type in softDeleteTypes)
+            {
+                var entityType = context.Model.FindEntityType(type)!;
+                Assert.NotNull(entityType.GetQueryFilter());
+                Assert.Equal("deleted_at", entityType.FindProperty(nameof(BaseEntity.DeletedAt))!.GetColumnName());
+            }
+
+            Assert.Null(nonSoftDeleteEntity.GetQueryFilter());
+            Assert.Null(marcaEntity.FindProperty(nameof(BaseEntity.DeletedAt)));
+            Assert.Null(nonSoftDeleteEntity.FindProperty(nameof(BaseEntity.DeletedAt)));
+            Assert.Equal("created_at", nonSoftDeleteEntity.FindProperty(nameof(BaseEntity.CreatedAt))!.GetColumnName());
+            Assert.Equal("updated_at", nonSoftDeleteEntity.FindProperty(nameof(BaseEntity.UpdatedAt))!.GetColumnName());
+            Assert.Null(marcaEntity.FindProperty(nameof(BaseEntity.UpdatedAt)));
+
+            var lancamentoEntity = context.Model.FindEntityType(typeof(FinanceiroLancamento))!;
+            Assert.Null(lancamentoEntity.FindProperty(nameof(BaseEntity.CreatedAt)));
         }
 
         [Fact]

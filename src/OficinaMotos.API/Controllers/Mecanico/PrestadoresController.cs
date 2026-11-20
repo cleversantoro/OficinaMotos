@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OficinaMotos.Application.DTOs.Requests.Mecanico;
-using OficinaMotos.Application.DTOs.Responses.Mecanico;
+using OficinaMotos.Application.DTOs.Responses.PrestadorRepo;
 using OficinaMotos.Application.Interfaces.Mecanico;
 
 namespace OficinaMotos.API.Controllers.Mecanico

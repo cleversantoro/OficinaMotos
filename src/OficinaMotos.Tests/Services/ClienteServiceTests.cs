@@ -65,8 +65,7 @@ namespace OficinaMotos.Tests.Services
 
             var persisted = await context.Clientes.SingleOrDefaultAsync(c => c.Id == result.Id);
             persisted.Should().NotBeNull();
-            persisted!.IsDeleted.Should().BeFalse();
-            persisted.DeletedAt.Should().BeNull();
+            persisted!.DeletedAt.Should().BeNull();
         }
 
         [Fact]
@@ -112,7 +111,7 @@ namespace OficinaMotos.Tests.Services
         }
 
         [Fact]
-        public async Task Delete_SetsIsDeletedTrue_NotPhysicalDelete()
+        public async Task Delete_SetsDeletedAt_NotPhysicalDelete()
         {
             // Arrange (T-027.3)
             await using var context = TestDbContextFactory.Create();
@@ -141,8 +140,7 @@ namespace OficinaMotos.Tests.Services
                 .SingleOrDefaultAsync(c => c.Id == created.Id);
 
             physicalRecord.Should().NotBeNull("a exclusão deve ser lógica (soft delete) e não remover fisicamente o registro");
-            physicalRecord!.IsDeleted.Should().BeTrue();
-            physicalRecord.DeletedAt.Should().NotBeNull();
+            physicalRecord!.DeletedAt.Should().NotBeNull();
         }
 
         [Fact]

@@ -24,7 +24,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
             builder.Property(c => c.DeletedAt).HasColumnName("deleted_at");
             builder.HasQueryFilter(c => c.DeletedAt == null);
 
-            builder.Ignore(c => c.IsDeleted);
             builder.Ignore(c => c.Nome);
             builder.Ignore(c => c.NomeExibicao);
             builder.Ignore(c => c.Documento);
@@ -56,7 +55,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
             builder.ToTable("cad_clientes_anexos");
 
             builder.HasKey(a => a.Id);
-            //builder.Ignore(a => a.IsDeleted);
             builder.Property(a => a.ClienteId).HasColumnName("Cliente_Id").IsRequired();
             builder.Property(a => a.Nome).HasColumnName("Nome").HasMaxLength(200).IsRequired();
             builder.Property(a => a.Tipo).HasColumnName("Tipo").HasMaxLength(100).IsRequired();
@@ -79,7 +77,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
             builder.ToTable("cad_clientes_contatos");
 
             builder.HasKey(c => c.Id);
-            //builder.Ignore(c => c.IsDeleted);
             builder.Property(c => c.ClienteId).HasColumnName("Cliente_Id").IsRequired();
             builder.Property(c => c.Tipo).HasColumnName("Tipo").IsRequired();
             builder.Property(c => c.Valor).HasColumnName("Valor").HasMaxLength(160).IsRequired();
@@ -102,7 +99,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
             builder.ToTable("cad_clientes_documentos");
 
             builder.HasKey(d => d.Id);
-            //builder.Ignore(d => d.IsDeleted);
             builder.Property(d => d.ClienteId).HasColumnName("Cliente_Id").IsRequired();
             builder.Property(d => d.Tipo).HasColumnName("Tipo").HasMaxLength(30).IsRequired();
             builder.Property(d => d.Documento).HasColumnName("Documento").HasMaxLength(40).IsRequired();
@@ -127,7 +123,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
             builder.ToTable("cad_clientes_enderecos");
 
             builder.HasKey(e => e.Id);
-            //builder.Ignore(e => e.IsDeleted);
             builder.Property(e => e.ClienteId).HasColumnName("Cliente_Id").IsRequired();
             builder.Property(e => e.Tipo).HasColumnName("Tipo").IsRequired();
             builder.Property(e => e.Cep).HasColumnName("Cep").HasMaxLength(12).IsRequired();
@@ -156,7 +151,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
             builder.ToTable("cad_clientes_financeiro");
 
             builder.HasKey(f => f.Id);
-            //builder.Ignore(f => f.IsDeleted);
             builder.Property(f => f.ClienteId).HasColumnName("Cliente_Id").IsRequired();
             builder.Property(f => f.LimiteCredito).HasColumnName("Limite_Credito");
             builder.Property(f => f.PrazoPagamento).HasColumnName("Prazo_Pagamento");
@@ -179,7 +173,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
             builder.ToTable("cad_clientes_indicacoes");
 
             builder.HasKey(i => i.Id);
-            //builder.Ignore(i => i.IsDeleted);
             builder.Property(i => i.ClienteId).HasColumnName("Cliente_Id").IsRequired();
             builder.Property(i => i.IndicadorNome).HasColumnName("Indicador_Nome").HasMaxLength(160).IsRequired();
             builder.Property(i => i.IndicadorTelefone).HasColumnName("Indicador_Telefone").HasMaxLength(20);
@@ -201,7 +194,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
             builder.ToTable("cad_clientes_lgpd_consentimentos");
 
             builder.HasKey(c => c.Id);
-            //builder.Ignore(c => c.IsDeleted);
             builder.Property(c => c.ClienteId).HasColumnName("Cliente_Id").IsRequired();
             builder.Property(c => c.Tipo).HasColumnName("Tipo").IsRequired();
             builder.Property(c => c.Aceito).HasColumnName("Aceito").HasColumnType("tinyint(1)").IsRequired();
@@ -227,7 +219,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
 
             builder.HasKey(o => o.Id);
 
-            //builder.Ignore(o => o.IsDeleted);
 
             builder.Property(o => o.Nome).HasColumnName("Nome").HasMaxLength(120).IsRequired();
             builder.Property(o => o.Descricao).HasColumnName("Descricao").HasMaxLength(240);
@@ -243,7 +234,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
             builder.ToTable("cad_clientes_pf");
 
             builder.HasKey(p => p.Id);
-            //builder.Ignore(p => p.IsDeleted);
             builder.Property(p => p.ClienteId).HasColumnName("Cliente_Id").IsRequired();
             builder.Property(p => p.Cpf).HasColumnName("Cpf").HasMaxLength(14).IsRequired();
             builder.Property(p => p.Rg).HasColumnName("Rg").HasMaxLength(20);
@@ -268,7 +258,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.ClienteConfig
             builder.ToTable("cad_clientes_pj");
 
             builder.HasKey(p => p.Id);
-            //builder.Ignore(p => p.IsDeleted);
             builder.Property(p => p.ClienteId).HasColumnName("Cliente_Id").IsRequired();
             builder.Property(p => p.Cnpj).HasColumnName("Cnpj").HasMaxLength(20).IsRequired();
             builder.Property(p => p.RazaoSocial).HasColumnName("Razao_Social").HasMaxLength(180).IsRequired();

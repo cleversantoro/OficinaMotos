@@ -20,7 +20,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.Property(m => m.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)").IsRequired();
             builder.Property(m => m.CreatedAt).HasColumnName("created_at");
             builder.Property(m => m.UpdatedAt).HasColumnName("updated_at");
-            builder.Ignore(m => m.IsDeleted);
             builder.Ignore(m => m.DeletedAt);
 
             builder.HasOne(m => m.ModuloPai)
@@ -49,7 +48,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.Property(p => p.CreatedAt).HasColumnName("created_at");
             builder.Property(p => p.UpdatedAt).HasColumnName("updated_at");
             builder.Property(p => p.DeletedAt).HasColumnName("deleted_at");
-            builder.Ignore(p => p.IsDeleted);
             builder.HasQueryFilter(p => p.DeletedAt == null);
 
             builder.HasMany(p => p.PerfisPermissoes)
@@ -75,7 +73,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.Property(p => p.Acao).HasColumnName("acao").HasMaxLength(30).IsRequired();
             builder.Property(p => p.Descricao).HasColumnName("descricao").HasMaxLength(200);
             builder.Property(p => p.CreatedAt).HasColumnName("created_at");
-            builder.Ignore(p => p.IsDeleted);
             builder.Ignore(p => p.DeletedAt);
             // seg_permissoes não tem Updated_At
             builder.Ignore(p => p.UpdatedAt);
@@ -125,7 +122,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.Property(u => u.CreatedAt).HasColumnName("created_at");
             builder.Property(u => u.UpdatedAt).HasColumnName("updated_at");
             builder.Property(u => u.DeletedAt).HasColumnName("deleted_at");
-            builder.Ignore(u => u.IsDeleted);
             builder.HasQueryFilter(u => u.DeletedAt == null);
 
             builder.HasIndex(u => u.Email).IsUnique().HasDatabaseName("UQ_seg_usuarios_email");
@@ -181,7 +177,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.Property(al => al.Ip).HasColumnName("ip").HasMaxLength(45);
             builder.Property(al => al.UserAgent).HasColumnName("user_agent").HasMaxLength(500);
             builder.Property(al => al.CreatedAt).HasColumnName("created_at");
-            builder.Ignore(al => al.IsDeleted);
             builder.Ignore(al => al.DeletedAt);
             // seg_audit_log é INSERT-ONLY — sem Updated_At
             builder.Ignore(al => al.UpdatedAt);
@@ -205,7 +200,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.Property(rt => rt.UltimoUsoEm).HasColumnName("ultimo_uso_em");
             builder.Property(rt => rt.CreatedAt).HasColumnName("created_at");
             builder.Property(rt => rt.UpdatedAt).HasColumnName("updated_at");
-            builder.Ignore(rt => rt.IsDeleted);
             builder.Ignore(rt => rt.DeletedAt);
 
             builder.HasIndex(rt => rt.TokenHash).IsUnique().HasDatabaseName("UQ_seg_refresh_tokens_hash");

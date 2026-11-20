@@ -21,7 +21,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration
             builder.Property(x => x.CreatedAt).HasColumnName("created_at");
             builder.Property(x => x.UpdatedAt).HasColumnName("updated_at");
             builder.Property(x => x.DeletedAt).HasColumnName("deleted_at");
-            builder.Ignore(x => x.IsDeleted);
             builder.HasIndex(x => x.Codigo).IsUnique();
             builder.HasIndex(x => x.Documento).IsUnique();
             builder.HasQueryFilter(x => x.DeletedAt == null);
@@ -79,7 +78,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration
             builder.Property(x => x.CreatedAt).HasColumnName("created_at");
             builder.Property(x => x.UpdatedAt).HasColumnName("updated_at");
             builder.Property(x => x.DeletedAt).HasColumnName("deleted_at");
-            builder.Ignore(x => x.IsDeleted);
         }
     }
 
