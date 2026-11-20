@@ -5,12 +5,25 @@ using OficinaMotos.Infrastructure.Context;
 
 namespace OficinaMotos.Infrastructure.Repositories.SegurancaRepo
 {
-    public class SegPerfilPermissaoRepository : Repository<SegPerfilPermissao>, ISegPerfilPermissaoRepository
+    public class SegPerfilPermissaoRepository : ISegPerfilPermissaoRepository
     {
-        public SegPerfilPermissaoRepository(OficinaContext context) : base(context) { }
+        private readonly OficinaContext _context;
+        private readonly DbSet<SegPerfilPermissao> _dbSet;
+
+        public SegPerfilPermissaoRepository(OficinaContext context)
+        {
+            _context = context;
+            _dbSet = context.Set<SegPerfilPermissao>();
+        }
 
         public async Task<List<SegPerfilPermissao>> GetByPerfilAsync(long perfilId)
             => await _dbSet.Where(pp => pp.PerfilId == perfilId).AsNoTracking().ToListAsync();
+
+        public async Task AddAsync(SegPerfilPermissao entity)
+        {
+            await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task DeleteByPerfilAsync(long perfilId)
         {

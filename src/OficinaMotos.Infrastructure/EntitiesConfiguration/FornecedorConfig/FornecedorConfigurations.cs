@@ -109,24 +109,21 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
         public void Configure(EntityTypeBuilder<FornecedorSegmentoRel> builder)
         {
             builder.ToTable("cad_fornecedores_segmentos_rel");
-            builder.HasKey(e => e.Id);
+            builder.HasKey(e => new { e.FornecedorId, e.SegmentoId });
 
-            builder.Property(e => e.FornecedorId).HasColumnName("Fornecedor_Id");
-            builder.Property(e => e.SegmentoId).HasColumnName("Segmento_Id");
-            builder.Property(e => e.Principal).HasColumnName("Principal").HasDefaultValue(false);
-            builder.Property(e => e.Observacoes).HasColumnName("Observacoes").HasMaxLength(300);
-            builder.Property(e => e.CreatedAt).HasColumnName("Created_At");
-            builder.Property(e => e.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(e => e.FornecedorId).HasColumnName("fornecedor_id").IsRequired();
+            builder.Property(e => e.SegmentoId).HasColumnName("segmento_id").IsRequired();
+            builder.Property(e => e.CreatedAt).HasColumnName("created_at").IsRequired();
 
             builder.HasOne(e => e.Fornecedor)
                    .WithMany(f => f.Segmentos)
                    .HasForeignKey(e => e.FornecedorId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Segmento)
                    .WithMany(s => s.FornecedorSegmentos)
                    .HasForeignKey(e => e.SegmentoId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 

@@ -9,7 +9,6 @@ namespace OficinaMotos.Application.Validators.Fornecedor
         {
             RuleFor(x => x.FornecedorId).GreaterThan(0);
             RuleFor(x => x.SegmentoId).GreaterThan(0);
-            RuleFor(x => x.Observacoes).MaximumLength(300);
         }
     }
 }

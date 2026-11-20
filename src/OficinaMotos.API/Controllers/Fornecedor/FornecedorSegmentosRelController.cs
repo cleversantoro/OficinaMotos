@@ -24,12 +24,12 @@ namespace OficinaMotos.API.Controllers.Fornecedor
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{fornecedorId:long}/{segmentoId:long}")]
         [ProducesResponseType(typeof(FornecedorSegmentoRelResponseDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetById(long id)
+        public async Task<IActionResult> GetByKeys(long fornecedorId, long segmentoId)
         {
-            var item = await _service.GetByIdAsync(id);
+            var item = await _service.GetByKeysAsync(fornecedorId, segmentoId);
             if (item == null) return NotFound(new { message = "Segmento/fornecedor não encontrado." });
             return Ok(item);
         }
@@ -39,25 +39,15 @@ namespace OficinaMotos.API.Controllers.Fornecedor
         public async Task<IActionResult> Create([FromBody] CreateFornecedorSegmentoRelDTO request)
         {
             var created = await _service.CreateAsync(request);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            return CreatedAtAction(nameof(GetByKeys), new { fornecedorId = created.FornecedorId, segmentoId = created.SegmentoId }, created);
         }
 
-        [HttpPut("{id}")]
-        [ProducesResponseType(typeof(FornecedorSegmentoRelResponseDTO), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update(long id, [FromBody] UpdateFornecedorSegmentoRelDTO request)
-        {
-            var updated = await _service.UpdateAsync(id, request);
-            if (updated == null) return NotFound(new { message = "Segmento/fornecedor não encontrado." });
-            return Ok(updated);
-        }
-
-        [HttpDelete("{id}")]
+        [HttpDelete("{fornecedorId:long}/{segmentoId:long}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> Delete(long fornecedorId, long segmentoId)
         {
-            var deleted = await _service.DeleteAsync(id);
+            var deleted = await _service.DeleteAsync(fornecedorId, segmentoId);
             if (!deleted) return NotFound(new { message = "Segmento/fornecedor não encontrado." });
             return NoContent();
         }

@@ -55,12 +55,12 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.HasMany(p => p.PerfisPermissoes)
                 .WithOne(pp => pp.Perfil)
                 .HasForeignKey(pp => pp.PerfilId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(p => p.UsuariosPerfis)
                 .WithOne(up => up.Perfil)
                 .HasForeignKey(up => up.PerfilId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -85,7 +85,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.HasMany(p => p.PerfisPermissoes)
                 .WithOne(pp => pp.Permissao)
                 .HasForeignKey(pp => pp.PermissaoId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -94,17 +94,11 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
         public void Configure(EntityTypeBuilder<SegPerfilPermissao> builder)
         {
             builder.ToTable("seg_perfis_permissoes");
-            builder.HasKey(pp => pp.Id);
+            builder.HasKey(pp => new { pp.PerfilId, pp.PermissaoId });
 
             builder.Property(pp => pp.PerfilId).HasColumnName("perfil_id").IsRequired();
             builder.Property(pp => pp.PermissaoId).HasColumnName("permissao_id").IsRequired();
-            builder.Property(pp => pp.CreatedAt).HasColumnName("created_at");
-            builder.Ignore(pp => pp.IsDeleted);
-            builder.Ignore(pp => pp.DeletedAt);
-            // seg_perfis_permissoes não tem Updated_At
-            builder.Ignore(pp => pp.UpdatedAt);
-
-            builder.HasIndex(pp => new { pp.PerfilId, pp.PermissaoId }).IsUnique().HasDatabaseName("UQ_seg_perfis_permissoes");
+            builder.Property(pp => pp.CreatedAt).HasColumnName("created_at").IsRequired();
         }
     }
 
@@ -145,7 +139,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
             builder.HasMany(u => u.UsuariosPerfis)
                 .WithOne(up => up.Usuario)
                 .HasForeignKey(up => up.UsuarioId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(u => u.AuditLogs)
                 .WithOne(al => al.Usuario)
@@ -159,17 +153,12 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.SegurancaConfig
         public void Configure(EntityTypeBuilder<SegUsuarioPerfil> builder)
         {
             builder.ToTable("seg_usuarios_perfis");
-            builder.HasKey(up => up.Id);
+            builder.HasKey(up => new { up.UsuarioId, up.PerfilId });
 
             builder.Property(up => up.UsuarioId).HasColumnName("usuario_id").IsRequired();
             builder.Property(up => up.PerfilId).HasColumnName("perfil_id").IsRequired();
             builder.Property(up => up.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)").IsRequired();
-            builder.Property(up => up.CreatedAt).HasColumnName("created_at");
-            builder.Ignore(up => up.UpdatedAt);
-            builder.Ignore(up => up.IsDeleted);
-            builder.Ignore(up => up.DeletedAt);
-
-            builder.HasIndex(up => new { up.UsuarioId, up.PerfilId }).IsUnique().HasDatabaseName("UQ_seg_usuarios_perfis");
+            builder.Property(up => up.CreatedAt).HasColumnName("created_at").IsRequired();
         }
     }
 

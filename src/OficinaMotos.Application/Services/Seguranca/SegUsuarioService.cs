@@ -93,7 +93,7 @@ namespace OficinaMotos.Application.Services.Seguranca
                 {
                     foreach (var antigo in perfisAtuais)
                     {
-                        await _usuarioPerfilRepository.DeleteAsync(antigo.Id);
+                        await _usuarioPerfilRepository.DeleteAsync(antigo.UsuarioId, antigo.PerfilId);
                     }
                     await _usuarioPerfilRepository.AddAsync(new SegUsuarioPerfil
                     {

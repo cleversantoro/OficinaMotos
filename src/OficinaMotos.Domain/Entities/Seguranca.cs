@@ -53,10 +53,11 @@ namespace OficinaMotos.Domain.Entities
     // ──────────────────────────────────────────────
     // seg_perfis_permissoes
     // ──────────────────────────────────────────────
-    public class SegPerfilPermissao : BaseEntity
+    public class SegPerfilPermissao
     {
         public long PerfilId { get; set; }
         public long PermissaoId { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public SegPerfil? Perfil { get; set; }
         public SegPermissao? Permissao { get; set; }
@@ -111,11 +112,12 @@ namespace OficinaMotos.Domain.Entities
     // ──────────────────────────────────────────────
     // seg_usuarios_perfis
     // ──────────────────────────────────────────────
-    public class SegUsuarioPerfil : BaseEntity
+    public class SegUsuarioPerfil
     {
         public long UsuarioId { get; set; }
         public long PerfilId { get; set; }
         public bool Ativo { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public SegUsuario? Usuario { get; set; }
         public SegPerfil? Perfil { get; set; }

@@ -26,9 +26,9 @@ namespace OficinaMotos.Application.Services.Fornecedor
             return _mapper.Map<List<FornecedorSegmentoRelResponseDTO>>(items);
         }
 
-        public async Task<FornecedorSegmentoRelResponseDTO?> GetByIdAsync(long id)
+        public async Task<FornecedorSegmentoRelResponseDTO?> GetByKeysAsync(long fornecedorId, long segmentoId)
         {
-            var item = await _repository.GetByIdAsync(id);
+            var item = await _repository.GetByKeysAsync(fornecedorId, segmentoId);
             return _mapper.Map<FornecedorSegmentoRelResponseDTO?>(item);
         }
 
@@ -39,25 +39,10 @@ namespace OficinaMotos.Application.Services.Fornecedor
             return _mapper.Map<FornecedorSegmentoRelResponseDTO>(created);
         }
 
-        public async Task<FornecedorSegmentoRelResponseDTO?> UpdateAsync(long id, UpdateFornecedorSegmentoRelDTO request)
+        public async Task<bool> DeleteAsync(long fornecedorId, long segmentoId)
         {
-            var entity = await _repository.GetByIdAsync(id);
-            if (entity == null) return null;
-
-            entity.FornecedorId = request.FornecedorId;
-            entity.SegmentoId = request.SegmentoId;
-            entity.Principal = request.Principal;
-            entity.Observacoes = request.Observacoes;
-            entity.SetUpdated();
-
-            await _repository.UpdateAsync(entity);
-            return _mapper.Map<FornecedorSegmentoRelResponseDTO>(entity);
-        }
-
-        public async Task<bool> DeleteAsync(long id)
-        {
-            if (!await _repository.ExistsAsync(id)) return false;
-            await _repository.DeleteAsync(id);
+            if (!await _repository.ExistsAsync(fornecedorId, segmentoId)) return false;
+            await _repository.DeleteAsync(fornecedorId, segmentoId);
             return true;
         }
     }

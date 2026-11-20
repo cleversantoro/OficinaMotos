@@ -56,12 +56,11 @@ namespace OficinaMotos.Domain.Entities
         public ICollection<FinanceiroPagamento> Pagamentos { get; set; } = new HashSet<FinanceiroPagamento>();
     }
 
-    public class FornecedorSegmentoRel : BaseEntity
+    public class FornecedorSegmentoRel
     {
         public long FornecedorId { get; set; }
         public long SegmentoId { get; set; }
-        public bool Principal { get; set; }
-        public string? Observacoes { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public Fornecedor? Fornecedor { get; set; }
         public FornecedorSegmento? Segmento { get; set; }

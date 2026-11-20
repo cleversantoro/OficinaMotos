@@ -8,9 +8,8 @@ namespace OficinaMotos.Application.Interfaces.Fornecedor
     public interface IFornecedorSegmentoRelService
     {
         Task<List<FornecedorSegmentoRelResponseDTO>> GetAllAsync();
-        Task<FornecedorSegmentoRelResponseDTO?> GetByIdAsync(long id);
+        Task<FornecedorSegmentoRelResponseDTO?> GetByKeysAsync(long fornecedorId, long segmentoId);
         Task<FornecedorSegmentoRelResponseDTO> CreateAsync(CreateFornecedorSegmentoRelDTO request);
-        Task<FornecedorSegmentoRelResponseDTO?> UpdateAsync(long id, UpdateFornecedorSegmentoRelDTO request);
-        Task<bool> DeleteAsync(long id);
+        Task<bool> DeleteAsync(long fornecedorId, long segmentoId);
     }
 }
