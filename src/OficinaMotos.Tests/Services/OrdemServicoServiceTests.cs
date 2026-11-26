@@ -48,7 +48,7 @@ namespace OficinaMotos.Tests.Services
                 ClienteId = 10,
                 VeiculoId = null,
                 DescricaoProblema = "Troca de pastilha de freio dianteiro",
-                Status = OrdemServicoStatus.Aberta
+                Status = OrdemServicoEnum.Aberta
             };
             _repositoryMock.Setup(r => r.AddAsync(It.IsAny<OrdemServico>()))
                 .ReturnsAsync((OrdemServico o) => o);
@@ -72,7 +72,7 @@ namespace OficinaMotos.Tests.Services
                 MecanicoId = 5,
                 VeiculoId = 25,
                 DescricaoProblema = "Revisão de 10.000 km",
-                Status = OrdemServicoStatus.Aberta
+                Status = OrdemServicoEnum.Aberta
             }.WithId(101);
 
             _repositoryMock
@@ -84,19 +84,19 @@ namespace OficinaMotos.Tests.Services
                 .Returns(Task.CompletedTask);
 
             // Act 1: Aberta -> EmAndamento
-            var emAndamentoResult = await _sut.ChangeStatusAsync(101, OrdemServicoStatus.EmAndamento);
+            var emAndamentoResult = await _sut.ChangeStatusAsync(101, OrdemServicoEnum.EmAndamento);
 
             // Assert 1
             emAndamentoResult.Should().NotBeNull();
-            emAndamentoResult!.Status.Should().Be(OrdemServicoStatus.EmAndamento);
-            ordem.Status.Should().Be(OrdemServicoStatus.EmAndamento);
+            emAndamentoResult!.Status.Should().Be(OrdemServicoEnum.EmAndamento);
+            ordem.Status.Should().Be(OrdemServicoEnum.EmAndamento);
 
             // Act 2: EmAndamento -> Concluida
-            var concluidaResult = await _sut.ChangeStatusAsync(101, OrdemServicoStatus.Concluida);
+            var concluidaResult = await _sut.ChangeStatusAsync(101, OrdemServicoEnum.Concluida);
 
             // Assert 2
             concluidaResult.Should().NotBeNull();
-            concluidaResult!.Status.Should().Be(OrdemServicoStatus.Concluida);
+            concluidaResult!.Status.Should().Be(OrdemServicoEnum.Concluida);
             concluidaResult.DataConclusao.Should().NotBeNull();
             _repositoryMock.Verify(r => r.UpdateAsync(It.Is<OrdemServico>(o => o.Id == 101)), Times.Exactly(2));
         }
@@ -111,7 +111,7 @@ namespace OficinaMotos.Tests.Services
                 MecanicoId = 5,
                 VeiculoId = 25,
                 DescricaoProblema = "Ordem já cancelada",
-                Status = OrdemServicoStatus.Cancelada
+                Status = OrdemServicoEnum.Cancelada
             }.WithId(202);
 
             _repositoryMock
@@ -119,7 +119,7 @@ namespace OficinaMotos.Tests.Services
                 .ReturnsAsync(ordemCancelada);
 
             // Act
-            Func<Task> act = async () => await _sut.ChangeStatusAsync(202, OrdemServicoStatus.EmAndamento);
+            Func<Task> act = async () => await _sut.ChangeStatusAsync(202, OrdemServicoEnum.EmAndamento);
 
             // Assert
             await act.Should()
@@ -139,7 +139,7 @@ namespace OficinaMotos.Tests.Services
                 MecanicoId = 5,
                 VeiculoId = 25,
                 DescricaoProblema = "Revisão completa com troca de óleo, filtro e mão de obra",
-                Status = OrdemServicoStatus.EmAndamento,
+                Status = OrdemServicoEnum.EmAndamento,
                 Itens = new List<OrdemServicoItem>
                 {
                     // Peça 1: 2x Óleo 10W40 (R$ 45,00 un = R$ 90,00)
@@ -205,7 +205,7 @@ namespace OficinaMotos.Tests.Services
                     Modelo = new VeiculoModelo { Nome = "CB 500F" }.WithId(10)
                 }.WithId(3),
                 DescricaoProblema = "Revisão completa",
-                Status = OrdemServicoStatus.Aberta
+                Status = OrdemServicoEnum.Aberta
             }.WithId(1);
 
             _repositoryMock

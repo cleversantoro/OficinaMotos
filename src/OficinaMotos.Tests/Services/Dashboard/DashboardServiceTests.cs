@@ -45,22 +45,22 @@ namespace OficinaMotos.Tests.Services.Dashboard
             {
                 WithId(new OrdemServico
                 {
-                    Status = OrdemServicoStatus.Aberta,
+                    Status = OrdemServicoEnum.Aberta,
                     DataAbertura = hoje
                 }, 1),
                 WithId(new OrdemServico
                 {
-                    Status = OrdemServicoStatus.EmAndamento,
+                    Status = OrdemServicoEnum.EmAndamento,
                     DataAbertura = hoje.AddDays(-2)
                 }, 2),
                 WithId(new OrdemServico
                 {
-                    Status = OrdemServicoStatus.AguardandoPeca,
+                    Status = OrdemServicoEnum.AguardandoPeca,
                     DataAbertura = hoje
                 }, 3),
                 WithId(new OrdemServico
                 {
-                    Status = OrdemServicoStatus.Concluida,
+                    Status = OrdemServicoEnum.Concluida,
                     DataAbertura = hoje.AddDays(-3),
                     DataConclusao = hoje,
                     Itens = new List<OrdemServicoItem>
@@ -71,7 +71,7 @@ namespace OficinaMotos.Tests.Services.Dashboard
                 }, 4),
                 WithId(new OrdemServico
                 {
-                    Status = OrdemServicoStatus.Concluida,
+                    Status = OrdemServicoEnum.Concluida,
                     DataAbertura = mesAnterior,
                     DataConclusao = mesAnterior,
                     Itens = new List<OrdemServicoItem>
@@ -81,7 +81,7 @@ namespace OficinaMotos.Tests.Services.Dashboard
                 }, 5),
                 WithId(new OrdemServico
                 {
-                    Status = OrdemServicoStatus.Cancelada,
+                    Status = OrdemServicoEnum.Cancelada,
                     DataAbertura = hoje.AddDays(-5)
                 }, 6)
             };

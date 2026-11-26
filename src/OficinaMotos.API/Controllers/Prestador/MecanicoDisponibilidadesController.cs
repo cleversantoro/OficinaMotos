@@ -3,7 +3,7 @@ using OficinaMotos.Application.DTOs.Requests.Mecanico;
 using OficinaMotos.Application.DTOs.Responses.Mecanico;
 using OficinaMotos.Application.Interfaces.Mecanico;
 
-namespace OficinaMotos.API.Controllers
+namespace OficinaMotos.API.Controllers.Prestador
 {
     [ApiController]
     [Route("api/v1/[controller]")]

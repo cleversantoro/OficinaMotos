@@ -171,11 +171,11 @@ namespace OficinaMotos.Tests.Domain
         [Fact]
         public void OrdemServicoStatus_ShouldHaveExpectedValues()
         {
-            Assert.Equal(1, (int)OrdemServicoStatus.Aberta);
-            Assert.Equal(2, (int)OrdemServicoStatus.EmAndamento);
-            Assert.Equal(3, (int)OrdemServicoStatus.AguardandoPeca);
-            Assert.Equal(4, (int)OrdemServicoStatus.Concluida);
-            Assert.Equal(5, (int)OrdemServicoStatus.Cancelada);
+            Assert.Equal(1, (int)OrdemServicoEnum.Aberta);
+            Assert.Equal(2, (int)OrdemServicoEnum.EmAndamento);
+            Assert.Equal(3, (int)OrdemServicoEnum.AguardandoPeca);
+            Assert.Equal(4, (int)OrdemServicoEnum.Concluida);
+            Assert.Equal(5, (int)OrdemServicoEnum.Cancelada);
         }
 
         [Fact]
@@ -187,7 +187,7 @@ namespace OficinaMotos.Tests.Domain
                 DescricaoProblema = "Teste"
             };
 
-            Assert.Equal(OrdemServicoStatus.Aberta, ordem.Status);
+            Assert.Equal(OrdemServicoEnum.Aberta, ordem.Status);
         }
 
         [Fact]
@@ -211,11 +211,11 @@ namespace OficinaMotos.Tests.Domain
                 ClienteId = 1,
                 VeiculoId = 42,
                 DescricaoProblema = "Teste",
-                Status = OrdemServicoStatus.EmAndamento
+                Status = OrdemServicoEnum.EmAndamento
             };
 
             Assert.Equal(42L, dto.VeiculoId);
-            Assert.Equal(OrdemServicoStatus.EmAndamento, dto.Status);
+            Assert.Equal(OrdemServicoEnum.EmAndamento, dto.Status);
         }
 
         [Fact]
@@ -226,7 +226,7 @@ namespace OficinaMotos.Tests.Domain
                 Id = 1,
                 ClienteId = 10,
                 DescricaoProblema = "Teste de status",
-                Status = OrdemServicoStatus.AguardandoPeca,
+                Status = OrdemServicoEnum.AguardandoPeca,
                 DataAbertura = DateTime.UtcNow
             };
 
@@ -250,17 +250,17 @@ namespace OficinaMotos.Tests.Domain
             });
 
             Assert.NotNull(dto);
-            Assert.Equal(OrdemServicoStatus.Concluida, dto!.Status);
+            Assert.Equal(OrdemServicoEnum.Concluida, dto!.Status);
         }
 
         [Theory]
-        [InlineData("ABERTA", OrdemServicoStatus.Aberta)]
-        [InlineData("EM_ANDAMENTO", OrdemServicoStatus.EmAndamento)]
-        [InlineData("AGUARDANDO_PECA", OrdemServicoStatus.AguardandoPeca)]
-        [InlineData("AGUARDANDO_APROVACAO", OrdemServicoStatus.AguardandoPeca)]
-        [InlineData("CONCLUIDA", OrdemServicoStatus.Concluida)]
-        [InlineData("CANCELADA", OrdemServicoStatus.Cancelada)]
-        public void OrdemServicoStatus_ShouldParseLegacyDatabaseValues(string value, OrdemServicoStatus expected)
+        [InlineData("ABERTA", OrdemServicoEnum.Aberta)]
+        [InlineData("EM_ANDAMENTO", OrdemServicoEnum.EmAndamento)]
+        [InlineData("AGUARDANDO_PECA", OrdemServicoEnum.AguardandoPeca)]
+        [InlineData("AGUARDANDO_APROVACAO", OrdemServicoEnum.AguardandoPeca)]
+        [InlineData("CONCLUIDA", OrdemServicoEnum.Concluida)]
+        [InlineData("CANCELADA", OrdemServicoEnum.Cancelada)]
+        public void OrdemServicoStatus_ShouldParseLegacyDatabaseValues(string value, OrdemServicoEnum expected)
         {
             Assert.Equal(expected, OrdemServicoStatusExtensions.ParseLegacy(value));
         }

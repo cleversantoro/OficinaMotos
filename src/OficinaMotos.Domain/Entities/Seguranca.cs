@@ -27,8 +27,10 @@ namespace OficinaMotos.Domain.Entities
     {
         public string Nome { get; set; } = string.Empty;
         public string? Descricao { get; set; }
-        /// <summary>1 = máximo acesso; valores maiores = acesso mais restrito.</summary>
-        public int Nivel { get; set; } = 99;
+
+        /// <summary>0 = padrão; valores maiores = acesso mais restrito.</summary>
+        public int Nivel { get; set; } = 0;
+        
         /// <summary>0 = Inativo | 1 = Ativo</summary>
         public int Status { get; set; } = 1;
 
@@ -42,11 +44,12 @@ namespace OficinaMotos.Domain.Entities
     public class SegPermissao : BaseEntity
     {
         public long ModuloId { get; set; }
+        public SegModulo? Modulo { get; set; }
+        
         /// <summary>visualizar | criar | editar | excluir | exportar | aprovar</summary>
         public string Acao { get; set; } = string.Empty;
         public string? Descricao { get; set; }
 
-        public SegModulo? Modulo { get; set; }
         public ICollection<SegPerfilPermissao> PerfisPermissoes { get; set; } = new HashSet<SegPerfilPermissao>();
     }
 
@@ -56,11 +59,13 @@ namespace OficinaMotos.Domain.Entities
     public class SegPerfilPermissao
     {
         public long PerfilId { get; set; }
+        public SegPerfil? Perfil { get; set; }
+        
         public long PermissaoId { get; set; }
+        public SegPermissao? Permissao { get; set; }
+        
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public SegPerfil? Perfil { get; set; }
-        public SegPermissao? Permissao { get; set; }
     }
 
     // ──────────────────────────────────────────────
@@ -82,9 +87,10 @@ namespace OficinaMotos.Domain.Entities
         public DateTime? TokenResetExpiraEm { get; set; }
         public int TentativasLogin { get; set; } = 0;
         public DateTime? BloqueadoAte { get; set; }
+        
         public long? CriadoPor { get; set; }
-
         public SegUsuario? CriadoPorUsuario { get; set; }
+
         public ICollection<SegUsuarioPerfil> UsuariosPerfis { get; set; } = new HashSet<SegUsuarioPerfil>();
         public ICollection<SegAuditLog> AuditLogs { get; set; } = new HashSet<SegAuditLog>();
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new HashSet<RefreshToken>();
@@ -115,12 +121,13 @@ namespace OficinaMotos.Domain.Entities
     public class SegUsuarioPerfil
     {
         public long UsuarioId { get; set; }
+        public SegUsuario? Usuario { get; set; }
+        
         public long PerfilId { get; set; }
+        public SegPerfil? Perfil { get; set; }
+        
         public bool Ativo { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public SegUsuario? Usuario { get; set; }
-        public SegPerfil? Perfil { get; set; }
     }
 
     // ──────────────────────────────────────────────
@@ -130,20 +137,25 @@ namespace OficinaMotos.Domain.Entities
     {
         /// <summary>NULL para eventos sem autenticação (ex.: LOGIN_FAIL).</summary>
         public long? UsuarioId { get; set; }
+        public SegUsuario? Usuario { get; set; }
         public string? Login { get; set; }
+        
         /// <summary>LOGIN | LOGOUT | LOGIN_FAIL | CREATE | UPDATE | DELETE | VIEW | EXPORT | APPROVE</summary>
         public string Acao { get; set; } = string.Empty;
+        
         public string? Modulo { get; set; }
         public string? Tabela { get; set; }
         public string? RegistroId { get; set; }
         public string? Descricao { get; set; }
+        
         /// <summary>JSON com os dados antes da alteração.</summary>
         public string? DadosAntes { get; set; }
+        
         /// <summary>JSON com os dados após a alteração.</summary>
         public string? DadosDepois { get; set; }
+        
         public string? Ip { get; set; }
         public string? UserAgent { get; set; }
 
-        public SegUsuario? Usuario { get; set; }
     }
 }

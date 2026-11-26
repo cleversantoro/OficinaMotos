@@ -14,7 +14,7 @@ namespace OficinaMotos.Application.DTOs.Requests.OrdemServico
         [Required]
         [StringLength(500)]
         public string DescricaoProblema { get; set; } = string.Empty;
-        public OrdemServicoStatus Status { get; set; } = OrdemServicoStatus.Aberta;
+        public OrdemServicoEnum Status { get; set; } = OrdemServicoEnum.Aberta;
         public DateTime? DataAbertura { get; set; }
         public DateTime? DataConclusao { get; set; }
     }

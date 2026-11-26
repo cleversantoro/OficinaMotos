@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Financeiro\ContasPagarPagamentosController.cs" />
+    <Compile Remove="Controllers\Financeiro\ContasReceberPagamentosController.cs" />
+    <Compile Remove="Controllers\Fornecedor\FornecedorContatosController.cs" />
+    <Compile Remove="Controllers\Fornecedor\FornecedorDocumentosController.cs" />
+    <Compile Remove="Controllers\Fornecedor\FornecedorEnderecosController.cs" />
+    <Compile Remove="Controllers\Mecanico\MecanicoContatosController.cs" />
+    <Compile Remove="Controllers\Mecanico\MecanicoDocumentosController.cs" />
+    <Compile Remove="Controllers\Mecanico\MecanicoEnderecosController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="17.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.22" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.22">

@@ -82,7 +82,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             entity.DescricaoProblema = request.DescricaoProblema;
             entity.Status = request.Status;
             entity.DataAbertura = request.DataAbertura ?? entity.DataAbertura;
-            entity.DataConclusao = request.Status == OrdemServicoStatus.Concluida
+            entity.DataConclusao = request.Status == OrdemServicoEnum.Concluida
                 ? (request.DataConclusao ?? entity.DataConclusao ?? DateTime.UtcNow)
                 : request.DataConclusao;
             entity.SetUpdated();
@@ -91,7 +91,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             return _mapper.Map<OrdemServicoResponseDTO>(entity);
         }
 
-        public async Task<OrdemServicoResponseDTO?> ChangeStatusAsync(long id, OrdemServicoStatus novoStatus)
+        public async Task<OrdemServicoResponseDTO?> ChangeStatusAsync(long id, OrdemServicoEnum novoStatus)
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null) return null;
@@ -99,7 +99,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             EnsureValidStatusTransition(entity.Status, novoStatus);
 
             entity.Status = novoStatus;
-            if (novoStatus == OrdemServicoStatus.Concluida && !entity.DataConclusao.HasValue)
+            if (novoStatus == OrdemServicoEnum.Concluida && !entity.DataConclusao.HasValue)
             {
                 entity.DataConclusao = DateTime.UtcNow;
             }
@@ -145,7 +145,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                 throw new KeyNotFoundException($"Ordem de serviço #{request.OrdemServicoId} não encontrada.");
             }
 
-            if (ordem.Status == OrdemServicoStatus.Cancelada)
+            if (ordem.Status == OrdemServicoEnum.Cancelada)
             {
                 throw new InvalidOperationException("Não é possível registrar pagamento em uma Ordem de Serviço cancelada.");
             }
@@ -173,7 +173,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
             if (totalItens > 0 && novoTotalPago >= totalItens)
             {
-                ordem.Status = OrdemServicoStatus.Concluida;
+                ordem.Status = OrdemServicoEnum.Concluida;
                 ordem.DataConclusao = DateTime.UtcNow;
                 ordem.SetUpdated();
 
@@ -211,26 +211,26 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             return response;
         }
 
-        private static void EnsureValidStatusTransition(OrdemServicoStatus statusAtual, OrdemServicoStatus novoStatus)
+        private static void EnsureValidStatusTransition(OrdemServicoEnum statusAtual, OrdemServicoEnum novoStatus)
         {
-            if (!Enum.IsDefined(typeof(OrdemServicoStatus), novoStatus))
+            if (!Enum.IsDefined(typeof(OrdemServicoEnum), novoStatus))
             {
                 throw new DomainException($"Status '{novoStatus}' inválido para Ordem de Serviço.");
             }
 
             var isValid = statusAtual switch
             {
-                OrdemServicoStatus.Aberta => novoStatus is OrdemServicoStatus.EmAndamento
-                    or OrdemServicoStatus.AguardandoPeca
-                    or OrdemServicoStatus.Cancelada,
-                OrdemServicoStatus.EmAndamento => novoStatus is OrdemServicoStatus.AguardandoPeca
-                    or OrdemServicoStatus.Concluida
-                    or OrdemServicoStatus.Cancelada,
-                OrdemServicoStatus.AguardandoPeca => novoStatus is OrdemServicoStatus.EmAndamento
-                    or OrdemServicoStatus.Concluida
-                    or OrdemServicoStatus.Cancelada,
-                OrdemServicoStatus.Concluida => false,
-                OrdemServicoStatus.Cancelada => false,
+                OrdemServicoEnum.Aberta => novoStatus is OrdemServicoEnum.EmAndamento
+                    or OrdemServicoEnum.AguardandoPeca
+                    or OrdemServicoEnum.Cancelada,
+                OrdemServicoEnum.EmAndamento => novoStatus is OrdemServicoEnum.AguardandoPeca
+                    or OrdemServicoEnum.Concluida
+                    or OrdemServicoEnum.Cancelada,
+                OrdemServicoEnum.AguardandoPeca => novoStatus is OrdemServicoEnum.EmAndamento
+                    or OrdemServicoEnum.Concluida
+                    or OrdemServicoEnum.Cancelada,
+                OrdemServicoEnum.Concluida => false,
+                OrdemServicoEnum.Cancelada => false,
                 _ => false
             };
 

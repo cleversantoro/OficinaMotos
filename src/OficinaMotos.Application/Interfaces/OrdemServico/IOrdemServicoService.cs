@@ -12,7 +12,7 @@ namespace OficinaMotos.Application.Interfaces.OrdemServico
         Task<OrdemServicoResponseDTO?> GetByIdAsync(long id);
         Task<OrdemServicoResponseDTO> CreateAsync(CreateOrdemServicoDTO request);
         Task<OrdemServicoResponseDTO?> UpdateAsync(long id, UpdateOrdemServicoDTO request);
-        Task<OrdemServicoResponseDTO?> ChangeStatusAsync(long id, OrdemServicoStatus novoStatus);
+        Task<OrdemServicoResponseDTO?> ChangeStatusAsync(long id, OrdemServicoEnum novoStatus);
         decimal CalculateTotal(Domain.Entities.OrdemServico ordem);
         Task<decimal> CalculateTotalAsync(long id);
         Task<bool> DeleteAsync(long id);

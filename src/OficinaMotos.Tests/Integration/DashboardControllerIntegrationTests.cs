@@ -106,7 +106,7 @@ namespace OficinaMotos.Tests.Integration
                         Mecanico = mecanico,
                         Veiculo = veiculo,
                         DescricaoProblema = "Troca de relação",
-                        Status = OrdemServicoStatus.Aberta,
+                        Status = OrdemServicoEnum.Aberta,
                         DataAbertura = hoje
                     },
                     new OrdemServico
@@ -115,7 +115,7 @@ namespace OficinaMotos.Tests.Integration
                         Mecanico = mecanico,
                         Veiculo = veiculo,
                         DescricaoProblema = "Revisão completa",
-                        Status = OrdemServicoStatus.Concluida,
+                        Status = OrdemServicoEnum.Concluida,
                         DataAbertura = hoje,
                         DataConclusao = hoje,
                         Itens = new List<OrdemServicoItem>

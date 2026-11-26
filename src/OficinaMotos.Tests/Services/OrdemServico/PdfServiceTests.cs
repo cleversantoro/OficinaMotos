@@ -37,7 +37,7 @@ namespace OficinaMotos.Tests.Services.OrdemServicoPdf
                 ClienteId = 7,
                 VeiculoId = 15,
                 MecanicoId = 3,
-                Status = OrdemServicoStatus.EmAndamento,
+                Status = OrdemServicoEnum.EmAndamento,
                 DataAbertura = new DateTime(2026, 11, 16, 10, 30, 0, DateTimeKind.Utc),
                 DescricaoProblema = "Revisão completa de freios e troca de óleo.",
                 Cliente = WithId(new Cliente { Nome = "João Silva", NomeExibicao = "João Silva", Documento = "123.456.789-00" }, 7),
@@ -97,7 +97,7 @@ namespace OficinaMotos.Tests.Services.OrdemServicoPdf
                 ClienteId = 1,
                 VeiculoId = 1,
                 MecanicoId = 1,
-                Status = OrdemServicoStatus.Aberta,
+                Status = OrdemServicoEnum.Aberta,
                 DescricaoProblema = "Troca de relação"
             }, 10));
 

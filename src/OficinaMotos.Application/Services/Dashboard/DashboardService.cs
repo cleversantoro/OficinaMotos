@@ -42,12 +42,12 @@ namespace OficinaMotos.Application.Services.Dashboard
 
             // T-032.3 — Query OS abertas e do dia + OS por status
             var osAbertas = ordens.Count(o =>
-                o.Status != OrdemServicoStatus.Concluida &&
-                o.Status != OrdemServicoStatus.Cancelada);
+                o.Status != OrdemServicoEnum.Concluida &&
+                o.Status != OrdemServicoEnum.Cancelada);
 
             var osDoDia = ordens.Count(o => o.DataAbertura.Date == hoje);
 
-            var osPorStatus = Enum.GetValues<OrdemServicoStatus>()
+            var osPorStatus = Enum.GetValues<OrdemServicoEnum>()
                 .Select(status => new DashboardOsStatusCountDTO
                 {
                     Status = status.ToString(),
@@ -58,7 +58,7 @@ namespace OficinaMotos.Application.Services.Dashboard
 
             // T-032.4 — Query faturamento mensal e série dos últimos 6 meses
             var osConcluidasNoMes = ordens
-                .Where(o => o.Status == OrdemServicoStatus.Concluida)
+                .Where(o => o.Status == OrdemServicoEnum.Concluida)
                 .Where(o =>
                 {
                     var dataComp = o.DataConclusao ?? o.DataAbertura;
@@ -76,7 +76,7 @@ namespace OficinaMotos.Application.Services.Dashboard
             {
                 var mesAlvo = inicioMesReferencia.AddMonths(-offset);
                 var osDoMes = ordens
-                    .Where(o => o.Status == OrdemServicoStatus.Concluida)
+                    .Where(o => o.Status == OrdemServicoEnum.Concluida)
                     .Where(o =>
                     {
                         var dataComp = o.DataConclusao ?? o.DataAbertura;
@@ -169,13 +169,13 @@ namespace OficinaMotos.Application.Services.Dashboard
             return agora;
         }
 
-        private static string ObterLabelStatus(OrdemServicoStatus status) => status switch
+        private static string ObterLabelStatus(OrdemServicoEnum status) => status switch
         {
-            OrdemServicoStatus.Aberta => "Aberta",
-            OrdemServicoStatus.EmAndamento => "Em Andamento",
-            OrdemServicoStatus.AguardandoPeca => "Aguardando Peça",
-            OrdemServicoStatus.Concluida => "Concluída",
-            OrdemServicoStatus.Cancelada => "Cancelada",
+            OrdemServicoEnum.Aberta => "Aberta",
+            OrdemServicoEnum.EmAndamento => "Em Andamento",
+            OrdemServicoEnum.AguardandoPeca => "Aguardando Peça",
+            OrdemServicoEnum.Concluida => "Concluída",
+            OrdemServicoEnum.Cancelada => "Cancelada",
             _ => status.ToString()
         };
     }

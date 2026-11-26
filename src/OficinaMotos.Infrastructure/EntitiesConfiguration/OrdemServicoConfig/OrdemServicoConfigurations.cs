@@ -34,7 +34,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
                     v => OrdemServicoStatusExtensions.ParseLegacy(v))
                 .HasColumnName("status")
                 .HasMaxLength(50)
-                .HasDefaultValue(OrdemServicoStatus.Aberta);
+                .HasDefaultValue(OrdemServicoEnum.Aberta);
             builder.Property(e => e.DataAbertura).HasColumnName("data_abertura");
             builder.Property(e => e.DataConclusao).HasColumnName("data_conclusao");
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");

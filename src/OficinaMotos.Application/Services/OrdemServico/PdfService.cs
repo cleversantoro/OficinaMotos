@@ -303,13 +303,13 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
         private static string FormatCurrency(decimal value) => value.ToString("C2", PtBr);
 
-        private static string FormatStatus(OrdemServicoStatus status) => status switch
+        private static string FormatStatus(OrdemServicoEnum status) => status switch
         {
-            OrdemServicoStatus.Aberta => "Aberta",
-            OrdemServicoStatus.EmAndamento => "Em Andamento",
-            OrdemServicoStatus.AguardandoPeca => "Aguardando Peça",
-            OrdemServicoStatus.Concluida => "Concluída",
-            OrdemServicoStatus.Cancelada => "Cancelada",
+            OrdemServicoEnum.Aberta => "Aberta",
+            OrdemServicoEnum.EmAndamento => "Em Andamento",
+            OrdemServicoEnum.AguardandoPeca => "Aguardando Peça",
+            OrdemServicoEnum.Concluida => "Concluída",
+            OrdemServicoEnum.Cancelada => "Cancelada",
             _ => status.ToString()
         };
     }

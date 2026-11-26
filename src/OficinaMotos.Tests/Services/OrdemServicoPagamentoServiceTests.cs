@@ -44,7 +44,7 @@ namespace OficinaMotos.Tests.Services
                 VeiculoId = 1,
                 MecanicoId = mecanico.Id,
                 DescricaoProblema = "Revisão geral",
-                Status = OrdemServicoStatus.EmAndamento,
+                Status = OrdemServicoEnum.EmAndamento,
                 Itens = new List<OrdemServicoItem>
                 {
                     new OrdemServicoItem { Descricao = "Óleo", Quantidade = 2, ValorUnitario = 50, Total = 100 },
@@ -71,11 +71,11 @@ namespace OficinaMotos.Tests.Services
             Assert.NotNull(result);
             Assert.Equal(250m, result.Valor);
             Assert.Equal("PIX", result.Metodo);
-            Assert.Equal(OrdemServicoStatus.Concluida.ToString(), result.StatusOrdemServico);
+            Assert.Equal(OrdemServicoEnum.Concluida.ToString(), result.StatusOrdemServico);
 
             var updatedOs = await osRepo.GetByIdAsync(os.Id);
             Assert.NotNull(updatedOs);
-            Assert.Equal(OrdemServicoStatus.Concluida, updatedOs.Status);
+            Assert.Equal(OrdemServicoEnum.Concluida, updatedOs.Status);
             Assert.NotNull(updatedOs.DataConclusao);
 
             var contasReceber = await crRepo.GetAllAsync();
@@ -105,7 +105,7 @@ namespace OficinaMotos.Tests.Services
                 VeiculoId = 1,
                 MecanicoId = mecanico.Id,
                 DescricaoProblema = "Troca de relação",
-                Status = OrdemServicoStatus.EmAndamento,
+                Status = OrdemServicoEnum.EmAndamento,
                 Itens = new List<OrdemServicoItem>
                 {
                     new OrdemServicoItem { Descricao = "Kit Relação", Quantidade = 1, ValorUnitario = 400, Total = 400 }
@@ -129,11 +129,11 @@ namespace OficinaMotos.Tests.Services
             // Assert
             Assert.NotNull(result);
             Assert.Equal(150m, result.Valor);
-            Assert.Equal(OrdemServicoStatus.EmAndamento.ToString(), result.StatusOrdemServico);
+            Assert.Equal(OrdemServicoEnum.EmAndamento.ToString(), result.StatusOrdemServico);
 
             var updatedOs = await osRepo.GetByIdAsync(os.Id);
             Assert.NotNull(updatedOs);
-            Assert.Equal(OrdemServicoStatus.EmAndamento, updatedOs.Status);
+            Assert.Equal(OrdemServicoEnum.EmAndamento, updatedOs.Status);
             Assert.Null(updatedOs.DataConclusao);
         }
 
@@ -154,7 +154,7 @@ namespace OficinaMotos.Tests.Services
                 ClienteId = cliente.Id,
                 MecanicoId = mecanico.Id,
                 DescricaoProblema = "Cancelada pelo cliente",
-                Status = OrdemServicoStatus.Cancelada
+                Status = OrdemServicoEnum.Cancelada
             };
             await osRepo.AddAsync(os);
             context.ChangeTracker.Clear();
