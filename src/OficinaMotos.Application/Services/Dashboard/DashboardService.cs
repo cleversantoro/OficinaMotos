@@ -2,7 +2,7 @@ using OficinaMotos.Application.DTOs.Responses.Dashboard;
 using OficinaMotos.Application.Interfaces.Dashboard;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Enums;
-using OficinaMotos.Domain.Interfaces.Repositories.Estoque;
+using OficinaMotos.Domain.Interfaces.Repositories.EstoqueRepo;
 using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
 using System;
 using System.Collections.Generic;
@@ -37,10 +37,10 @@ namespace OficinaMotos.Application.Services.Dashboard
             var inicioMesReferencia = new DateTime(dataReferencia.Year, dataReferencia.Month, 1, 0, 0, 0, DateTimeKind.Utc);
             var hoje = DateTime.UtcNow.Date;
 
-            var ordens = await _ordemServicoRepository.GetAllAsync() ?? new List<OrdemServico>();
+            var ordens = await _ordemServicoRepository.GetAllAsync() ?? new List<Domain.Entities.OrdemServico>();
             var pecas = await _estoquePecaRepository.GetAllAsync() ?? new List<EstoquePeca>();
 
-            // T-032.3 — Query OS abertas e do dia + OS por status
+            // T-032.3 â€” Query OS abertas e do dia + OS por status
             var osAbertas = ordens.Count(o =>
                 o.Status != OrdemServicoEnum.Concluida &&
                 o.Status != OrdemServicoEnum.Cancelada);
@@ -56,7 +56,7 @@ namespace OficinaMotos.Application.Services.Dashboard
                 })
                 .ToList();
 
-            // T-032.4 — Query faturamento mensal e série dos últimos 6 meses
+            // T-032.4 â€” Query faturamento mensal e sÃ©rie dos Ãºltimos 6 meses
             var osConcluidasNoMes = ordens
                 .Where(o => o.Status == OrdemServicoEnum.Concluida)
                 .Where(o =>
@@ -96,7 +96,7 @@ namespace OficinaMotos.Application.Services.Dashboard
                 });
             }
 
-            // T-032.5 & T-034.1 — Query peças com qtd_atual < qtd_minima (QuantidadeEstoque < EstoqueMinimo)
+            // T-032.5 & T-034.1 â€” Query peÃ§as com qtd_atual < qtd_minima (QuantidadeEstoque < EstoqueMinimo)
             var pecasCriticas = pecas
                 .Where(p => p.QuantidadeEstoque < p.EstoqueMinimo)
                 .OrderByDescending(p => p.EstoqueMinimo - p.QuantidadeEstoque)
@@ -128,7 +128,7 @@ namespace OficinaMotos.Application.Services.Dashboard
             };
         }
 
-        private static decimal CalcularValorOrdemServico(OrdemServico os)
+        private static decimal CalcularValorOrdemServico(Domain.Entities.OrdemServico os)
         {
             if (os.Itens != null && os.Itens.Count > 0)
             {
@@ -173,8 +173,8 @@ namespace OficinaMotos.Application.Services.Dashboard
         {
             OrdemServicoEnum.Aberta => "Aberta",
             OrdemServicoEnum.EmAndamento => "Em Andamento",
-            OrdemServicoEnum.AguardandoPeca => "Aguardando Peça",
-            OrdemServicoEnum.Concluida => "Concluída",
+            OrdemServicoEnum.AguardandoPeca => "Aguardando PeÃ§a",
+            OrdemServicoEnum.Concluida => "ConcluÃ­da",
             OrdemServicoEnum.Cancelada => "Cancelada",
             _ => status.ToString()
         };

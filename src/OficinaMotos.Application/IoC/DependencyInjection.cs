@@ -1,4 +1,4 @@
-using OficinaMotos.Application.Services.Seguranca;
+﻿using OficinaMotos.Application.Services.Seguranca;
 using OficinaMotos.Application.Services.Dashboard;
 using AutoMapper;
 using FluentValidation;
@@ -10,7 +10,7 @@ using OficinaMotos.Application.Services.Estoque;
 using OficinaMotos.Application.Services.Financeiro;
 using OficinaMotos.Application.Services.Fornecedor;
 using OficinaMotos.Application.Services.Mecanico;
-using OficinaMotos.Application.Services.OrdemServicoRepo;
+using OficinaMotos.Application.Services.OrdemServico;
 using OficinaMotos.Application.Services.Veiculo;
 using QuestPDF.Infrastructure;
 using System.Reflection;
@@ -86,7 +86,7 @@ namespace OficinaMotos.Application.IoC
             services.AddScoped<Interfaces.Veiculo.IVeiculoMarcaService, VeiculoMarcaService>();
             services.AddScoped<Interfaces.Veiculo.IVeiculoModeloService, VeiculoModeloService>();
 
-            // Segurança
+            // SeguranÃ§a
             services.AddScoped<Interfaces.Seguranca.ISegModuloService, SegModuloService>();
             services.AddScoped<Interfaces.Seguranca.ISegPerfilService, SegPerfilService>();
             services.AddScoped<Interfaces.Seguranca.ISegPermissaoService, SegPermissaoService>();

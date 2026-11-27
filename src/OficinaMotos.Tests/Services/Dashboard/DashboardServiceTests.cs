@@ -1,10 +1,10 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using Moq;
 using OficinaMotos.Application.Services.Dashboard;
 using OficinaMotos.Domain.Common;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Enums;
-using OficinaMotos.Domain.Interfaces.Repositories.Estoque;
+using OficinaMotos.Domain.Interfaces.Repositories.EstoqueRepo;
 using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
 using System;
 using System.Collections.Generic;
@@ -99,7 +99,7 @@ namespace OficinaMotos.Tests.Services.Dashboard
                 WithId(new EstoquePeca
                 {
                     Codigo = "OLEO-10W30",
-                    Descricao = "Óleo Motor 10W30",
+                    Descricao = "Ã“leo Motor 10W30",
                     Quantidade = 1,
                     EstoqueMinimo = 10,
                     Unidade = "LT"
@@ -134,7 +134,7 @@ namespace OficinaMotos.Tests.Services.Dashboard
             result.OsPorStatus.Should().Contain(s => s.Status == "Concluida" && s.Quantidade == 2);
             result.OsPorStatus.Should().Contain(s => s.Status == "Cancelada" && s.Quantidade == 1);
 
-            // T-032.4: Faturamento mensal e série dos últimos 6 meses
+            // T-032.4: Faturamento mensal e sÃ©rie dos Ãºltimos 6 meses
             result.OsConcluidasMes.Should().Be(1);
             result.FaturamentoMensal.Should().Be(500m);
             result.TicketMedio.Should().Be(500m);
@@ -144,7 +144,7 @@ namespace OficinaMotos.Tests.Services.Dashboard
             result.FaturamentoUltimosSeisMeses[4].Mes.Should().Be($"{mesAnterior:yyyy-MM}");
             result.FaturamentoUltimosSeisMeses[4].Valor.Should().Be(800m);
 
-            // T-032.5 & T-034.1: Peças com qtd_atual < qtd_minima
+            // T-032.5 & T-034.1: PeÃ§as com qtd_atual < qtd_minima
             result.PecasAbaixoMinimo.Should().Be(2);
             result.PecasCriticas.Should().HaveCount(2);
             result.PecasCriticas[0].Id.Should().Be(11);

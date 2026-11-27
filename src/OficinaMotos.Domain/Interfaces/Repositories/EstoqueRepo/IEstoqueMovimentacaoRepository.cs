@@ -1,6 +1,6 @@
-using OficinaMotos.Domain.Entities;
+﻿using OficinaMotos.Domain.Entities;
 
-namespace OficinaMotos.Domain.Interfaces.Repositories.Estoque
+namespace OficinaMotos.Domain.Interfaces.Repositories.EstoqueRepo
 {
     public interface IEstoqueMovimentacaoRepository : IRepository<EstoqueMovimentacao>
     {

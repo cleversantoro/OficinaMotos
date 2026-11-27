@@ -1,5 +1,5 @@
-using FluentValidation;
-using OficinaMotos.Application.DTOs.Requests;
+﻿using FluentValidation;
+using OficinaMotos.Application.DTOs.Requests.Cliente;
 
 namespace OficinaMotos.Application.Validators.Cliente
 {

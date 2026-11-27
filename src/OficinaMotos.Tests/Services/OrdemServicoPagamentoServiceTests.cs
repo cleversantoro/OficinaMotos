@@ -1,5 +1,5 @@
-using OficinaMotos.Application.DTOs.Requests.OrdemServico;
-using OficinaMotos.Application.Services.OrdemServicoRepo;
+﻿using OficinaMotos.Application.DTOs.Requests.OrdemServico;
+using OficinaMotos.Application.Services.OrdemServico;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Enums;
 using OficinaMotos.Infrastructure.Context;
@@ -43,12 +43,12 @@ namespace OficinaMotos.Tests.Services
                 ClienteId = cliente.Id,
                 VeiculoId = 1,
                 MecanicoId = mecanico.Id,
-                DescricaoProblema = "Revisão geral",
+                DescricaoProblema = "RevisÃ£o geral",
                 Status = OrdemServicoEnum.EmAndamento,
                 Itens = new List<OrdemServicoItem>
                 {
-                    new OrdemServicoItem { Descricao = "Óleo", Quantidade = 2, ValorUnitario = 50, Total = 100 },
-                    new OrdemServicoItem { Descricao = "Mão de Obra", Quantidade = 1, ValorUnitario = 150, Total = 150 }
+                    new OrdemServicoItem { Descricao = "Ã“leo", Quantidade = 2, ValorUnitario = 50, Total = 100 },
+                    new OrdemServicoItem { Descricao = "MÃ£o de Obra", Quantidade = 1, ValorUnitario = 150, Total = 150 }
                 }
             };
             await osRepo.AddAsync(os);
@@ -104,11 +104,11 @@ namespace OficinaMotos.Tests.Services
                 ClienteId = cliente.Id,
                 VeiculoId = 1,
                 MecanicoId = mecanico.Id,
-                DescricaoProblema = "Troca de relação",
+                DescricaoProblema = "Troca de relaÃ§Ã£o",
                 Status = OrdemServicoEnum.EmAndamento,
                 Itens = new List<OrdemServicoItem>
                 {
-                    new OrdemServicoItem { Descricao = "Kit Relação", Quantidade = 1, ValorUnitario = 400, Total = 400 }
+                    new OrdemServicoItem { Descricao = "Kit RelaÃ§Ã£o", Quantidade = 1, ValorUnitario = 400, Total = 400 }
                 }
             };
             await osRepo.AddAsync(os);

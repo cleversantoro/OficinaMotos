@@ -1,8 +1,8 @@
-using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories.Fornecedor;
+﻿using OficinaMotos.Domain.Entities;
+using OficinaMotos.Domain.Interfaces.Repositories.FornecedorRepo;
 using OficinaMotos.Infrastructure.Context;
 
-namespace OficinaMotos.Infrastructure.Repositories.Fornecedor
+namespace OficinaMotos.Infrastructure.Repositories.FornecedorRepo
 {
     public class FornecedorCertificacaoRepository : Repository<FornecedorCertificacao>, IFornecedorCertificacaoRepository
     {

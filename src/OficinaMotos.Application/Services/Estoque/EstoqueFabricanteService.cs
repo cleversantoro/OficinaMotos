@@ -1,9 +1,9 @@
-using AutoMapper;
+﻿using AutoMapper;
 using OficinaMotos.Application.DTOs.Requests.Estoque;
 using OficinaMotos.Application.DTOs.Responses.Estoque;
 using OficinaMotos.Application.Interfaces.Estoque;
 using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories.Estoque;
+using OficinaMotos.Domain.Interfaces.Repositories.EstoqueRepo;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ namespace OficinaMotos.Application.Services.Estoque
         {
             if (await _repository.ExistsByNomeAsync(request.Nome))
             {
-                throw new Exception("Já existe um fabricante com esse nome.");
+                throw new Exception("JÃ¡ existe um fabricante com esse nome.");
             }
 
             var entity = _mapper.Map<EstoqueFabricante>(request);
@@ -58,7 +58,7 @@ namespace OficinaMotos.Application.Services.Estoque
                 var exists = await _repository.ExistsByNomeAsync(request.Nome);
                 if (exists)
                 {
-                    throw new Exception("Já existe um fabricante com esse nome.");
+                    throw new Exception("JÃ¡ existe um fabricante com esse nome.");
                 }
             }
 

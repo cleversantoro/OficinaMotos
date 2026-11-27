@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
 using OficinaMotos.Application.DTOs.Responses.OrdemServico;
 using OficinaMotos.Application.Interfaces.OrdemServico;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using OficinaMotos.Domain.Exceptions;
 using OficinaMotos.Domain.Interfaces.Repositories.PrestadorRepo;
 
-namespace OficinaMotos.Application.Services.OrdemServicoRepo
+namespace OficinaMotos.Application.Services.OrdemServico
 {
     public class OrdemServicoItemService : IOrdemServicoItemService
     {
@@ -81,16 +81,16 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
             var prestador = await _prestadorRepository.GetByIdAsync(prestadorId.Value);
             if (prestador == null)
-                throw new DomainException($"Prestador #{prestadorId.Value} não encontrado.");
+                throw new DomainException($"Prestador #{prestadorId.Value} nÃ£o encontrado.");
 
             var atividade = await _atividadeRepository.GetByIdAsync(atividadeId!.Value);
             if (atividade == null)
-                throw new DomainException($"Atividade profissional #{atividadeId.Value} não encontrada.");
+                throw new DomainException($"Atividade profissional #{atividadeId.Value} nÃ£o encontrada.");
 
             var habilitado = prestador.Atividades.Any(x =>
                 x.AtividadeProfissionalId == atividadeId.Value && x.Ativo);
             if (!habilitado)
-                throw new DomainException("O prestador não está habilitado para esta atividade profissional.");
+                throw new DomainException("O prestador nÃ£o estÃ¡ habilitado para esta atividade profissional.");
         }
     }
 }

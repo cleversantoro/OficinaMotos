@@ -1,8 +1,8 @@
-using AutoMapper;
+﻿using AutoMapper;
 using FluentAssertions;
 using Moq;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
-using OficinaMotos.Application.Services.OrdemServicoRepo;
+using OficinaMotos.Application.Services.OrdemServico;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Exceptions;
 using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
@@ -28,7 +28,7 @@ namespace OficinaMotos.Tests.Services.OrdemServicoItems
             atividadeRepository.Setup(x => x.GetByIdAsync(99)).ReturnsAsync(new AtividadeProfissional
             {
                 Codigo = "ELE",
-                Nome = "Elétrica"
+                Nome = "ElÃ©trica"
             });
             var sut = new OrdemServicoItemService(
                 itemRepository.Object,
@@ -41,13 +41,13 @@ namespace OficinaMotos.Tests.Services.OrdemServicoItems
                 OrdemServicoId = 1,
                 PrestadorId = 10,
                 AtividadeProfissionalId = 99,
-                Descricao = "Reparo elétrico",
+                Descricao = "Reparo elÃ©trico",
                 Quantidade = 1,
                 ValorUnitario = 100
             });
 
             await act.Should().ThrowAsync<DomainException>()
-                .WithMessage("*não está habilitado*");
+                .WithMessage("*nÃ£o estÃ¡ habilitado*");
             itemRepository.Verify(x => x.AddAsync(It.IsAny<OrdemServicoItem>()), Times.Never);
         }
     }

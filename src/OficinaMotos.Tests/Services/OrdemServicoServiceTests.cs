@@ -1,9 +1,9 @@
-using AutoMapper;
+﻿using AutoMapper;
 using FluentAssertions;
 using FluentValidation;
 using Moq;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
-using OficinaMotos.Application.Services.OrdemServicoRepo;
+using OficinaMotos.Application.Services.OrdemServico;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Enums;
 using OficinaMotos.Domain.Exceptions;
@@ -71,7 +71,7 @@ namespace OficinaMotos.Tests.Services
                 ClienteId = 10,
                 MecanicoId = 5,
                 VeiculoId = 25,
-                DescricaoProblema = "Revisão de 10.000 km",
+                DescricaoProblema = "RevisÃ£o de 10.000 km",
                 Status = OrdemServicoEnum.Aberta
             }.WithId(101);
 
@@ -110,7 +110,7 @@ namespace OficinaMotos.Tests.Services
                 ClienteId = 10,
                 MecanicoId = 5,
                 VeiculoId = 25,
-                DescricaoProblema = "Ordem já cancelada",
+                DescricaoProblema = "Ordem jÃ¡ cancelada",
                 Status = OrdemServicoEnum.Cancelada
             }.WithId(202);
 
@@ -124,7 +124,7 @@ namespace OficinaMotos.Tests.Services
             // Assert
             await act.Should()
                 .ThrowAsync<DomainException>()
-                .WithMessage("*Transição de status inválida*");
+                .WithMessage("*TransiÃ§Ã£o de status invÃ¡lida*");
 
             _repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<OrdemServico>()), Times.Never);
         }
@@ -138,36 +138,36 @@ namespace OficinaMotos.Tests.Services
                 ClienteId = 10,
                 MecanicoId = 5,
                 VeiculoId = 25,
-                DescricaoProblema = "Revisão completa com troca de óleo, filtro e mão de obra",
+                DescricaoProblema = "RevisÃ£o completa com troca de Ã³leo, filtro e mÃ£o de obra",
                 Status = OrdemServicoEnum.EmAndamento,
                 Itens = new List<OrdemServicoItem>
                 {
-                    // Peça 1: 2x Óleo 10W40 (R$ 45,00 un = R$ 90,00)
+                    // PeÃ§a 1: 2x Ã“leo 10W40 (R$ 45,00 un = R$ 90,00)
                     new OrdemServicoItem
                     {
                         OrdemServicoId = 303,
                         PecaId = 11,
-                        Descricao = "Óleo Lubrificante 10W40",
+                        Descricao = "Ã“leo Lubrificante 10W40",
                         Quantidade = 2,
                         ValorUnitario = 45.00m,
                         Total = 90.00m
                     },
-                    // Peça 2: 1x Filtro de Óleo (R$ 35,50 un, testando cálculo Quantidade * ValorUnitario)
+                    // PeÃ§a 2: 1x Filtro de Ã“leo (R$ 35,50 un, testando cÃ¡lculo Quantidade * ValorUnitario)
                     new OrdemServicoItem
                     {
                         OrdemServicoId = 303,
                         PecaId = 12,
-                        Descricao = "Filtro de Óleo Original",
+                        Descricao = "Filtro de Ã“leo Original",
                         Quantidade = 1,
                         ValorUnitario = 35.50m,
                         Total = 0m
                     },
-                    // Serviço / Mão de Obra: PecaId nulo (1x R$ 150,00)
+                    // ServiÃ§o / MÃ£o de Obra: PecaId nulo (1x R$ 150,00)
                     new OrdemServicoItem
                     {
                         OrdemServicoId = 303,
                         PecaId = null,
-                        Descricao = "Mão de Obra - Revisão Geral",
+                        Descricao = "MÃ£o de Obra - RevisÃ£o Geral",
                         Quantidade = 1,
                         ValorUnitario = 150.00m,
                         Total = 150.00m
@@ -195,7 +195,7 @@ namespace OficinaMotos.Tests.Services
             var ordem = new OrdemServico
             {
                 ClienteId = 1,
-                Cliente = new Cliente { Nome = "João Silva", NomeExibicao = "João" }.WithId(1),
+                Cliente = new Cliente { Nome = "JoÃ£o Silva", NomeExibicao = "JoÃ£o" }.WithId(1),
                 MecanicoId = 2,
                 Mecanico = new Mecanico { Codigo = "MEC-002", Nome = "Carlos", Sobrenome = "Souza" }.WithId(2),
                 VeiculoId = 3,
@@ -204,7 +204,7 @@ namespace OficinaMotos.Tests.Services
                     Placa = "ABC1D23",
                     Modelo = new VeiculoModelo { Nome = "CB 500F" }.WithId(10)
                 }.WithId(3),
-                DescricaoProblema = "Revisão completa",
+                DescricaoProblema = "RevisÃ£o completa",
                 Status = OrdemServicoEnum.Aberta
             }.WithId(1);
 
@@ -218,8 +218,8 @@ namespace OficinaMotos.Tests.Services
             // Assert
             result.Should().HaveCount(1);
             var dto = result[0];
-            dto.ClienteNome.Should().Be("João Silva");
-            dto.ClienteNomeExibicao.Should().Be("João");
+            dto.ClienteNome.Should().Be("JoÃ£o Silva");
+            dto.ClienteNomeExibicao.Should().Be("JoÃ£o");
             dto.MecanicoCodigo.Should().Be("MEC-002");
             dto.MecanicoNome.Should().Be("Carlos");
             dto.MecanicoSobrenome.Should().Be("Souza");

@@ -1,12 +1,12 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories.Fornecedor;
+using OficinaMotos.Domain.Interfaces.Repositories.FornecedorRepo;
 using OficinaMotos.Infrastructure.Context;
 using FornecedorEntity = OficinaMotos.Domain.Entities.Fornecedor;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OficinaMotos.Infrastructure.Repositories.Fornecedor
+namespace OficinaMotos.Infrastructure.Repositories.FornecedorRepo
 {
     public class FornecedorRepository : Repository<FornecedorEntity>, IFornecedorRepository
     {

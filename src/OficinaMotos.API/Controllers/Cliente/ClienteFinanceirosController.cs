@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using OficinaMotos.Application.DTOs.Requests;
-using OficinaMotos.Application.DTOs.Responses;
+﻿using Microsoft.AspNetCore.Mvc;
+using OficinaMotos.Application.DTOs.Requests.Cliente;
+using OficinaMotos.Application.DTOs.Responses.Cliente;
 using OficinaMotos.Application.Interfaces.Cliente;
 
 namespace OficinaMotos.API.Controllers.Cliente

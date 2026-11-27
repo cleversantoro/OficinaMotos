@@ -1,7 +1,7 @@
-using AutoMapper;
+﻿using AutoMapper;
 using OficinaMotos.Application.Interfaces.Fornecedor;
 using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories.Fornecedor;
+using OficinaMotos.Domain.Interfaces.Repositories.FornecedorRepo;
 using FornecedorEntity = OficinaMotos.Domain.Entities.Fornecedor;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ namespace OficinaMotos.Application.Services.Fornecedor
         public async Task<FornecedorResponseDTO> CreateAsync(CreateFornecedorDTO request)
         {
             if (request.PessoaId <= 0)
-                throw new DomainException("PessoaId é obrigatório para vincular o fornecedor.");
+                throw new DomainException("PessoaId Ã© obrigatÃ³rio para vincular o fornecedor.");
             var entity = _mapper.Map<FornecedorEntity>(request);
             entity.PessoaId = request.PessoaId;
             var created = await _repository.AddAsync(entity);
@@ -49,7 +49,7 @@ namespace OficinaMotos.Application.Services.Fornecedor
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null) return null;
             if (request.PessoaId <= 0)
-                throw new DomainException("PessoaId é obrigatório para vincular o fornecedor.");
+                throw new DomainException("PessoaId Ã© obrigatÃ³rio para vincular o fornecedor.");
 
             entity.PessoaId = request.PessoaId;
             entity.Codigo = request.Codigo;

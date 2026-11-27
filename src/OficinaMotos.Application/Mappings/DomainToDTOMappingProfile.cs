@@ -1,6 +1,5 @@
-using OficinaMotos.Application.DTOs.Responses.Seguranca;
+﻿using OficinaMotos.Application.DTOs.Responses.Seguranca;
 using AutoMapper;
-using OficinaMotos.Application.DTOs.Requests;
 using OficinaMotos.Application.DTOs.Requests.Cliente;
 using OficinaMotos.Application.DTOs.Requests.Estoque;
 using OficinaMotos.Application.DTOs.Requests.Financeiro;
@@ -11,7 +10,6 @@ using OficinaMotos.Application.DTOs.Requests.Pessoas;
 using OficinaMotos.Application.DTOs.Requests.Prestador;
 using OficinaMotos.Application.DTOs.Requests.Veiculo;
 using OficinaMotos.Application.DTOs.Requests.Seguranca;
-using OficinaMotos.Application.DTOs.Responses;
 using OficinaMotos.Application.DTOs.Responses.Cliente;
 using OficinaMotos.Application.DTOs.Responses.Estoque;
 using OficinaMotos.Application.DTOs.Responses.Financeiro;
@@ -204,7 +202,7 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<VeiculoModelo, VeiculoModeloResponseDTO>();
             CreateMap<CreateVeiculoModeloDTO, VeiculoModelo>();
 
-            // Segurança
+            // SeguranÃ§a
             CreateMap<SegModulo, SegModuloResponseDTO>();
             CreateMap<CreateSegModuloDTO, SegModulo>();
 

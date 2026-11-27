@@ -1,12 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OficinaMotos.API.Middlewares;
 using OficinaMotos.Application.IoC;
-using OficinaMotos.Infrastructure.Context;
 using OficinaMotos.Infrastructure.IoC;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -66,12 +64,7 @@ builder.Services.AddOpenTelemetry()
         }
     });
 
-// 3. Banco de Dados (MySQL)
-var connectionString = builder.Configuration.GetConnectionString("OficinaDb");
-if (!builder.Environment.IsEnvironment("Testing") && !builder.Configuration.GetValue<bool>("UseInMemoryDatabase"))
-{
-    builder.Services.AddDbContext<OficinaContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-}
+// 3. Banco de Dados (MySQL) configurado em AddInfrastructure(builder.Configuration)
 
 // 4. CORS (Segurança)
 // Permite que o Angular (localhost:4200) converse com a API

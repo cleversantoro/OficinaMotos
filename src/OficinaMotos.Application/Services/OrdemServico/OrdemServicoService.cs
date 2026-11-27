@@ -14,7 +14,7 @@ using OficinaMotos.Domain.Exceptions;
 using OficinaMotos.Domain.Interfaces.Repositories.FinanceiroRepo;
 using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
 
-namespace OficinaMotos.Application.Services.OrdemServicoRepo
+namespace OficinaMotos.Application.Services.OrdemServico
 {
     public class OrdemServicoService : IOrdemServicoService
     {
@@ -57,7 +57,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
             await _createValidator.ValidateAndThrowAsync(request);
 
-            var entity = _mapper.Map<OrdemServico>(request);
+            var entity = _mapper.Map<Domain.Entities.OrdemServico>(request);
             entity.VeiculoId = request.VeiculoId;
             if (request.DataAbertura != default)
             {
@@ -118,7 +118,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             return _mapper.Map<OrdemServicoResponseDTO>(entity);
         }
 
-        public decimal CalculateTotal(OrdemServico ordem)
+        public decimal CalculateTotal(Domain.Entities.OrdemServico ordem)
         {
             if (ordem?.Itens == null || ordem.Itens.Count == 0)
             {
@@ -133,7 +133,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             var ordem = await _repository.GetByIdAsync(id);
             if (ordem == null)
             {
-                throw new KeyNotFoundException($"Ordem de serviço #{id} não encontrada.");
+                throw new KeyNotFoundException($"Ordem de serviÃ§o #{id} nÃ£o encontrada.");
             }
 
             return CalculateTotal(ordem);
@@ -151,12 +151,12 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             var ordem = await _repository.GetByIdAsync(request.OrdemServicoId);
             if (ordem == null)
             {
-                throw new KeyNotFoundException($"Ordem de serviço #{request.OrdemServicoId} não encontrada.");
+                throw new KeyNotFoundException($"Ordem de serviÃ§o #{request.OrdemServicoId} nÃ£o encontrada.");
             }
 
             if (ordem.Status == OrdemServicoEnum.Cancelada)
             {
-                throw new InvalidOperationException("Não é possível registrar pagamento em uma Ordem de Serviço cancelada.");
+                throw new InvalidOperationException("NÃ£o Ã© possÃ­vel registrar pagamento em uma Ordem de ServiÃ§o cancelada.");
             }
 
             // 1. Persistir o pagamento da OS
@@ -171,7 +171,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             }
             var pagamentoCriado = await _pagamentoRepository.AddAsync(pagamento);
 
-            // 2. Avaliar quitação e atualizar status para Concluida se total pago atingir total de itens
+            // 2. Avaliar quitaÃ§Ã£o e atualizar status para Concluida se total pago atingir total de itens
             var totalItens = CalculateTotal(ordem);
 
             var totalPagoAnterior = (ordem.Pagamentos != null && ordem.Pagamentos.Count > 0)
@@ -199,7 +199,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                 await _repository.UpdateAsync(ordem);
             }
 
-            // 3. Gerar lançamento automático em ContasReceber
+            // 3. Gerar lanÃ§amento automÃ¡tico em ContasReceber
             var dataRef = request.DataPagamento ?? DateTime.UtcNow;
             var contaReceber = new FinanceiroContaReceber
             {
@@ -212,7 +212,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                 DataVencimento = dataRef.Date,
                 Status = "RECEBIDO",
                 Observacoes = string.IsNullOrWhiteSpace(request.Observacao)
-                    ? $"Referente à OS #{ordem.Id}"
+                    ? $"Referente Ã  OS #{ordem.Id}"
                     : $"{request.Observacao} (OS #{ordem.Id})"
             };
 
@@ -227,7 +227,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
         {
             if (!Enum.IsDefined(typeof(OrdemServicoEnum), novoStatus))
             {
-                throw new DomainException($"Status '{novoStatus}' inválido para Ordem de Serviço.");
+                throw new DomainException($"Status '{novoStatus}' invÃ¡lido para Ordem de ServiÃ§o.");
             }
 
             var isValid = statusAtual switch
@@ -249,7 +249,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             if (!isValid)
             {
                 throw new DomainException(
-                    $"Transição de status inválida na Ordem de Serviço: não é permitido alterar de '{statusAtual}' para '{novoStatus}'.");
+                    $"TransiÃ§Ã£o de status invÃ¡lida na Ordem de ServiÃ§o: nÃ£o Ã© permitido alterar de '{statusAtual}' para '{novoStatus}'.");
             }
         }
     }

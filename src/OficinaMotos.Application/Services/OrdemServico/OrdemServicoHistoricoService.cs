@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
 using OficinaMotos.Application.DTOs.Responses.OrdemServico;
 using OficinaMotos.Application.Interfaces.OrdemServico;
@@ -7,7 +7,7 @@ using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OficinaMotos.Application.Services.OrdemServicoRepo
+namespace OficinaMotos.Application.Services.OrdemServico
 {
     public class OrdemServicoHistoricoService : IOrdemServicoHistoricoService
     {

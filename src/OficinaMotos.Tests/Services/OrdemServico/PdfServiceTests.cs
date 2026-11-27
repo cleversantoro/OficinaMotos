@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using OficinaMotos.API.Controllers.OrdemServico;
 using OficinaMotos.Application.Interfaces.OrdemServico;
-using OficinaMotos.Application.Services.OrdemServicoRepo;
+using OficinaMotos.Application.Services.OrdemServico;
 using OficinaMotos.Domain.Common;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Enums;
@@ -39,13 +39,13 @@ namespace OficinaMotos.Tests.Services.OrdemServicoPdf
                 MecanicoId = 3,
                 Status = OrdemServicoEnum.EmAndamento,
                 DataAbertura = new DateTime(2026, 11, 16, 10, 30, 0, DateTimeKind.Utc),
-                DescricaoProblema = "Revisão completa de freios e troca de óleo.",
-                Cliente = WithId(new Cliente { Nome = "João Silva", NomeExibicao = "João Silva", Documento = "123.456.789-00" }, 7),
+                DescricaoProblema = "RevisÃ£o completa de freios e troca de Ã³leo.",
+                Cliente = WithId(new Cliente { Nome = "JoÃ£o Silva", NomeExibicao = "JoÃ£o Silva", Documento = "123.456.789-00" }, 7),
                 Mecanico = WithId(new Mecanico { Nome = "Carlos", Sobrenome = "Souza" }, 3),
                 Itens = new List<OrdemServicoItem>
                 {
-                    WithId(new OrdemServicoItem { OrdemServicoId = 42, Descricao = "Óleo Motul 10W40", Quantidade = 2, ValorUnitario = 65m, Total = 130m }, 1),
-                    WithId(new OrdemServicoItem { OrdemServicoId = 42, Descricao = "Mão de obra revisão", Quantidade = 1, ValorUnitario = 150m, Total = 150m }, 2),
+                    WithId(new OrdemServicoItem { OrdemServicoId = 42, Descricao = "Ã“leo Motul 10W40", Quantidade = 2, ValorUnitario = 65m, Total = 130m }, 1),
+                    WithId(new OrdemServicoItem { OrdemServicoId = 42, Descricao = "MÃ£o de obra revisÃ£o", Quantidade = 1, ValorUnitario = 150m, Total = 150m }, 2),
                 },
                 Pagamentos = new List<OrdemServicoPagamento>
                 {
@@ -53,7 +53,7 @@ namespace OficinaMotos.Tests.Services.OrdemServicoPdf
                 },
                 Observacoes = new List<OrdemServicoObservacao>
                 {
-                    WithId(new OrdemServicoObservacao { OrdemServicoId = 42, Usuario = "Carlos", Texto = "Pastilha traseira com 30% de vida útil." }, 1),
+                    WithId(new OrdemServicoObservacao { OrdemServicoId = 42, Usuario = "Carlos", Texto = "Pastilha traseira com 30% de vida Ãºtil." }, 1),
                 }
             }, 42);
 
@@ -98,7 +98,7 @@ namespace OficinaMotos.Tests.Services.OrdemServicoPdf
                 VeiculoId = 1,
                 MecanicoId = 1,
                 Status = OrdemServicoEnum.Aberta,
-                DescricaoProblema = "Troca de relação"
+                DescricaoProblema = "Troca de relaÃ§Ã£o"
             }, 10));
 
             var service = new PdfService(_ordemRepoMock.Object);

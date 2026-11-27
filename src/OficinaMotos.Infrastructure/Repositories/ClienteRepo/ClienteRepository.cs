@@ -1,11 +1,11 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OficinaMotos.Application.DTOs.Responses.Cliente;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Interfaces.Repositories.ClienteRepo;
 using OficinaMotos.Infrastructure.Context;
 using ClienteEntity = OficinaMotos.Domain.Entities.Cliente;
 
-namespace OficinaMotos.Infrastructure.Repositories.Cliente
+namespace OficinaMotos.Infrastructure.Repositories.ClienteRepo
 {
     public class ClienteRepository : Repository<ClienteEntity>, IClienteRepository
     {

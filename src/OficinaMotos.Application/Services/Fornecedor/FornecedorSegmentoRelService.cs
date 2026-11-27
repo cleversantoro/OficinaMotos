@@ -1,9 +1,9 @@
-using AutoMapper;
+﻿using AutoMapper;
 using OficinaMotos.Application.DTOs.Requests.Fornecedor;
 using OficinaMotos.Application.DTOs.Responses.Fornecedor;
 using OficinaMotos.Application.Interfaces.Fornecedor;
 using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories.Fornecedor;
+using OficinaMotos.Domain.Interfaces.Repositories.FornecedorRepo;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

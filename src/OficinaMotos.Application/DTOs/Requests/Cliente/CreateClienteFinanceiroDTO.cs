@@ -1,4 +1,4 @@
-namespace OficinaMotos.Application.DTOs.Requests
+﻿namespace OficinaMotos.Application.DTOs.Requests.Cliente
 {
     public class CreateClienteFinanceiroDTO
     {

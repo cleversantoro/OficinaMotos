@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using OsEntity = OficinaMotos.Domain.Entities.OrdemServico;
 
-namespace OficinaMotos.Application.Services.OrdemServicoRepo
+namespace OficinaMotos.Application.Services.OrdemServico
 {
     public class PdfService : IPdfService
     {
@@ -88,13 +88,13 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                 .ToList();
             var executoresNome = prestadores.Count > 0
                 ? string.Join(", ", prestadores)
-                : "Não informado";
+                : "NÃ£o informado";
 
             var veiculoTexto = ordem.Veiculo != null
                 ? $"{ordem.Veiculo.Placa}" +
-                  (!string.IsNullOrWhiteSpace(ordem.Veiculo.Cor) ? $" · {ordem.Veiculo.Cor}" : string.Empty) +
-                  (ordem.Veiculo.AnoModelo.HasValue ? $" · Ano {ordem.Veiculo.AnoModelo}" : string.Empty)
-                : "Não informado";
+                  (!string.IsNullOrWhiteSpace(ordem.Veiculo.Cor) ? $" Â· {ordem.Veiculo.Cor}" : string.Empty) +
+                  (ordem.Veiculo.AnoModelo.HasValue ? $" Â· Ano {ordem.Veiculo.AnoModelo}" : string.Empty)
+                : "NÃ£o informado";
 
             var document = Document.Create(container =>
             {
@@ -111,7 +111,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                             row.RelativeItem().Column(left =>
                             {
                                 left.Item().Text("Oficina MotoPro").FontSize(18).Bold().FontColor(Colors.Blue.Darken3);
-                                left.Item().Text("Relatório Oficial de Ordem de Serviço").FontSize(10).FontColor(Colors.Grey.Darken1);
+                                left.Item().Text("RelatÃ³rio Oficial de Ordem de ServiÃ§o").FontSize(10).FontColor(Colors.Grey.Darken1);
                             });
 
                             row.ConstantItem(180).AlignRight().Column(right =>
@@ -152,12 +152,12 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                             {
                                 row.RelativeItem().Text(t =>
                                 {
-                                    t.Span("Veículo: ").SemiBold();
+                                    t.Span("VeÃ­culo: ").SemiBold();
                                     t.Span(veiculoTexto);
                                 });
                                 row.RelativeItem().Text(t =>
                                 {
-                                    t.Span("Prestadores Responsáveis: ").SemiBold();
+                                    t.Span("Prestadores ResponsÃ¡veis: ").SemiBold();
                                     t.Span(executoresNome);
                                 });
                             });
@@ -171,15 +171,15 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                                 });
                                 row.RelativeItem().Text(t =>
                                 {
-                                    t.Span("Data de Conclusão: ").SemiBold();
+                                    t.Span("Data de ConclusÃ£o: ").SemiBold();
                                     t.Span(ordem.DataConclusao.HasValue ? ordem.DataConclusao.Value.ToString("dd/MM/yyyy HH:mm", PtBr) : "-");
                                 });
                             });
 
                             box.Item().PaddingTop(4).Text(t =>
                             {
-                                t.Span("Descrição do Problema: ").SemiBold();
-                                t.Span(string.IsNullOrWhiteSpace(ordem.DescricaoProblema) ? "Não informada." : ordem.DescricaoProblema);
+                                t.Span("DescriÃ§Ã£o do Problema: ").SemiBold();
+                                t.Span(string.IsNullOrWhiteSpace(ordem.DescricaoProblema) ? "NÃ£o informada." : ordem.DescricaoProblema);
                             });
                         });
 
@@ -187,11 +187,11 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                         col.Item().Column(sec =>
                         {
                             sec.Spacing(6);
-                            sec.Item().Text("Itens da Ordem de Serviço").FontSize(12).Bold().FontColor(Colors.Blue.Darken2);
+                            sec.Item().Text("Itens da Ordem de ServiÃ§o").FontSize(12).Bold().FontColor(Colors.Blue.Darken2);
 
                             if (itens.Count == 0)
                             {
-                                sec.Item().Text("Nenhum item registrado nesta ordem de serviço.").Italic().FontColor(Colors.Grey.Darken1);
+                                sec.Item().Text("Nenhum item registrado nesta ordem de serviÃ§o.").Italic().FontColor(Colors.Grey.Darken1);
                             }
                             else
                             {
@@ -207,9 +207,9 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
                                     table.Header(header =>
                                     {
-                                        header.Cell().Background(Colors.Grey.Lighten3).Padding(6).Text("Descrição").SemiBold();
+                                        header.Cell().Background(Colors.Grey.Lighten3).Padding(6).Text("DescriÃ§Ã£o").SemiBold();
                                         header.Cell().Background(Colors.Grey.Lighten3).Padding(6).AlignRight().Text("Qtd").SemiBold();
-                                        header.Cell().Background(Colors.Grey.Lighten3).Padding(6).AlignRight().Text("Vlr. Unitário").SemiBold();
+                                        header.Cell().Background(Colors.Grey.Lighten3).Padding(6).AlignRight().Text("Vlr. UnitÃ¡rio").SemiBold();
                                         header.Cell().Background(Colors.Grey.Lighten3).Padding(6).AlignRight().Text("Subtotal").SemiBold();
                                     });
 
@@ -253,7 +253,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
                                     table.Header(header =>
                                     {
-                                        header.Cell().Background(Colors.Grey.Lighten4).Padding(4).Text("Método").SemiBold();
+                                        header.Cell().Background(Colors.Grey.Lighten4).Padding(4).Text("MÃ©todo").SemiBold();
                                         header.Cell().Background(Colors.Grey.Lighten4).Padding(4).Text("Status").SemiBold();
                                         header.Cell().Background(Colors.Grey.Lighten4).Padding(4).Text("Data").SemiBold();
                                         header.Cell().Background(Colors.Grey.Lighten4).Padding(4).AlignRight().Text("Valor").SemiBold();
@@ -261,7 +261,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
                                     foreach (var pag in pagamentos)
                                     {
-                                        table.Cell().Padding(4).Text(string.IsNullOrWhiteSpace(pag.Metodo) ? "Não informado" : pag.Metodo);
+                                        table.Cell().Padding(4).Text(string.IsNullOrWhiteSpace(pag.Metodo) ? "NÃ£o informado" : pag.Metodo);
                                         table.Cell().Padding(4).Text(string.IsNullOrWhiteSpace(pag.Status) ? "Registrado" : pag.Status);
                                         table.Cell().Padding(4).Text(pag.DataPagamento.HasValue ? pag.DataPagamento.Value.ToString("dd/MM/yyyy", PtBr) : "-");
                                         table.Cell().Padding(4).AlignRight().Text(FormatCurrency(pag.Valor));
@@ -270,17 +270,17 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                             }
                         });
 
-                        // Observações
+                        // ObservaÃ§Ãµes
                         if (observacoes.Count > 0)
                         {
                             col.Item().Column(obsSec =>
                             {
                                 obsSec.Spacing(4);
-                                obsSec.Item().Text("Observações").FontSize(12).Bold().FontColor(Colors.Blue.Darken2);
+                                obsSec.Item().Text("ObservaÃ§Ãµes").FontSize(12).Bold().FontColor(Colors.Blue.Darken2);
                                 foreach (var obs in observacoes)
                                 {
                                     var autor = string.IsNullOrWhiteSpace(obs.Usuario?.Nome) ? "Sistema" : obs.Usuario!.Nome;
-                                    obsSec.Item().Text($"• [{autor}] {obs.Texto}").FontSize(9);
+                                    obsSec.Item().Text($"â€¢ [{autor}] {obs.Texto}").FontSize(9);
                                 }
                             });
                         }
@@ -288,9 +288,9 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
                     page.Footer().AlignCenter().Text(text =>
                     {
-                        text.Span("Oficina MotoPro · Documento gerado em ");
+                        text.Span("Oficina MotoPro Â· Documento gerado em ");
                         text.Span(DateTime.Now.ToString("dd/MM/yyyy HH:mm", PtBr));
-                        text.Span(" · Página ");
+                        text.Span(" Â· PÃ¡gina ");
                         text.CurrentPageNumber();
                         text.Span(" de ");
                         text.TotalPages();
@@ -307,8 +307,8 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
         {
             OrdemServicoEnum.Aberta => "Aberta",
             OrdemServicoEnum.EmAndamento => "Em Andamento",
-            OrdemServicoEnum.AguardandoPeca => "Aguardando Peça",
-            OrdemServicoEnum.Concluida => "Concluída",
+            OrdemServicoEnum.AguardandoPeca => "Aguardando PeÃ§a",
+            OrdemServicoEnum.Concluida => "ConcluÃ­da",
             OrdemServicoEnum.Cancelada => "Cancelada",
             _ => status.ToString()
         };

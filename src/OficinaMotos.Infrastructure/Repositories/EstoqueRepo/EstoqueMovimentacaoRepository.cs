@@ -1,8 +1,8 @@
-using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories.Estoque;
+﻿using OficinaMotos.Domain.Entities;
+using OficinaMotos.Domain.Interfaces.Repositories.EstoqueRepo;
 using OficinaMotos.Infrastructure.Context;
 
-namespace OficinaMotos.Infrastructure.Repositories.Estoque
+namespace OficinaMotos.Infrastructure.Repositories.EstoqueRepo
 {
     public class EstoqueMovimentacaoRepository : Repository<EstoqueMovimentacao>, IEstoqueMovimentacaoRepository
     {

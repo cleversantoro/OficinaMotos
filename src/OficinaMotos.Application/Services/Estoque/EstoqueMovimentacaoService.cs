@@ -1,9 +1,9 @@
-using AutoMapper;
+﻿using AutoMapper;
 using OficinaMotos.Application.DTOs.Requests.Estoque;
 using OficinaMotos.Application.DTOs.Responses.Estoque;
 using OficinaMotos.Application.Interfaces.Estoque;
 using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories.Estoque;
+using OficinaMotos.Domain.Interfaces.Repositories.EstoqueRepo;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -1,4 +1,4 @@
-using OficinaMotos.Domain.Interfaces.Repositories.SegurancaRepo;
+﻿using OficinaMotos.Domain.Interfaces.Repositories.SegurancaRepo;
 using OficinaMotos.Infrastructure.Repositories.SegurancaRepo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using OficinaMotos.Infrastructure.Context;
 using OficinaMotos.Infrastructure.Repositories;
 using OficinaMotos.Domain.Interfaces.Repositories;
-using OficinaMotos.Domain.Interfaces.Repositories.Estoque;
+using OficinaMotos.Domain.Interfaces.Repositories.EstoqueRepo;
 using OficinaMotos.Domain.Interfaces.Repositories.PessoaRepo;
-using OficinaMotos.Domain.Interfaces.Repositories.Fornecedor;
+using OficinaMotos.Domain.Interfaces.Repositories.FornecedorRepo;
 using OficinaMotos.Domain.Interfaces.Repositories.ClienteRepo;
 using OficinaMotos.Domain.Interfaces.Repositories.VeiculoRepo;
 using OficinaMotos.Domain.Interfaces.Repositories.MecanicoRepo;
@@ -16,9 +16,9 @@ using OficinaMotos.Domain.Interfaces.Repositories.PrestadorRepo;
 using OficinaMotos.Domain.Interfaces.Repositories.FinanceiroRepo;
 using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
 
-using OficinaMotos.Infrastructure.Repositories.Cliente;
-using OficinaMotos.Infrastructure.Repositories.Estoque;
-using OficinaMotos.Infrastructure.Repositories.Fornecedor;
+using OficinaMotos.Infrastructure.Repositories.ClienteRepo;
+using OficinaMotos.Infrastructure.Repositories.EstoqueRepo;
+using OficinaMotos.Infrastructure.Repositories.FornecedorRepo;
 using OficinaMotos.Infrastructure.Repositories.PessoaRepo;
 using OficinaMotos.Infrastructure.Repositories.VeiculoRepo;
 using OficinaMotos.Infrastructure.Repositories.MecanicoRepo;
@@ -42,7 +42,7 @@ namespace OficinaMotos.Infrastructure.IoC
                         b => b.MigrationsAssembly(typeof(OficinaContext).Assembly.FullName)));
             }
 
-            // 2. Injetar Repositórios (Vida útil: Scoped = 1 por requisição HTTP)
+            // 2. Injetar RepositÃ³rios (Vida Ãºtil: Scoped = 1 por requisiÃ§Ã£o HTTP)
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IClienteOrigemRepository, ClienteOrigemRepository>();
@@ -97,7 +97,7 @@ namespace OficinaMotos.Infrastructure.IoC
             services.AddScoped<IVeiculoMarcaRepository, VeiculoMarcaRepository>();
             services.AddScoped<IVeiculoModeloRepository, VeiculoModeloRepository>();
 
-            // Segurança
+            // SeguranÃ§a
             services.AddScoped<ISegModuloRepository, SegModuloRepository>();
             services.AddScoped<ISegPerfilRepository, SegPerfilRepository>();
             services.AddScoped<ISegPermissaoRepository, SegPermissaoRepository>();

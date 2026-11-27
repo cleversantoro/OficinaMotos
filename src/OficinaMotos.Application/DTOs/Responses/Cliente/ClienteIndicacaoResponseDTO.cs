@@ -1,4 +1,4 @@
-namespace OficinaMotos.Application.DTOs.Responses
+﻿namespace OficinaMotos.Application.DTOs.Responses.Cliente
 {
     public class ClienteIndicacaoResponseDTO
     {

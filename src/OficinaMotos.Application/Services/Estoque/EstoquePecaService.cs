@@ -1,9 +1,9 @@
-using AutoMapper;
+﻿using AutoMapper;
 using OficinaMotos.Application.DTOs.Requests.Estoque;
 using OficinaMotos.Application.DTOs.Responses.Estoque;
 using OficinaMotos.Application.Interfaces.Estoque;
 using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories.Estoque;
+using OficinaMotos.Domain.Interfaces.Repositories.EstoqueRepo;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ namespace OficinaMotos.Application.Services.Estoque
         {
             if (await _repository.ExistsByCodigoAsync(request.Codigo))
             {
-                throw new Exception("Já existe uma peça com esse código.");
+                throw new Exception("JÃ¡ existe uma peÃ§a com esse cÃ³digo.");
             }
 
             var entity = _mapper.Map<EstoquePeca>(request);
@@ -58,7 +58,7 @@ namespace OficinaMotos.Application.Services.Estoque
                 var exists = await _repository.ExistsByCodigoAsync(request.Codigo);
                 if (exists)
                 {
-                    throw new Exception("Já existe uma peça com esse código.");
+                    throw new Exception("JÃ¡ existe uma peÃ§a com esse cÃ³digo.");
                 }
             }
 

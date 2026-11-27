@@ -1,5 +1,5 @@
-using OficinaMotos.Application.DTOs.Requests;
-using OficinaMotos.Application.DTOs.Responses;
+﻿using OficinaMotos.Application.DTOs.Requests.Cliente;
+using OficinaMotos.Application.DTOs.Responses.Cliente;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

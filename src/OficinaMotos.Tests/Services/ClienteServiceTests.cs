@@ -1,10 +1,10 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using OficinaMotos.Application.DTOs.Requests.Cliente;
 using OficinaMotos.Application.Services.Cliente;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Exceptions;
-using OficinaMotos.Infrastructure.Repositories.Cliente;
+using OficinaMotos.Infrastructure.Repositories.ClienteRepo;
 using OficinaMotos.Infrastructure.Context;
 using OficinaMotos.Tests.Helpers;
 using System;
@@ -139,7 +139,7 @@ namespace OficinaMotos.Tests.Services
                 .IgnoreQueryFilters()
                 .SingleOrDefaultAsync(c => c.Id == created.Id);
 
-            physicalRecord.Should().NotBeNull("a exclusão deve ser lógica (soft delete) e não remover fisicamente o registro");
+            physicalRecord.Should().NotBeNull("a exclusÃ£o deve ser lÃ³gica (soft delete) e nÃ£o remover fisicamente o registro");
             physicalRecord!.DeletedAt.Should().NotBeNull();
         }
 

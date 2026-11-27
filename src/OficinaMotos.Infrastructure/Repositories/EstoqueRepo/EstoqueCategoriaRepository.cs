@@ -1,10 +1,10 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OficinaMotos.Domain.Entities;
-using OficinaMotos.Domain.Interfaces.Repositories.Estoque;
+using OficinaMotos.Domain.Interfaces.Repositories.EstoqueRepo;
 using OficinaMotos.Infrastructure.Context;
 using System.Threading.Tasks;
 
-namespace OficinaMotos.Infrastructure.Repositories.Estoque
+namespace OficinaMotos.Infrastructure.Repositories.EstoqueRepo
 {
     public class EstoqueCategoriaRepository : Repository<EstoqueCategoria>, IEstoqueCategoriaRepository
     {
