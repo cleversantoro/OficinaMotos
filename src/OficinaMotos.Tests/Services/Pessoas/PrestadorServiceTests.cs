@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Moq;
-using OficinaMotos.Application.DTOs.Requests.Mecanico;
+using OficinaMotos.Application.DTOs.Requests.Prestador;
 using OficinaMotos.Application.Services.Mecanico;
 using OficinaMotos.Application.Services.Prestador;
 using OficinaMotos.Domain.Entities;

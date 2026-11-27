@@ -34,6 +34,12 @@ namespace OficinaMotos.Application.IoC
             // 2. Services
             services.AddScoped<Interfaces.Cliente.IClienteService, ClienteService>();
             services.AddScoped<IPessoaService, PessoaService>();
+            services.AddScoped<IPessoaPfService, PessoaPfService>();
+            services.AddScoped<IPessoaPjService, PessoaPjService>();
+            services.AddScoped<IPessoaContatoService, PessoaContatoService>();
+            services.AddScoped<IPessoaEnderecoService, PessoaEnderecoService>();
+            services.AddScoped<IPessoaDocumentoService, PessoaDocumentoService>();
+            services.AddScoped<IPessoaAnexoService, PessoaAnexoService>();
             services.AddScoped<Interfaces.Cliente.IClienteOrigemService, ClienteOrigemService>();
             services.AddScoped<Interfaces.Cliente.IClienteFinanceiroService, ClienteFinanceiroService>();
             services.AddScoped<Interfaces.Cliente.IClienteIndicacaoService, ClienteIndicacaoService>();
@@ -64,6 +70,11 @@ namespace OficinaMotos.Application.IoC
             services.AddScoped<Interfaces.OrdemServico.IOrdemServicoPagamentoService, OrdemServicoPagamentoService>();
             services.AddScoped<Interfaces.Mecanico.IMecanicoService, MecanicoService>();
             services.AddScoped<IPrestadorService, PrestadorService>();
+            services.AddScoped<IAtividadeProfissionalService, AtividadeProfissionalService>();
+            services.AddScoped<IPrestadorAtividadeService, PrestadorAtividadeService>();
+            services.AddScoped<IPrestadorDisponibilidadeService, PrestadorDisponibilidadeService>();
+            services.AddScoped<IPrestadorExperienciaService, PrestadorExperienciaService>();
+            services.AddScoped<IPrestadorCertificacaoService, PrestadorCertificacaoService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorService, FornecedorService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorSegmentoService, FornecedorSegmentoService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorSegmentoRelService, FornecedorSegmentoRelService>();

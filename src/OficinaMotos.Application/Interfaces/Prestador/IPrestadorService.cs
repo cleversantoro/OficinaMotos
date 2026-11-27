@@ -1,5 +1,7 @@
-using OficinaMotos.Application.DTOs.Requests.Mecanico;
-using OficinaMotos.Application.DTOs.Responses.PrestadorRepo;
+using OficinaMotos.Application.DTOs.Requests.Prestador;
+using OficinaMotos.Application.DTOs.Responses.Prestador;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OficinaMotos.Application.Interfaces.Prestador
 {

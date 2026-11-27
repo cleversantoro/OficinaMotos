@@ -50,6 +50,12 @@ namespace OficinaMotos.Infrastructure.IoC
             services.AddScoped<IClienteIndicacaoRepository, ClienteIndicacaoRepository>();
             services.AddScoped<IClienteLgpdConsentimentoRepository, ClienteLgpdConsentimentoRepository>();
             services.AddScoped<IPessoaRepository, PessoaRepository>();
+            services.AddScoped<IPessoaPfRepository, PessoaPfRepository>();
+            services.AddScoped<IPessoaPjRepository, PessoaPjRepository>();
+            services.AddScoped<IPessoaContatoRepository, PessoaContatoRepository>();
+            services.AddScoped<IPessoaEnderecoRepository, PessoaEnderecoRepository>();
+            services.AddScoped<IPessoaDocumentoRepository, PessoaDocumentoRepository>();
+            services.AddScoped<IPessoaAnexoRepository, PessoaAnexoRepository>();
             services.AddScoped<IEstoqueCategoriaRepository, EstoqueCategoriaRepository>();
             services.AddScoped<IEstoqueFabricanteRepository, EstoqueFabricanteRepository>();
             services.AddScoped<IEstoqueLocalizacaoRepository, EstoqueLocalizacaoRepository>();
@@ -76,6 +82,10 @@ namespace OficinaMotos.Infrastructure.IoC
             services.AddScoped<IMecanicoRepository, MecanicoRepository>();
             services.AddScoped<IPrestadorRepository, PrestadorRepository>();
             services.AddScoped<IAtividadeProfissionalRepository, AtividadeProfissionalRepository>();
+            services.AddScoped<IPrestadorAtividadeRepository, PrestadorAtividadeRepository>();
+            services.AddScoped<IPrestadorDisponibilidadeRepository, PrestadorDisponibilidadeRepository>();
+            services.AddScoped<IPrestadorExperienciaRepository, PrestadorExperienciaRepository>();
+            services.AddScoped<IPrestadorCertificacaoRepository, PrestadorCertificacaoRepository>();
             services.AddScoped<IFornecedorRepository, FornecedorRepository>();
             services.AddScoped<IFornecedorSegmentoRepository, FornecedorSegmentoRepository>();
             services.AddScoped<IFornecedorSegmentoRelRepository, FornecedorSegmentoRelRepository>();

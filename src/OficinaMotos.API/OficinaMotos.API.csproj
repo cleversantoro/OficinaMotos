@@ -12,20 +12,11 @@
     <Compile Remove="Controllers\Fornecedor\FornecedorContatosController.cs" />
     <Compile Remove="Controllers\Fornecedor\FornecedorDocumentosController.cs" />
     <Compile Remove="Controllers\Fornecedor\FornecedorEnderecosController.cs" />
-    <Compile Remove="Controllers\Mecanico\MecanicoContatosController.cs" />
+    <Compile Remove="Controllers\Mecanico\PrestadoresAtividadessController.cs" />
     <Compile Remove="Controllers\Mecanico\MecanicoDocumentosController.cs" />
     <Compile Remove="Controllers\Mecanico\MecanicoEnderecosController.cs" />
     <Compile Remove="Controllers\Mecanico\MecanicoEspecialidadeRelController.cs" />
     <Compile Remove="Controllers\Mecanico\MecanicoEspecialidadesController.cs" />
-    <Compile Remove="Controllers\Pessoas\ClienteAnexosController.cs" />
-    <Compile Remove="Controllers\Pessoas\ClienteContatosController.cs" />
-    <Compile Remove="Controllers\Pessoas\ClienteDocumentosController.cs" />
-    <Compile Remove="Controllers\Pessoas\ClienteEnderecosController.cs" />
-    <Compile Remove="Controllers\Pessoas\ClientePfsController.cs" />
-    <Compile Remove="Controllers\Pessoas\ClientePjsController.cs" />
-    <Compile Remove="Controllers\Prestador\MecanicoCertificacoesController.cs" />
-    <Compile Remove="Controllers\Prestador\MecanicoDisponibilidadesController.cs" />
-    <Compile Remove="Controllers\Prestador\MecanicoExperienciasController.cs" />
   </ItemGroup>
 
   <ItemGroup>

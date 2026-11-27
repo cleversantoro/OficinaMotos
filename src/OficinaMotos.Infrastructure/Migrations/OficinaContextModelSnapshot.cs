@@ -108,7 +108,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.ToTable("cad_clientes", (string)null);
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.ClienteAnexo", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PessoaAnexo", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -164,7 +164,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.ToTable("cad_clientes_anexos", (string)null);
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.ClienteContato", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PessoaContato", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -216,7 +216,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.ToTable("cad_clientes_contatos", (string)null);
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.ClienteDocumento", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PessoaDocumento", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -278,7 +278,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.ToTable("cad_clientes_documentos", (string)null);
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.ClienteEndereco", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PessoaEndereco", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -563,7 +563,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.ToTable("cad_clientes_origens", (string)null);
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.ClientePf", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PessoaPf", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -627,7 +627,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.ToTable("cad_clientes_pf", (string)null);
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.ClientePj", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PessoaPj", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2417,7 +2417,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.ToTable("cad_mecanicos", (string)null);
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.MecanicoCertificacao", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PrestadorCertificacao", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2478,7 +2478,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.ToTable("cad_mecanicos_certificacoes", (string)null);
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.MecanicoContato", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PrestadoresAtividades", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2530,7 +2530,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.ToTable("cad_mecanicos_contatos", (string)null);
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.MecanicoDisponibilidade", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PrestadorDisponibilidade", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2824,7 +2824,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.ToTable("cad_mecanicos_especialidades_rel", (string)null);
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.MecanicoExperiencia", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PrestadorExperiencia", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -3961,7 +3961,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.Navigation("Origem");
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.ClienteAnexo", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PessoaAnexo", b =>
                 {
                     b.HasOne("OficinaMotos.Domain.Entities.Cliente", "Cliente")
                         .WithMany("Anexos")
@@ -3972,7 +3972,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.ClienteContato", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PessoaContato", b =>
                 {
                     b.HasOne("OficinaMotos.Domain.Entities.Cliente", "Cliente")
                         .WithMany("Contatos")
@@ -3983,7 +3983,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.ClienteDocumento", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PessoaDocumento", b =>
                 {
                     b.HasOne("OficinaMotos.Domain.Entities.Cliente", "Cliente")
                         .WithMany("Documentos")
@@ -3994,7 +3994,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.ClienteEndereco", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PessoaEndereco", b =>
                 {
                     b.HasOne("OficinaMotos.Domain.Entities.Cliente", "Cliente")
                         .WithMany("Enderecos")
@@ -4038,22 +4038,22 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.ClientePf", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PessoaPf", b =>
                 {
                     b.HasOne("OficinaMotos.Domain.Entities.Cliente", "Cliente")
                         .WithOne("PessoaFisica")
-                        .HasForeignKey("OficinaMotos.Domain.Entities.ClientePf", "ClienteId")
+                        .HasForeignKey("OficinaMotos.Domain.Entities.PessoaPf", "ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.ClientePj", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PessoaPj", b =>
                 {
                     b.HasOne("OficinaMotos.Domain.Entities.Cliente", "Cliente")
                         .WithOne("PessoaJuridica")
-                        .HasForeignKey("OficinaMotos.Domain.Entities.ClientePj", "ClienteId")
+                        .HasForeignKey("OficinaMotos.Domain.Entities.PessoaPj", "ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -4341,7 +4341,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.Navigation("EspecialidadePrincipal");
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.MecanicoCertificacao", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PrestadorCertificacao", b =>
                 {
                     b.HasOne("OficinaMotos.Domain.Entities.MecanicoEspecialidade", "Especialidade")
                         .WithMany()
@@ -4359,7 +4359,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.Navigation("Mecanico");
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.MecanicoContato", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PrestadoresAtividades", b =>
                 {
                     b.HasOne("OficinaMotos.Domain.Entities.Mecanico", "Mecanico")
                         .WithMany("Contatos")
@@ -4370,7 +4370,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.Navigation("Mecanico");
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.MecanicoDisponibilidade", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PrestadorDisponibilidade", b =>
                 {
                     b.HasOne("OficinaMotos.Domain.Entities.Mecanico", "Mecanico")
                         .WithMany("Disponibilidades")
@@ -4422,7 +4422,7 @@ namespace OficinaMotos.Infrastructure.Migrations
                     b.Navigation("Mecanico");
                 });
 
-            modelBuilder.Entity("OficinaMotos.Domain.Entities.MecanicoExperiencia", b =>
+            modelBuilder.Entity("OficinaMotos.Domain.Entities.PrestadorExperiencia", b =>
                 {
                     b.HasOne("OficinaMotos.Domain.Entities.Mecanico", "Mecanico")
                         .WithMany("Experiencias")

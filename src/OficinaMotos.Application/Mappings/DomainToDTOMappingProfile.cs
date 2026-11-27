@@ -7,6 +7,8 @@ using OficinaMotos.Application.DTOs.Requests.Financeiro;
 using OficinaMotos.Application.DTOs.Requests.Fornecedor;
 using OficinaMotos.Application.DTOs.Requests.Mecanico;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
+using OficinaMotos.Application.DTOs.Requests.Pessoas;
+using OficinaMotos.Application.DTOs.Requests.Prestador;
 using OficinaMotos.Application.DTOs.Requests.Veiculo;
 using OficinaMotos.Application.DTOs.Requests.Seguranca;
 using OficinaMotos.Application.DTOs.Responses;
@@ -16,6 +18,8 @@ using OficinaMotos.Application.DTOs.Responses.Financeiro;
 using OficinaMotos.Application.DTOs.Responses.Fornecedor;
 using OficinaMotos.Application.DTOs.Responses.Mecanico;
 using OficinaMotos.Application.DTOs.Responses.OrdemServico;
+using OficinaMotos.Application.DTOs.Responses.Pessoas;
+using OficinaMotos.Application.DTOs.Responses.Prestador;
 using OficinaMotos.Application.DTOs.Responses.Veiculo;
 using OficinaMotos.Domain.Entities;
 
@@ -25,6 +29,28 @@ namespace OficinaMotos.Application.Mappings
     {
         public DomainToDTOMappingProfile()
         {
+            // Pessoas
+            CreateMap<Pessoa, PessoaResponseDTO>();
+            CreateMap<CreatePessoaDTO, Pessoa>();
+            CreateMap<PessoaPf, PessoaPfResponseDTO>();
+            CreateMap<PessoaPfDTO, PessoaPf>();
+            CreateMap<CreatePessoaPfDTO, PessoaPf>();
+            CreateMap<PessoaPj, PessoaPjResponseDTO>();
+            CreateMap<PessoaPjDTO, PessoaPj>();
+            CreateMap<CreatePessoaPjDTO, PessoaPj>();
+            CreateMap<PessoaContato, PessoaContatoResponseDTO>();
+            CreateMap<PessoaContatoDTO, PessoaContato>();
+            CreateMap<CreatePessoaContatoDTO, PessoaContato>();
+            CreateMap<PessoaEndereco, PessoaEnderecoResponseDTO>();
+            CreateMap<PessoaEnderecoDTO, PessoaEndereco>();
+            CreateMap<CreatePessoaEnderecoDTO, PessoaEndereco>();
+            CreateMap<PessoaDocumento, PessoaDocumentoResponseDTO>();
+            CreateMap<PessoaDocumentoDTO, PessoaDocumento>();
+            CreateMap<CreatePessoaDocumentoDTO, PessoaDocumento>();
+            CreateMap<PessoaAnexo, PessoaAnexoResponseDTO>();
+            CreateMap<PessoaAnexoDTO, PessoaAnexo>();
+            CreateMap<CreatePessoaAnexoDTO, PessoaAnexo>();
+
             CreateMap<Cliente, ClienteResponseDTO>();
                 //.ForMember(dest => dest.Pessoa.TipoPessoa, opt => opt.MapFrom(src => src.Pessoa.TipoPessoa))
                 //.ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status))
@@ -130,6 +156,21 @@ namespace OficinaMotos.Application.Mappings
 
             CreateMap<Mecanico, MecanicoResponseDTO>();
             CreateMap<CreateMecanicoDTO, Mecanico>();
+
+            // Prestador
+            CreateMap<Prestador, PrestadorResponseDTO>();
+            CreateMap<CreatePrestadorDTO, Prestador>();
+            CreateMap<AtividadeProfissional, AtividadeProfissionalResponseDTO>();
+            CreateMap<CreateAtividadeProfissionalDTO, AtividadeProfissional>();
+            CreateMap<PrestadorAtividade, PrestadorAtividadeResponseDTO>()
+                .ForMember(dest => dest.AtividadeNome, opt => opt.MapFrom(src => src.AtividadeProfissional != null ? src.AtividadeProfissional.Nome : null));
+            CreateMap<CreatePrestadorAtividadeDTO, PrestadorAtividade>();
+            CreateMap<PrestadorDisponibilidade, PrestadorDisponibilidadeResponseDTO>();
+            CreateMap<CreatePrestadorDisponibilidadeDTO, PrestadorDisponibilidade>();
+            CreateMap<PrestadorExperiencia, PrestadorExperienciaResponseDTO>();
+            CreateMap<CreatePrestadorExperienciaDTO, PrestadorExperiencia>();
+            CreateMap<PrestadorCertificacao, PrestadorCertificacaoResponseDTO>();
+            CreateMap<CreatePrestadorCertificacaoDTO, PrestadorCertificacao>();
 
 
             CreateMap<Fornecedor, FornecedorResponseDTO>();

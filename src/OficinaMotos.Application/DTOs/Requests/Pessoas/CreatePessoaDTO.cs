@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace OficinaMotos.Application.DTOs.Requests.Pessoas
 {
     public class CreatePessoaDTO
@@ -14,10 +17,6 @@ namespace OficinaMotos.Application.DTOs.Requests.Pessoas
         public List<PessoaEnderecoDTO> Enderecos { get; set; } = new();
         public List<PessoaDocumentoDTO> Documentos { get; set; } = new();
         public List<PessoaAnexoDTO> Anexos { get; set; } = new();
-    }
-
-    public class UpdatePessoaDTO : CreatePessoaDTO
-    {
     }
 
     public class PessoaPfDTO
