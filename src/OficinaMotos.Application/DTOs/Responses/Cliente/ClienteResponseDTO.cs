@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using OficinaMotos.Application.DTOs.Responses.Pessoas;
 using OficinaMotos.Domain.Entities;
 
 namespace OficinaMotos.Application.DTOs.Responses.Cliente
@@ -7,14 +8,20 @@ namespace OficinaMotos.Application.DTOs.Responses.Cliente
     public class ClienteResponseDTO
     {
         public long Id { get; set; }
-        public long PessoaId { get; set; }
         public long Codigo { get; set; }
+
+        public long? OrigemId { get; set; }
+        public ClienteOrigemResponseDTO? Origem { get; set; }
+
+        public long? PessoaId { get; set; }
+        public PessoaResponseDTO? Pessoa { get; set; }
+
         public ClienteStatus Status { get; set; }
         public bool Vip { get; set; }
-        public long? OrigemId { get; set; }
+        
+        
         public string? Observacoes { get; set; }
 
-        public ClienteOrigemResponseDTO? Origem { get; set; }
         public ClienteFinanceiroResponseDTO? Financeiro { get; set; }
 
         public ICollection<ClienteIndicacaoResponseDTO> Indicacoes { get; set; } = new HashSet<ClienteIndicacaoResponseDTO>();

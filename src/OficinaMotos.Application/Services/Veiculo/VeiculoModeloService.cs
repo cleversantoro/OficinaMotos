@@ -1,6 +1,6 @@
 using AutoMapper;
 using OficinaMotos.Application.DTOs.Requests.Veiculo;
-using OficinaMotos.Application.DTOs.Responses.VeiculoDTO;
+using OficinaMotos.Application.DTOs.Responses.Veiculo;
 using OficinaMotos.Application.Interfaces.Veiculo;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Interfaces.Repositories.VeiculoRepo;

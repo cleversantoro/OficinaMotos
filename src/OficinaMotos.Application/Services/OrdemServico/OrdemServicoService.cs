@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
-using OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO;
+using OficinaMotos.Application.DTOs.Responses.OrdemServico;
 using OficinaMotos.Application.Interfaces.OrdemServico;
 using OficinaMotos.Application.Validators.OrdemServico;
 using OficinaMotos.Domain.Entities;

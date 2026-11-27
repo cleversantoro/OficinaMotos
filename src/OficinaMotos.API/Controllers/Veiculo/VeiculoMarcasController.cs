@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OficinaMotos.Application.DTOs.Requests.Veiculo;
-using OficinaMotos.Application.DTOs.Responses.VeiculoDTO;
+using OficinaMotos.Application.DTOs.Responses.Veiculo;
 using OficinaMotos.Application.Interfaces.Veiculo;
 
 namespace OficinaMotos.API.Controllers.Veiculo

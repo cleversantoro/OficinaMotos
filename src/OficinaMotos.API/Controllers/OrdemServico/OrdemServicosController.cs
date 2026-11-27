@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
-using OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO;
+using OficinaMotos.Application.DTOs.Responses.OrdemServico;
 using OficinaMotos.Application.Interfaces.OrdemServico;
 
 namespace OficinaMotos.API.Controllers.OrdemServico

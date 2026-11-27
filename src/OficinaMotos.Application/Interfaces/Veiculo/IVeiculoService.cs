@@ -1,5 +1,6 @@
 using OficinaMotos.Application.DTOs.Requests.Veiculo;
-using OficinaMotos.Application.DTOs.Responses.VeiculoDTO;
+using OficinaMotos.Application.DTOs.Responses.Veiculo;
+using OficinaMotos.Application.DTOs.Responses.Veiculo;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

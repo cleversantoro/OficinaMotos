@@ -6,7 +6,7 @@ using VeiculoEntity = OficinaMotos.Domain.Entities.Veiculo;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OficinaMotos.Application.DTOs.Requests.Veiculo;
-using OficinaMotos.Application.DTOs.Responses.VeiculoDTO;
+using OficinaMotos.Application.DTOs.Responses.Veiculo;
 
 namespace OficinaMotos.Application.Services.Veiculo
 {
@@ -48,16 +48,14 @@ namespace OficinaMotos.Application.Services.Veiculo
             entity.ClienteId = request.ClienteId;
             entity.Placa = request.Placa;
             entity.ModeloId = request.ModeloId;
-            entity.AnoFab = request.AnoFab;
-            entity.AnoMod = request.AnoMod;
+            entity.AnoFabricacao = request.AnoFabricacao;
+            entity.AnoModelo = request.AnoModelo;
             entity.Cor = request.Cor;
             entity.Chassi = request.Chassi;
             entity.Renavam = request.Renavam;
-            entity.Km = request.Km;
-            entity.ProximoKmRevisao = request.ProximoKmRevisao;
+            entity.Quilometragem = request.Quilometragem;
             entity.Combustivel = request.Combustivel;
-            entity.Observacao = request.Observacao;
-            entity.Principal = request.Principal;
+            entity.Observacoes = request.Observacoes;
             entity.Ativo = request.Ativo;
             entity.SetUpdated();
 

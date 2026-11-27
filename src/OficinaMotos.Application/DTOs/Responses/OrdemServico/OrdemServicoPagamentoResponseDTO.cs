@@ -1,6 +1,6 @@
 using System;
 
-namespace OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO
+namespace OficinaMotos.Application.DTOs.Responses.OrdemServico
 {
     public class OrdemServicoPagamentoResponseDTO
     {

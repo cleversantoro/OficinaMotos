@@ -15,8 +15,8 @@ using OficinaMotos.Application.DTOs.Responses.Estoque;
 using OficinaMotos.Application.DTOs.Responses.Financeiro;
 using OficinaMotos.Application.DTOs.Responses.Fornecedor;
 using OficinaMotos.Application.DTOs.Responses.Mecanico;
-using OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO;
-using OficinaMotos.Application.DTOs.Responses.VeiculoDTO;
+using OficinaMotos.Application.DTOs.Responses.OrdemServico;
+using OficinaMotos.Application.DTOs.Responses.Veiculo;
 using OficinaMotos.Domain.Entities;
 
 namespace OficinaMotos.Application.Mappings
@@ -25,23 +25,21 @@ namespace OficinaMotos.Application.Mappings
     {
         public DomainToDTOMappingProfile()
         {
-            CreateMap<Cliente, ClienteResponseDTO>()
-                .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => (int)src.Tipo))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status))
-                .ForMember(dest => dest.OrigemDescricao, opt => opt.MapFrom(src => src.Origem != null ? src.Origem.Nome : null));
+            CreateMap<Cliente, ClienteResponseDTO>();
+                //.ForMember(dest => dest.Pessoa.TipoPessoa, opt => opt.MapFrom(src => src.Pessoa.TipoPessoa))
+                //.ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status))
+                //.ForMember(dest => dest.Origem.Descricao, opt => opt.MapFrom(src => src.Origem != null ? src.Origem.Nome : null));
 
-            CreateMap<CreateClienteDTO, Cliente>()
-                .ForMember(dest => dest.NomeExibicao, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.NomeExibicao) ? src.NomeExibicao : src.Nome))
-                .ForMember(dest => dest.Documento, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.Documento) ? src.Documento : src.Cpf))
-                .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => src.Tipo == 2 ? ClienteTipo.PessoaJuridica : ClienteTipo.PessoaFisica))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (ClienteStatus)src.Status))
-                .ForMember(dest => dest.Vip, opt => opt.MapFrom(src => src.Vip));
-            //.ForMember(dest => dest.PessoaFisica, opt => opt.MapFrom(src => new ClientePf { Cpf = src.Cpf }));
+            CreateMap<CreateClienteDTO, Cliente>();
+            //.ForMember(dest => dest.Pessoa.NomeExibicao, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.Pessoa.NomeExibicao) ? src.Pessoa.NomeExibicao : src.Pessoa.Nome))
+            //.ForMember(dest => dest.Pessoa.Documento, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.Documento) ? src.Documento : src.Pessoa.Cpf))
+            //.ForMember(dest => dest.Pessoa.TipoPessoa, opt => opt.MapFrom(src => src.Pessoa.TipoPessoa == 2 ? ClienteTipo.Pessoa.PessoaJuridica : ClienteTipo.Pessoa.PessoaFisica))
+            //.ForMember(dest => dest.Status, opt => opt.MapFrom(src => (ClienteStatus)src.Status))
+            //.ForMember(dest => dest.Vip, opt => opt.MapFrom(src => src.Vip));
 
-            CreateMap<Cliente, ClienteResponseTableDTO>()
-                .ForMember(dest => dest.TipoDescricao, opt => opt.MapFrom(src => (int)src.Tipo == 1 ? "Pessoa F�sica" : "Pessoa Jur�dica"))
-                .ForMember(dest => dest.StatusDescricao, opt => opt.MapFrom(src => (int)src.Status == 0 ? "Cliente Inativo" : GetStatus((int)src.Status))); 
-                //.ForMember(dest => dest.OrigemDescricao, opt => opt.MapFrom(src => src.Origem != null ? src.Origem.Nome : null));
+            CreateMap<Cliente, ClienteResponseTableDTO>();
+                //.ForMember(dest => dest.TipoDescricao, opt => opt.MapFrom(src => (int)src.Pessoa.TipoPessoa == 1 ? "Pessoa Fsica" : "Pessoa Jurdica"))
+                //.ForMember(dest => dest.StatusDescricao, opt => opt.MapFrom(src => (int)src.Status == 0 ? "Cliente Inativo" : GetStatus((int)src.Status))); 
 
             CreateMap<ClienteOrigem, ClienteOrigemResponseDTO>();
             CreateMap<CreateClienteOrigemDTO, ClienteOrigem>();
@@ -102,11 +100,11 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<FinanceiroLancamento, FinanceiroLancamentoResponseDTO>();
             CreateMap<CreateFinanceiroLancamentoDTO, FinanceiroLancamento>();
 
-            CreateMap<OrdemServico, OrdemServicoResponseDTO>()
-                .ForMember(dest => dest.ClienteNome, opt => opt.MapFrom(src => src.Cliente != null ? src.Cliente.Nome : null))
-                .ForMember(dest => dest.ClienteNomeExibicao, opt => opt.MapFrom(src => src.Cliente != null ? src.Cliente.NomeExibicao : null))
-                .ForMember(dest => dest.VeiculoPlaca, opt => opt.MapFrom(src => src.Veiculo != null ? src.Veiculo.Placa : null))
-                .ForMember(dest => dest.VeiculoModeloNome, opt => opt.MapFrom(src => src.Veiculo != null && src.Veiculo.Modelo != null ? src.Veiculo.Modelo.Nome : null));
+            CreateMap<OrdemServico, OrdemServicoResponseDTO>();
+                //.ForMember(dest => dest.ClienteNome, opt => opt.MapFrom(src => src.Cliente != null ? src.Cliente.Nome : null))
+                //.ForMember(dest => dest.ClienteNomeExibicao, opt => opt.MapFrom(src => src.Cliente != null ? src.Cliente.NomeExibicao : null))
+                //.ForMember(dest => dest.VeiculoPlaca, opt => opt.MapFrom(src => src.Veiculo != null ? src.Veiculo.Placa : null))
+                //.ForMember(dest => dest.VeiculoModeloNome, opt => opt.MapFrom(src => src.Veiculo != null && src.Veiculo.Modelo != null ? src.Veiculo.Modelo.Nome : null));
             CreateMap<CreateOrdemServicoDTO, OrdemServico>();
 
             CreateMap<OrdemServicoAnexo, OrdemServicoAnexoResponseDTO>();

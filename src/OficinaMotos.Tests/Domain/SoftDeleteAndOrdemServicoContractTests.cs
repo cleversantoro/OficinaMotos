@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
-using OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO;
+using OficinaMotos.Application.DTOs.Responses.OrdemServico;
 using OficinaMotos.Domain.Common;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Enums;

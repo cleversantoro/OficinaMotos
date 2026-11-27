@@ -1,6 +1,6 @@
 using AutoMapper;
-using OficinaMotos.Application.DTOs.Requests;
-using OficinaMotos.Application.DTOs.Responses;
+using OficinaMotos.Application.DTOs.Requests.Cliente;
+using OficinaMotos.Application.DTOs.Responses.Cliente;
 using OficinaMotos.Application.Interfaces.Cliente;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Interfaces.Repositories.ClienteRepo;
@@ -47,7 +47,7 @@ namespace OficinaMotos.Application.Services.Cliente
             entity.ClienteId = request.ClienteId;
             entity.Tipo = request.Tipo;
             entity.Aceito = request.Aceito;
-            entity.Data = request.Data;
+            entity.DataConsentimento = request.DataConsentimento;
             entity.ValidoAte = request.ValidoAte;
             entity.Observacoes = request.Observacoes;
             entity.Canal = request.Canal;

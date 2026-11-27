@@ -1,6 +1,6 @@
 using AutoMapper;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
-using OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO;
+using OficinaMotos.Application.DTOs.Responses.OrdemServico;
 using OficinaMotos.Application.Interfaces.OrdemServico;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
