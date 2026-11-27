@@ -1,4 +1,5 @@
 using System;
+using OficinaMotos.Domain.Enums;
 
 namespace OficinaMotos.Application.DTOs.Requests.OrdemServico
 {
@@ -6,7 +7,7 @@ namespace OficinaMotos.Application.DTOs.Requests.OrdemServico
     {
         public long OrdemServicoId { get; set; }
         public decimal Valor { get; set; }
-        public string Status { get; set; } = string.Empty;
+        public OrdemServicoPagamentoStatus Status { get; set; } = OrdemServicoPagamentoStatus.Pendente;
         public DateTime? DataPagamento { get; set; }
         public string? Metodo { get; set; }
         public string? Observacao { get; set; }

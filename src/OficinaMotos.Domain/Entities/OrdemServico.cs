@@ -86,7 +86,7 @@ namespace OficinaMotos.Domain.Entities
         public long? UsuarioId { get; set; }
         public SegUsuario? Usuario { get; set; }
         public string Texto { get; set; } = string.Empty;
-        public string Tipo { get; set; } = "INTERNA";
+        public OrdemServicoObservacaoTipo Tipo { get; set; } = OrdemServicoObservacaoTipo.Interna;
     }
 
     public class OrdemServicoAvaliacao : BaseEntity
@@ -117,7 +117,7 @@ namespace OficinaMotos.Domain.Entities
         public long OrdemServicoId { get; set; }
         public OrdemServico? OrdemServico { get; set; }
         public decimal Valor { get; set; }
-        public string Status { get; set; } = string.Empty;
+        public OrdemServicoPagamentoStatus Status { get; set; } = OrdemServicoPagamentoStatus.Pendente;
         public DateTime? DataPagamento { get; set; }
         public string? Metodo { get; set; }
         public string? Observacao { get; set; }

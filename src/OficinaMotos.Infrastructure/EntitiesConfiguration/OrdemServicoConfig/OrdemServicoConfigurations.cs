@@ -185,7 +185,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.Property(e => e.OrdemServicoId).HasColumnName("ordem_servico_id");
             builder.Property(e => e.UsuarioId).HasColumnName("usuario_id");
             builder.Property(e => e.Texto).HasColumnName("texto").HasMaxLength(1000).IsRequired();
-            builder.Property(e => e.Tipo).HasColumnName("tipo").HasMaxLength(30).HasDefaultValue("INTERNA").IsRequired();
+            builder.Property(e => e.Tipo).HasColumnName("tipo").HasDefaultValue(OrdemServicoObservacaoTipo.Interna).IsRequired();
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
             builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
@@ -230,7 +230,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
 
             builder.Property(e => e.OrdemServicoId).HasColumnName("ordem_servico_id");
             builder.Property(e => e.Valor).HasColumnName("valor").HasPrecision(18, 2).IsRequired();
-            builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(30).IsRequired();
+            builder.Property(e => e.Status).HasColumnName("status").HasDefaultValue(OrdemServicoPagamentoStatus.Pendente).IsRequired();
             builder.Property(e => e.Metodo).HasColumnName("metodo").HasMaxLength(120);
             builder.Property(e => e.Observacao).HasColumnName("observacao").HasMaxLength(240);
             builder.Property(e => e.DataPagamento).HasColumnName("data_pagamento");

@@ -9,6 +9,14 @@ namespace OficinaMotos.Infrastructure.Repositories.SegurancaRepo
     {
         public SegUsuarioRepository(OficinaContext context) : base(context) { }
 
+        public override async Task<List<SegUsuario>> GetAllAsync()
+            => await _dbSet
+                .Include(u => u.UsuariosPerfis.Where(up => up.Ativo))
+                    .ThenInclude(up => up.Perfil)
+                .AsNoTracking()
+                .AsSplitQuery()
+                .ToListAsync();
+
         public async Task<SegUsuario?> GetByEmailAsync(string email)
             => await _dbSet.FirstOrDefaultAsync(u => u.Email == email);
 

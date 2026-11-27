@@ -79,7 +79,10 @@ namespace OficinaMotos.Infrastructure.Repositories.ClienteRepo
         public async Task<List<Cliente>> GetAllForTableAsync()
         {
             return await _dbSet
+                .Include(c => c.Pessoa)
+                    .ThenInclude(p => p!.Contatos)
                 .AsNoTracking()
+                .AsSplitQuery()
                 .ToListAsync();
         }
     }

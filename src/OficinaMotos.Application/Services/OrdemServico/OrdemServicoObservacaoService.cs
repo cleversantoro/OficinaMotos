@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using OficinaMotos.Application.DTOs.Requests.OrdemServico;
 using OficinaMotos.Application.DTOs.Responses.OrdemServico;
 using OficinaMotos.Application.Interfaces.OrdemServico;
@@ -47,6 +47,7 @@ namespace OficinaMotos.Application.Services.OrdemServico
             entity.OrdemServicoId = request.OrdemServicoId;
             //entity.Usuario = request.Usuario;
             entity.Texto = request.Texto;
+            entity.Tipo = request.Tipo;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);

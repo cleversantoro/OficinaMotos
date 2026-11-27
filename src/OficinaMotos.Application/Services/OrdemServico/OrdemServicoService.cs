@@ -161,9 +161,9 @@ namespace OficinaMotos.Application.Services.OrdemServico
 
             // 1. Persistir o pagamento da OS
             var pagamento = _mapper.Map<OrdemServicoPagamento>(request);
-            if (string.IsNullOrWhiteSpace(pagamento.Status))
+            if (!Enum.IsDefined(typeof(OrdemServicoPagamentoStatus), pagamento.Status))
             {
-                pagamento.Status = "Liquidado";
+                pagamento.Status = OrdemServicoPagamentoStatus.Pago;
             }
             if (!pagamento.DataPagamento.HasValue)
             {

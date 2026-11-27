@@ -1,3 +1,5 @@
+using OficinaMotos.Domain.Enums;
+
 namespace OficinaMotos.Application.DTOs.Requests.OrdemServico
 {
     public class CreateOrdemServicoObservacaoDTO
@@ -5,6 +7,6 @@ namespace OficinaMotos.Application.DTOs.Requests.OrdemServico
         public long OrdemServicoId { get; set; }
         public long? UsuarioId { get; set; }
         public string Texto { get; set; } = string.Empty;
-        public string Tipo { get; set; } = "INTERNA";
+        public OrdemServicoObservacaoTipo Tipo { get; set; } = OrdemServicoObservacaoTipo.Interna;
     }
 }

@@ -26,10 +26,11 @@ namespace OficinaMotos.Infrastructure.Repositories.OrdemServicoRepo
                     .ThenInclude(i => i.Prestador)
                 .Include(o => o.Itens)
                     .ThenInclude(i => i.AtividadeProfissional)
-                .Include(o => o.Observacoes)
+                .Include(o => o.ListaObservacoes)
                 .Include(o => o.Historico)
                 .Include(o => o.Pagamentos)
                 .AsNoTracking()
+                .AsSplitQuery()
                 .ToListAsync();
         }
 
@@ -46,10 +47,11 @@ namespace OficinaMotos.Infrastructure.Repositories.OrdemServicoRepo
                     .ThenInclude(i => i.Prestador)
                 .Include(o => o.Itens)
                     .ThenInclude(i => i.AtividadeProfissional)
-                .Include(o => o.Observacoes)
+                .Include(o => o.ListaObservacoes)
                 .Include(o => o.Historico)
                 .Include(o => o.Pagamentos)
                 .AsNoTracking()
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
     }

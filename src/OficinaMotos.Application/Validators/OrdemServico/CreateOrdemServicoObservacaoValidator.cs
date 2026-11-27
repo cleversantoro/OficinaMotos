@@ -9,7 +9,7 @@ namespace OficinaMotos.Application.Validators.OrdemServico
         {
             RuleFor(x => x.OrdemServicoId).GreaterThan(0);
             RuleFor(x => x.Texto).NotEmpty().MaximumLength(1000);
-            RuleFor(x => x.Tipo).NotEmpty().MaximumLength(30);
+            RuleFor(x => x.Tipo).IsInEnum();
         }
     }
 }

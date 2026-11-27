@@ -1,4 +1,4 @@
-﻿using OficinaMotos.Application.DTOs.Responses.Seguranca;
+using OficinaMotos.Application.DTOs.Responses.Seguranca;
 using AutoMapper;
 using OficinaMotos.Application.DTOs.Requests.Cliente;
 using OficinaMotos.Application.DTOs.Requests.Estoque;
@@ -63,8 +63,15 @@ namespace OficinaMotos.Application.Mappings
                 //.ForMember(dest => dest.Vip, opt => opt.MapFrom(src => src.Vip));
 
             CreateMap<Cliente, ClienteResponseTableDTO>()
-                //.ForMember(dest => dest.TipoDescricao, opt => opt.MapFrom(src => (int)src.Pessoa.TipoPessoa == 1 ? "Pessoa Fsica" : "Pessoa Jurdica"))
-                .ForMember(dest => dest.StatusDescricao, opt => opt.MapFrom(src => (int)src.Status == 0 ? "Cliente Inativo" : GetStatus((int)src.Status))); 
+                .ForMember(dest => dest.Nome, opt => opt.MapFrom(src => src.Pessoa != null ? src.Pessoa.Nome : string.Empty))
+                .ForMember(dest => dest.NomeExibicao, opt => opt.MapFrom(src => src.Pessoa != null ? src.Pessoa.NomeExibicao : string.Empty))
+                .ForMember(dest => dest.Documento, opt => opt.MapFrom(src => src.Pessoa != null ? src.Pessoa.Documento : string.Empty))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => GetEmailPrincipal(src.Pessoa)))
+                .ForMember(dest => dest.Telefone, opt => opt.MapFrom(src => GetTelefonePrincipal(src.Pessoa)))
+                .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => GetTipoPessoaCodigo(src.Pessoa)))
+                .ForMember(dest => dest.TipoDescricao, opt => opt.MapFrom(src => GetTipoPessoaDescricao(src.Pessoa)))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status))
+                .ForMember(dest => dest.StatusDescricao, opt => opt.MapFrom(src => (int)src.Status == 0 ? "Cliente Inativo" : GetStatus((int)src.Status)));
 
             CreateMap<ClienteOrigem, ClienteOrigemResponseDTO>();
             CreateMap<CreateClienteOrigemDTO, ClienteOrigem>();
@@ -224,14 +231,77 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<CreateSegPermissaoDTO, SegPermissao>();
 
             CreateMap<SegUsuario, SegUsuarioResponseDTO>()
+                .ForMember(dest => dest.StatusDescricao, opt => opt.MapFrom(src => GetUsuarioStatusDescricao(src.Status)))
                 .ForMember(dest => dest.Perfis, opt => opt.MapFrom(src =>
-                    src.UsuariosPerfis.Select(up => up.Perfil)));
-            CreateMap<SegUsuario, SegUsuarioTableDTO>();
+                    src.UsuariosPerfis.Where(up => up.Perfil != null).Select(up => up.Perfil!)));
+
+            CreateMap<SegUsuario, SegUsuarioTableDTO>()
+                .ForMember(dest => dest.StatusDescricao, opt => opt.MapFrom(src => GetUsuarioStatusDescricao(src.Status)))
+                .ForMember(dest => dest.Perfis, opt => opt.MapFrom(src =>
+                    string.Join(", ", src.UsuariosPerfis
+                        .Where(up => up.Perfil != null)
+                        .Select(up => up.Perfil!.Nome))));
 
             CreateMap<SegPerfil, SegPerfilResumoDTO>();
 
             CreateMap<SegAuditLog, SegAuditLogResponseDTO>();
         }
+
+        private static string? GetEmailPrincipal(Pessoa? pessoa)
+        {
+            if (pessoa?.Contatos == null || pessoa.Contatos.Count == 0) return null;
+
+            return pessoa.Contatos
+                .Where(c => string.Equals(c.Tipo, "EMAIL", StringComparison.OrdinalIgnoreCase))
+                .OrderByDescending(c => c.Principal)
+                .Select(c => c.Valor)
+                .FirstOrDefault();
+        }
+
+        private static string? GetTelefonePrincipal(Pessoa? pessoa)
+        {
+            if (pessoa?.Contatos == null || pessoa.Contatos.Count == 0) return null;
+
+            return pessoa.Contatos
+                .Where(c =>
+                    string.Equals(c.Tipo, "TELEFONE", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(c.Tipo, "CELULAR", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(c.Tipo, "WHATSAPP", StringComparison.OrdinalIgnoreCase))
+                .OrderByDescending(c => c.Principal)
+                .Select(c => c.Valor)
+                .FirstOrDefault();
+        }
+
+        private static int GetTipoPessoaCodigo(Pessoa? pessoa)
+        {
+            var tipo = pessoa?.TipoPessoa?.Trim().ToUpperInvariant();
+            return tipo switch
+            {
+                "PF" => 1,
+                "PJ" => 2,
+                _ => 0
+            };
+        }
+
+        private static string? GetTipoPessoaDescricao(Pessoa? pessoa)
+        {
+            var tipo = pessoa?.TipoPessoa?.Trim().ToUpperInvariant();
+            return tipo switch
+            {
+                "PF" => "Pessoa Física",
+                "PJ" => "Pessoa Jurídica",
+                _ => null
+            };
+        }
+
+        private static string GetUsuarioStatusDescricao(int status) => status switch
+        {
+            0 => "Inativo",
+            1 => "Ativo",
+            2 => "Suspenso",
+            3 => "Bloqueado",
+            _ => "Desconhecido"
+        };
 
         private string GetStatus(int status)
         {

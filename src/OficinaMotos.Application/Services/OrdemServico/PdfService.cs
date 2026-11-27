@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -262,7 +262,7 @@ namespace OficinaMotos.Application.Services.OrdemServico
                                     foreach (var pag in pagamentos)
                                     {
                                         table.Cell().Padding(4).Text(string.IsNullOrWhiteSpace(pag.Metodo) ? "NÃ£o informado" : pag.Metodo);
-                                        table.Cell().Padding(4).Text(string.IsNullOrWhiteSpace(pag.Status) ? "Registrado" : pag.Status);
+                                        table.Cell().Padding(4).Text(pag.Status.ToString());
                                         table.Cell().Padding(4).Text(pag.DataPagamento.HasValue ? pag.DataPagamento.Value.ToString("dd/MM/yyyy", PtBr) : "-");
                                         table.Cell().Padding(4).AlignRight().Text(FormatCurrency(pag.Valor));
                                     }
