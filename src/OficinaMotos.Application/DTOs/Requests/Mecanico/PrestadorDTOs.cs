@@ -1,11 +1,15 @@
+using System;
+using System.Collections.Generic;
+using OficinaMotos.Domain.Entities;
+
 namespace OficinaMotos.Application.DTOs.Requests.Mecanico
 {
     public class CreatePrestadorDTO
     {
         public long PessoaId { get; set; }
         public string Codigo { get; set; } = string.Empty;
-        public string TipoVinculo { get; set; } = "INTERNO";
-        public string Status { get; set; } = "ATIVO";
+        public PrestadorVinculo TipoVinculo { get; set; } = PrestadorVinculo.Interno;
+        public PrestadorStatus Status { get; set; } = PrestadorStatus.Ativo;
         public DateTime? DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
         public decimal? ValorHora { get; set; }

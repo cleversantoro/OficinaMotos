@@ -7,13 +7,14 @@ namespace OficinaMotos.Application.DTOs.Responses.Financeiro
         public long Id { get; set; }
         public long? ContaPagarId { get; set; }
         public long? ContaReceberId { get; set; }
-        public long? OrdemServicoId { get; set; }
-        public long? ClienteId { get; set; }
-        public long? FornecedorId { get; set; }
+        public long? MetodoPagamentoId { get; set; }
         public decimal Valor { get; set; }
-        public string Status { get; set; } = string.Empty;
-        public DateTime? DataPagamento { get; set; }
-        public long? MetodoId { get; set; }
+        public DateTime DataPagamento { get; set; }
+        public string Tipo { get; set; } = string.Empty;
+        public string Status { get; set; } = "CONFIRMADO";
+        public string? ReferenciaExterna { get; set; }
         public string? Observacao { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

@@ -46,17 +46,6 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<ClienteOrigem, ClienteOrigemResponseDTO>();
             CreateMap<CreateClienteOrigemDTO, ClienteOrigem>();
 
-            CreateMap<ClienteAnexo, ClienteAnexoResponseDTO>();
-            CreateMap<CreateClienteAnexoDTO, ClienteAnexo>();
-
-            CreateMap<ClienteContato, ClienteContatoResponseDTO>();
-            CreateMap<CreateClienteContatoDTO, ClienteContato>();
-
-            CreateMap<ClienteDocumento, ClienteDocumentoResponseDTO>();
-            CreateMap<CreateClienteDocumentoDTO, ClienteDocumento>();
-
-            CreateMap<ClienteEndereco, ClienteEnderecoResponseDTO>();
-            CreateMap<CreateClienteEnderecoDTO, ClienteEndereco>();
 
             CreateMap<ClienteFinanceiro, ClienteFinanceiroResponseDTO>();
             CreateMap<CreateClienteFinanceiroDTO, ClienteFinanceiro>();
@@ -67,11 +56,6 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<ClienteLgpdConsentimento, ClienteLgpdConsentimentoResponseDTO>();
             CreateMap<CreateClienteLgpdConsentimentoDTO, ClienteLgpdConsentimento>();
 
-            CreateMap<ClientePf, ClientePfResponseDTO>();
-            CreateMap<CreateClientePfDTO, ClientePf>();
-
-            CreateMap<ClientePj, ClientePjResponseDTO>();
-            CreateMap<CreateClientePjDTO, ClientePj>();
 
             CreateMap<EstoqueCategoria, EstoqueCategoriaResponseDTO>();
             CreateMap<CreateEstoqueCategoriaDTO, EstoqueCategoria>();
@@ -149,29 +133,6 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<Mecanico, MecanicoResponseDTO>();
             CreateMap<CreateMecanicoDTO, Mecanico>();
 
-            CreateMap<MecanicoEspecialidade, MecanicoEspecialidadeResponseDTO>();
-            CreateMap<CreateMecanicoEspecialidadeDTO, MecanicoEspecialidade>();
-
-            CreateMap<MecanicoCertificacao, MecanicoCertificacaoResponseDTO>();
-            CreateMap<CreateMecanicoCertificacaoDTO, MecanicoCertificacao>();
-
-            CreateMap<MecanicoContato, MecanicoContatoResponseDTO>();
-            CreateMap<CreateMecanicoContatoDTO, MecanicoContato>();
-
-            CreateMap<MecanicoDisponibilidade, MecanicoDisponibilidadeResponseDTO>();
-            CreateMap<CreateMecanicoDisponibilidadeDTO, MecanicoDisponibilidade>();
-
-            CreateMap<MecanicoDocumento, MecanicoDocumentoResponseDTO>();
-            CreateMap<CreateMecanicoDocumentoDTO, MecanicoDocumento>();
-
-            CreateMap<MecanicoEndereco, MecanicoEnderecoResponseDTO>();
-            CreateMap<CreateMecanicoEnderecoDTO, MecanicoEndereco>();
-
-            CreateMap<MecanicoEspecialidadeRel, MecanicoEspecialidadeRelResponseDTO>();
-            CreateMap<CreateMecanicoEspecialidadeRelDTO, MecanicoEspecialidadeRel>();
-
-            CreateMap<MecanicoExperiencia, MecanicoExperienciaResponseDTO>();
-            CreateMap<CreateMecanicoExperienciaDTO, MecanicoExperiencia>();
 
             CreateMap<Fornecedor, FornecedorResponseDTO>();
             CreateMap<CreateFornecedorDTO, Fornecedor>();
@@ -182,20 +143,12 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<FornecedorSegmentoRel, FornecedorSegmentoRelResponseDTO>();
             CreateMap<CreateFornecedorSegmentoRelDTO, FornecedorSegmentoRel>();
 
-            CreateMap<FornecedorEndereco, FornecedorEnderecoResponseDTO>();
-            CreateMap<CreateFornecedorEnderecoDTO, FornecedorEndereco>();
-
-            CreateMap<FornecedorContato, FornecedorContatoResponseDTO>();
-            CreateMap<CreateFornecedorContatoDTO, FornecedorContato>();
 
             CreateMap<FornecedorRepresentante, FornecedorRepresentanteResponseDTO>();
             CreateMap<CreateFornecedorRepresentanteDTO, FornecedorRepresentante>();
 
             CreateMap<FornecedorBanco, FornecedorBancoResponseDTO>();
             CreateMap<CreateFornecedorBancoDTO, FornecedorBanco>();
-
-            CreateMap<FornecedorDocumento, FornecedorDocumentoResponseDTO>();
-            CreateMap<CreateFornecedorDocumentoDTO, FornecedorDocumento>();
 
             CreateMap<FornecedorCertificacao, FornecedorCertificacaoResponseDTO>();
             CreateMap<CreateFornecedorCertificacaoDTO, FornecedorCertificacao>();

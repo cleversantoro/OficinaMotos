@@ -1,6 +1,6 @@
 using OficinaMotos.Application.DTOs.Requests.Mecanico;
 using OficinaMotos.Application.DTOs.Responses.PrestadorRepo;
-using OficinaMotos.Application.Interfaces.Mecanico;
+using OficinaMotos.Application.Interfaces.Prestador;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Exceptions;
 using OficinaMotos.Domain.Interfaces.Repositories.PrestadorRepo;

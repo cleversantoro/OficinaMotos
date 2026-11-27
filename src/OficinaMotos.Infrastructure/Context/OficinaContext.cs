@@ -78,15 +78,9 @@ namespace OficinaMotos.Infrastructure.Context
 
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<ClienteOrigem> ClienteOrigens { get; set; }
-        public DbSet<ClienteAnexo> ClienteAnexos { get; set; }
-        public DbSet<ClienteContato> ClienteContatos { get; set; }
-        public DbSet<ClienteDocumento> ClienteDocumentos { get; set; }
-        public DbSet<ClienteEndereco> ClienteEnderecos { get; set; }
         public DbSet<ClienteFinanceiro> ClienteFinanceiro { get; set; }
         public DbSet<ClienteIndicacao> ClienteIndicacoes { get; set; }
         public DbSet<ClienteLgpdConsentimento> ClienteLgpdConsentimentos { get; set; }
-        public DbSet<ClientePf> ClientePfs { get; set; }
-        public DbSet<ClientePj> ClientePjs { get; set; }
         public DbSet<Pessoa> Pessoas { get; set; }
         public DbSet<PessoaPf> PessoasPf { get; set; }
         public DbSet<PessoaPj> PessoasPj { get; set; }
@@ -112,22 +106,11 @@ namespace OficinaMotos.Infrastructure.Context
         public DbSet<FornecedorSegmento> FornecedorSegmentos { get; set; }
         public DbSet<Fornecedor> Fornecedores { get; set; }
         public DbSet<FornecedorSegmentoRel> FornecedorSegmentosRel { get; set; }
-        public DbSet<FornecedorEndereco> FornecedorEnderecos { get; set; }
-        public DbSet<FornecedorContato> FornecedorContatos { get; set; }
         public DbSet<FornecedorRepresentante> FornecedorRepresentantes { get; set; }
         public DbSet<FornecedorBanco> FornecedorBancos { get; set; }
-        public DbSet<FornecedorDocumento> FornecedorDocumentos { get; set; }
         public DbSet<FornecedorCertificacao> FornecedorCertificacoes { get; set; }
         public DbSet<FornecedorAvaliacao> FornecedorAvaliacoes { get; set; }
-        public DbSet<MecanicoEspecialidade> MecanicoEspecialidades { get; set; }
         public DbSet<Mecanico> Mecanicos { get; set; }
-        public DbSet<MecanicoCertificacao> MecanicoCertificacoes { get; set; }
-        public DbSet<MecanicoContato> MecanicoContatos { get; set; }
-        public DbSet<MecanicoDisponibilidade> MecanicoDisponibilidades { get; set; }
-        public DbSet<MecanicoDocumento> MecanicoDocumentos { get; set; }
-        public DbSet<MecanicoEndereco> MecanicoEnderecos { get; set; }
-        public DbSet<MecanicoEspecialidadeRel> MecanicoEspecialidadesRel { get; set; }
-        public DbSet<MecanicoExperiencia> MecanicoExperiencias { get; set; }
         public DbSet<Prestador> Prestadores { get; set; }
         public DbSet<AtividadeProfissional> AtividadesProfissionais { get; set; }
         public DbSet<PrestadorAtividade> PrestadoresAtividades { get; set; }
@@ -165,28 +148,10 @@ namespace OficinaMotos.Infrastructure.Context
             // de uma vez só. Você não precisa adicionar uma por uma.
             builder.ApplyConfigurationsFromAssembly(typeof(OficinaContext).Assembly);
 
-            builder.Ignore<ClienteAnexo>();
-            builder.Ignore<ClienteContato>();
-            builder.Ignore<ClienteDocumento>();
-            builder.Ignore<ClienteEndereco>();
-            builder.Ignore<ClientePf>();
-            builder.Ignore<ClientePj>();
             builder.Ignore<ClienteFinanceiro>();
             builder.Ignore<ClienteIndicacao>();
             builder.Ignore<ClienteLgpdConsentimento>();
 
-            builder.Ignore<FornecedorEndereco>();
-            builder.Ignore<FornecedorContato>();
-            builder.Ignore<FornecedorDocumento>();
-
-            builder.Ignore<MecanicoEspecialidade>();
-            builder.Ignore<MecanicoEspecialidadeRel>();
-            builder.Ignore<MecanicoContato>();
-            builder.Ignore<MecanicoDocumento>();
-            builder.Ignore<MecanicoEndereco>();
-            builder.Ignore<MecanicoExperiencia>();
-            builder.Ignore<MecanicoCertificacao>();
-            builder.Ignore<MecanicoDisponibilidade>();
 
             // BaseEntity columns vary by table in DDL V2.
             foreach (var entityType in builder.Model.GetEntityTypes())

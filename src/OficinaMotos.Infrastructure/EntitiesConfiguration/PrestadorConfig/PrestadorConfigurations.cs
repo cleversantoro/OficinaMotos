@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OficinaMotos.Domain.Entities;
 
-namespace OficinaMotos.Infrastructure.EntitiesConfiguration.MecanicoConfig
+namespace OficinaMotos.Infrastructure.EntitiesConfiguration.PrestadorConfig
 {
     public class PrestadorConfiguration : IEntityTypeConfiguration<Prestador>
     {

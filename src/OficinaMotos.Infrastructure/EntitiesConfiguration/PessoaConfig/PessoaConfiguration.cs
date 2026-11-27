@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OficinaMotos.Domain.Common;
 using OficinaMotos.Domain.Entities;
 
-namespace OficinaMotos.Infrastructure.EntitiesConfiguration
+namespace OficinaMotos.Infrastructure.EntitiesConfiguration.PessoaConfig
 {
     public class PessoaConfiguration : IEntityTypeConfiguration<Pessoa>
     {

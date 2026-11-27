@@ -17,6 +17,7 @@ using System.Reflection;
 using OficinaMotos.Application.Services.Pessoas;
 using OficinaMotos.Application.Interfaces.Pessoas;
 using OficinaMotos.Application.Services.Prestador;
+using OficinaMotos.Application.Interfaces.Prestador;
 
 namespace OficinaMotos.Application.IoC
 {
@@ -34,15 +35,9 @@ namespace OficinaMotos.Application.IoC
             services.AddScoped<Interfaces.Cliente.IClienteService, ClienteService>();
             services.AddScoped<IPessoaService, PessoaService>();
             services.AddScoped<Interfaces.Cliente.IClienteOrigemService, ClienteOrigemService>();
-            services.AddScoped<Interfaces.Cliente.IClienteAnexoService, ClienteAnexoService>();
-            services.AddScoped<Interfaces.Cliente.IClienteContatoService, ClienteContatoService>();
-            services.AddScoped<Interfaces.Cliente.IClienteDocumentoService, ClienteDocumentoService>();
-            services.AddScoped<Interfaces.Cliente.IClienteEnderecoService, ClienteEnderecoService>();
             services.AddScoped<Interfaces.Cliente.IClienteFinanceiroService, ClienteFinanceiroService>();
             services.AddScoped<Interfaces.Cliente.IClienteIndicacaoService, ClienteIndicacaoService>();
             services.AddScoped<Interfaces.Cliente.IClienteLgpdConsentimentoService, ClienteLgpdConsentimentoService>();
-            services.AddScoped<Interfaces.Cliente.IClientePfService, ClientePfService>();
-            services.AddScoped<Interfaces.Cliente.IClientePjService, ClientePjService>();
             services.AddScoped<Interfaces.Estoque.IEstoqueCategoriaService, EstoqueCategoriaService>();
             services.AddScoped<Interfaces.Estoque.IEstoqueFabricanteService, EstoqueFabricanteService>();
             services.AddScoped<Interfaces.Estoque.IEstoqueLocalizacaoService, EstoqueLocalizacaoService>();
@@ -68,23 +63,12 @@ namespace OficinaMotos.Application.IoC
             services.AddScoped<Interfaces.OrdemServico.IOrdemServicoHistoricoService, OrdemServicoHistoricoService>();
             services.AddScoped<Interfaces.OrdemServico.IOrdemServicoPagamentoService, OrdemServicoPagamentoService>();
             services.AddScoped<Interfaces.Mecanico.IMecanicoService, MecanicoService>();
-            services.AddScoped<Interfaces.Mecanico.IMecanicoEspecialidadeService, MecanicoEspecialidadeService>();
-            services.AddScoped<Interfaces.Mecanico.IMecanicoCertificacaoService, MecanicoCertificacaoService>();
-            services.AddScoped<Interfaces.Mecanico.IMecanicoContatoService, MecanicoContatoService>();
-            services.AddScoped<Interfaces.Mecanico.IMecanicoDisponibilidadeService, MecanicoDisponibilidadeService>();
-            services.AddScoped<Interfaces.Mecanico.IMecanicoDocumentoService, MecanicoDocumentoService>();
-            services.AddScoped<Interfaces.Mecanico.IMecanicoEnderecoService, MecanicoEnderecoService>();
-            services.AddScoped<Interfaces.Mecanico.IMecanicoEspecialidadeRelService, MecanicoEspecialidadeRelService>();
-            services.AddScoped<Interfaces.Mecanico.IMecanicoExperienciaService, MecanicoExperienciaService>();
-            services.AddScoped<Interfaces.Mecanico.IPrestadorService, PrestadorService>();
+            services.AddScoped<IPrestadorService, PrestadorService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorService, FornecedorService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorSegmentoService, FornecedorSegmentoService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorSegmentoRelService, FornecedorSegmentoRelService>();
-            services.AddScoped<Interfaces.Fornecedor.IFornecedorEnderecoService, FornecedorEnderecoService>();
-            services.AddScoped<Interfaces.Fornecedor.IFornecedorContatoService, FornecedorContatoService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorRepresentanteService, FornecedorRepresentanteService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorBancoService, FornecedorBancoService>();
-            services.AddScoped<Interfaces.Fornecedor.IFornecedorDocumentoService, FornecedorDocumentoService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorCertificacaoService, FornecedorCertificacaoService>();
             services.AddScoped<Interfaces.Fornecedor.IFornecedorAvaliacaoService, FornecedorAvaliacaoService>();
             services.AddScoped<Interfaces.Veiculo.IVeiculoService, VeiculoService>();

@@ -1,10 +1,15 @@
+using System;
+
 namespace OficinaMotos.Application.DTOs.Responses.Estoque
 {
     public class EstoqueLocalizacaoResponseDTO
     {
         public long Id { get; set; }
-        public string Descricao { get; set; } = string.Empty;
-        public string? Corredor { get; set; }
-        public string? Prateleira { get; set; }
+        public string Codigo { get; set; } = string.Empty;
+        public string Nome { get; set; } = string.Empty;
+        public string? Descricao { get; set; }
+        public bool Ativo { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

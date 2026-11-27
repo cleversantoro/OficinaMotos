@@ -1,37 +1,27 @@
-using OficinaMotos.Domain.Enums;
 using System;
-using System.Collections.Generic;
+using OficinaMotos.Domain.Enums;
 
-namespace OficinaMotos.Application.DTOs.Responses.OrdemServicoDTO
+namespace OficinaMotos.Application.DTOs.Responses.OrdemServico
 {
     public class OrdemServicoResponseDTO
     {
         public long Id { get; set; }
+        public long Numero { get; set; }
         public long ClienteId { get; set; }
-        [Obsolete("Use os prestadores associados aos itens.")]
-        public long MecanicoId { get; set; }
-        [Obsolete("Use os prestadores associados aos itens.")]
-        public string? MecanicoCodigo { get; set; }
-        [Obsolete("Use os prestadores associados aos itens.")]
-        public string? MecanicoNome { get; set; }
-        [Obsolete("Use os prestadores associados aos itens.")]
-        public string? MecanicoSobrenome { get; set; }
-        public string? ClienteNome { get; set; }
-        public string? ClienteNomeExibicao { get; set; }
         public long? VeiculoId { get; set; }
-        public string? VeiculoPlaca { get; set; }
-        public string? VeiculoModeloNome { get; set; }
         public string DescricaoProblema { get; set; } = string.Empty;
-        public OrdemServicoEnum Status { get; set; } = OrdemServicoEnum.Aberta;
+        public string? Diagnostico { get; set; }
+        public OrdemServicoEnum Status { get; set; }
+        public OrdemServicoPrioridade Prioridade { get; set; }
         public DateTime DataAbertura { get; set; }
+        public DateTime? PrevisaoEntrega { get; set; }
         public DateTime? DataConclusao { get; set; }
-
-        public ICollection<OrdemServicoAnexoResponseDTO> Anexos { get; set; } = new List<OrdemServicoAnexoResponseDTO>();
-        public ICollection<OrdemServicoAvaliacaoResponseDTO> Avaliacoes { get; set; } = new List<OrdemServicoAvaliacaoResponseDTO>();
-        public ICollection<OrdemServicoChecklistResponseDTO> Checklists { get; set; } = new List<OrdemServicoChecklistResponseDTO>();
-        public ICollection<OrdemServicoItemResponseDTO> Itens { get; set; } = new List<OrdemServicoItemResponseDTO>();
-        public ICollection<OrdemServicoObservacaoResponseDTO> Observacoes { get; set; } = new List<OrdemServicoObservacaoResponseDTO>();
-        public ICollection<OrdemServicoHistoricoResponseDTO> Historico { get; set; } = new List<OrdemServicoHistoricoResponseDTO>();
-        public ICollection<OrdemServicoPagamentoResponseDTO> Pagamentos { get; set; } = new List<OrdemServicoPagamentoResponseDTO>();
+        public decimal ValorPecas { get; set; }
+        public decimal ValorServicos { get; set; }
+        public decimal Desconto { get; set; }
+        public decimal ValorTotal { get; set; }
+        public string? Observacoes { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

@@ -1,21 +1,24 @@
-using OficinaMotos.Domain.Enums;
 using System;
-using System.ComponentModel.DataAnnotations;
+using OficinaMotos.Domain.Enums;
 
 namespace OficinaMotos.Application.DTOs.Requests.OrdemServico
 {
     public class CreateOrdemServicoDTO
     {
-        [Required]
+        public long Numero { get; set; }
         public long ClienteId { get; set; }
-        [Obsolete("Use PrestadorId e AtividadeProfissionalId nos itens.")]
-        public long MecanicoId { get; set; }
         public long? VeiculoId { get; set; }
-        [Required]
-        [StringLength(500)]
         public string DescricaoProblema { get; set; } = string.Empty;
+        public string? Diagnostico { get; set; }
         public OrdemServicoEnum Status { get; set; } = OrdemServicoEnum.Aberta;
-        public DateTime? DataAbertura { get; set; }
+        public OrdemServicoPrioridade Prioridade { get; set; } = OrdemServicoPrioridade.Normal;
+        public DateTime DataAbertura { get; set; } = DateTime.UtcNow;
+        public DateTime? PrevisaoEntrega { get; set; }
         public DateTime? DataConclusao { get; set; }
+        public decimal ValorPecas { get; set; }
+        public decimal ValorServicos { get; set; }
+        public decimal Desconto { get; set; }
+        public decimal ValorTotal { get; set; }
+        public string? Observacoes { get; set; }
     }
 }

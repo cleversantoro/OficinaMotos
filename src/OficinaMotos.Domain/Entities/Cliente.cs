@@ -32,8 +32,6 @@ namespace OficinaMotos.Domain.Entities
         public ICollection<Cliente> Clientes { get; set; } = new HashSet<Cliente>();
     }
 
-    
-
     public class ClienteFinanceiro : BaseEntity
     {
         public long ClienteId { get; set; }
@@ -67,8 +65,6 @@ namespace OficinaMotos.Domain.Entities
 
         public Cliente? Cliente { get; set; }
     }
-
-    
 
     public enum ClienteStatus
     {

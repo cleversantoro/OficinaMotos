@@ -126,57 +126,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
         }
     }
 
-    public class FornecedorEnderecoConfiguration : IEntityTypeConfiguration<FornecedorEndereco>
-    {
-        public void Configure(EntityTypeBuilder<FornecedorEndereco> builder)
-        {
-            builder.ToTable("cad_fornecedores_enderecos");
-            builder.HasKey(e => e.Id);
-
-            builder.Property(e => e.FornecedorId).HasColumnName("Fornecedor_Id");
-            builder.Property(e => e.Tipo).HasColumnName("Tipo").HasMaxLength(50).IsRequired();
-            builder.Property(e => e.Cep).HasColumnName("Cep").HasMaxLength(20);
-            builder.Property(e => e.Logradouro).HasColumnName("Logradouro").HasMaxLength(200).IsRequired();
-            builder.Property(e => e.Numero).HasColumnName("Numero").HasMaxLength(20).IsRequired();
-            builder.Property(e => e.Bairro).HasColumnName("Bairro").HasMaxLength(120).IsRequired();
-            builder.Property(e => e.Cidade).HasColumnName("Cidade").HasMaxLength(120).IsRequired();
-            builder.Property(e => e.Estado).HasColumnName("Estado").HasMaxLength(50).IsRequired();
-            builder.Property(e => e.Pais).HasColumnName("Pais").HasMaxLength(80);
-            builder.Property(e => e.Complemento).HasColumnName("Complemento").HasMaxLength(120);
-            builder.Property(e => e.Principal).HasColumnName("Principal").HasDefaultValue(false);
-            builder.Property(e => e.Observacao).HasColumnName("Observacao").HasMaxLength(240);
-            builder.Property(e => e.CreatedAt).HasColumnName("Created_At");
-            builder.Property(e => e.UpdatedAt).HasColumnName("Updated_At");
-
-            builder.HasOne(e => e.Fornecedor)
-                   .WithMany(f => f.Enderecos)
-                   .HasForeignKey(e => e.FornecedorId)
-                   .OnDelete(DeleteBehavior.Cascade);
-        }
-    }
-
-    public class FornecedorContatoConfiguration : IEntityTypeConfiguration<FornecedorContato>
-    {
-        public void Configure(EntityTypeBuilder<FornecedorContato> builder)
-        {
-            builder.ToTable("cad_fornecedores_contatos");
-            builder.HasKey(e => e.Id);
-
-            builder.Property(e => e.FornecedorId).HasColumnName("Fornecedor_Id");
-            builder.Property(e => e.Tipo).HasColumnName("Tipo").HasMaxLength(50).IsRequired();
-            builder.Property(e => e.Valor).HasColumnName("Valor").HasMaxLength(160).IsRequired();
-            builder.Property(e => e.Principal).HasColumnName("Principal").HasDefaultValue(false);
-            builder.Property(e => e.Observacao).HasColumnName("Observacao").HasMaxLength(240);
-            builder.Property(e => e.CreatedAt).HasColumnName("Created_At");
-            builder.Property(e => e.UpdatedAt).HasColumnName("Updated_At");
-
-            builder.HasOne(e => e.Fornecedor)
-                   .WithMany(f => f.Contatos)
-                   .HasForeignKey(e => e.FornecedorId)
-                   .OnDelete(DeleteBehavior.Cascade);
-        }
-    }
-
     public class FornecedorRepresentanteConfiguration : IEntityTypeConfiguration<FornecedorRepresentante>
     {
         public void Configure(EntityTypeBuilder<FornecedorRepresentante> builder)
@@ -231,31 +180,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
 
             builder.HasOne(e => e.Fornecedor)
                    .WithMany(f => f.Bancos)
-                   .HasForeignKey(e => e.FornecedorId)
-                   .OnDelete(DeleteBehavior.Cascade);
-        }
-    }
-
-    public class FornecedorDocumentoConfiguration : IEntityTypeConfiguration<FornecedorDocumento>
-    {
-        public void Configure(EntityTypeBuilder<FornecedorDocumento> builder)
-        {
-            builder.ToTable("cad_fornecedores_documentos");
-            builder.HasKey(e => e.Id);
-
-            builder.Property(e => e.FornecedorId).HasColumnName("Fornecedor_Id");
-            builder.Property(e => e.Tipo).HasColumnName("Tipo").HasMaxLength(100).IsRequired();
-            builder.Property(e => e.Numero).HasColumnName("Numero").HasMaxLength(120).IsRequired();
-            builder.Property(e => e.OrgaoExpedidor).HasColumnName("Orgao_Expedidor").HasMaxLength(120);
-            builder.Property(e => e.ArquivoUrl).HasColumnName("Arquivo_Url").HasMaxLength(240);
-            builder.Property(e => e.Observacoes).HasColumnName("Observacoes").HasMaxLength(240);
-            builder.Property(e => e.DataEmissao).HasColumnName("Data_Emissao");
-            builder.Property(e => e.DataValidade).HasColumnName("Data_Validade");
-            builder.Property(e => e.CreatedAt).HasColumnName("Created_At");
-            builder.Property(e => e.UpdatedAt).HasColumnName("Updated_At");
-
-            builder.HasOne(e => e.Fornecedor)
-                   .WithMany(f => f.Documentos)
                    .HasForeignKey(e => e.FornecedorId)
                    .OnDelete(DeleteBehavior.Cascade);
         }

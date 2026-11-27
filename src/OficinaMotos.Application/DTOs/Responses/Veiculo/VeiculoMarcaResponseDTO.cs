@@ -1,9 +1,13 @@
-namespace OficinaMotos.Application.DTOs.Responses.VeiculoDTO
+using System;
+
+namespace OficinaMotos.Application.DTOs.Responses.Veiculo
 {
     public class VeiculoMarcaResponseDTO
     {
         public long Id { get; set; }
         public string Nome { get; set; } = string.Empty;
-        public string? Pais { get; set; }
+        public bool Ativo { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }
