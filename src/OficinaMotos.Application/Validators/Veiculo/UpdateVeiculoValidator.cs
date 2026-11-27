@@ -12,9 +12,9 @@ namespace OficinaMotos.Application.Validators.Veiculo
             RuleFor(x => x.Cor).MaximumLength(50);
             RuleFor(x => x.Chassi).MaximumLength(80);
             RuleFor(x => x.Renavam).MaximumLength(20);
-            RuleFor(x => x.Km).MaximumLength(20);
+            RuleFor(x => x.Quilometragem).GreaterThan(0);
             RuleFor(x => x.Combustivel).MaximumLength(50);
-            RuleFor(x => x.Observacao).MaximumLength(240);
+            RuleFor(x => x.Observacoes).MaximumLength(240);
         }
     }
 }

@@ -16,14 +16,7 @@ namespace OficinaMotos.Infrastructure.Repositories.MecanicoRepo
         public override async Task<List<Mecanico>> GetAllAsync()
         {
             return await _dbSet
-                .Include(m => m.EspecialidadePrincipal)
-                .Include(m => m.Certificacoes)
-                .Include(m => m.Contatos)
-                .Include(m => m.Disponibilidades)
-                .Include(m => m.Documentos)
-                .Include(m => m.Enderecos)
-                .Include(m => m.Especialidades)
-                .Include(m => m.Experiencias)
+                .Include(m => m.Prestador)
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -31,14 +24,7 @@ namespace OficinaMotos.Infrastructure.Repositories.MecanicoRepo
         public override async Task<Mecanico?> GetByIdAsync(long id)
         {
             return await _dbSet
-                .Include(m => m.EspecialidadePrincipal)
-                .Include(m => m.Certificacoes)
-                .Include(m => m.Contatos)
-                .Include(m => m.Disponibilidades)
-                .Include(m => m.Documentos)
-                .Include(m => m.Enderecos)
-                .Include(m => m.Especialidades)
-                .Include(m => m.Experiencias)
+                .Include(m => m.Prestador)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
         }

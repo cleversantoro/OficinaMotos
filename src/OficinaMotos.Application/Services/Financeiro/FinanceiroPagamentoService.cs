@@ -47,13 +47,14 @@ namespace OficinaMotos.Application.Services.Financeiro
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null) return null;
 
-            entity.OrdemServicoId = request.OrdemServicoId;
-            entity.ClienteId = request.ClienteId;
-            entity.FornecedorId = request.FornecedorId;
+            entity.ContaPagarId = request.ContaPagarId;
+            entity.ContaReceberId = request.ContaReceberId;
+            entity.MetodoPagamentoId = request.MetodoPagamentoId;
             entity.Valor = request.Valor;
-            entity.Status = request.Status;
             entity.DataPagamento = request.DataPagamento;
-            entity.MetodoId = request.MetodoId;
+            entity.Tipo = request.Tipo;
+            entity.Status = request.Status;
+            entity.ReferenciaExterna = request.ReferenciaExterna;
             entity.Observacao = request.Observacao;
             entity.SetUpdated();
 

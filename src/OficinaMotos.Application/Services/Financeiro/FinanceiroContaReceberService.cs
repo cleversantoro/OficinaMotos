@@ -52,13 +52,14 @@ namespace OficinaMotos.Application.Services.Financeiro
             if (entity == null) return null;
 
             entity.ClienteId = request.ClienteId;
+            entity.OrdemServicoId = request.OrdemServicoId;
             entity.Descricao = request.Descricao;
-            entity.Valor = request.Valor;
-            entity.Vencimento = request.Vencimento;
+            entity.ValorOriginal = request.ValorOriginal;
+            entity.ValorRecebido = request.ValorRecebido;
+            entity.DataEmissao = request.DataEmissao;
+            entity.DataVencimento = request.DataVencimento;
             entity.Status = request.Status;
-            entity.DataRecebimento = request.DataRecebimento;
-            entity.MetodoId = request.MetodoId;
-            entity.Observacao = request.Observacao;
+            entity.Observacoes = request.Observacoes;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);
@@ -86,8 +87,8 @@ namespace OficinaMotos.Application.Services.Financeiro
                 throw new InvalidOperationException("Não é possível registrar baixa para uma conta a receber já recebida ou cancelada.");
             }
 
-            var valorPago = decimal.Round(request.ValorPago, 2, MidpointRounding.AwayFromZero);
-            var saldoAtual = decimal.Round(conta.Valor, 2, MidpointRounding.AwayFromZero);
+            var valorPago = decimal.Round(request.Valor, 2, MidpointRounding.AwayFromZero);
+            var saldoAtual = decimal.Round(conta.ValorOriginal - conta.ValorRecebido, 2, MidpointRounding.AwayFromZero);
 
             if (valorPago <= 0m)
             {
@@ -99,7 +100,7 @@ namespace OficinaMotos.Application.Services.Financeiro
                 throw new InvalidOperationException("O valor recebido não pode exceder o saldo atual da conta a receber.");
             }
 
-            if (request.MetodoId <= 0)
+            if (!request.MetodoPagamentoId.HasValue || request.MetodoPagamentoId.Value <= 0)
             {
                 throw new InvalidOperationException("A forma de pagamento é obrigatória.");
             }
@@ -113,11 +114,13 @@ namespace OficinaMotos.Application.Services.Financeiro
             {
                 var pagamento = new FinanceiroPagamento
                 {
-                    ClienteId = conta.ClienteId,
+                    ContaReceberId = conta.Id,
                     Valor = valorPago,
-                    Status = "PAGO",
+                    Tipo = string.IsNullOrWhiteSpace(request.Tipo) ? "ENTRADA" : request.Tipo,
+                    Status = string.IsNullOrWhiteSpace(request.Status) ? "CONFIRMADO" : request.Status,
                     DataPagamento = dataPagamento,
-                    MetodoId = request.MetodoId,
+                    MetodoPagamentoId = request.MetodoPagamentoId,
+                    ReferenciaExterna = request.ReferenciaExterna,
                     Observacao = TruncateObservacao(
                         string.IsNullOrWhiteSpace(request.Observacao)
                             ? $"Baixa Conta a Receber #{conta.Id} - {conta.Descricao}"
@@ -127,28 +130,27 @@ namespace OficinaMotos.Application.Services.Financeiro
                 pagamentoId = pagamentoCriado.Id;
             }
 
-            conta.MetodoId = request.MetodoId;
+            conta.ValorRecebido = decimal.Round(conta.ValorRecebido + valorPago, 2, MidpointRounding.AwayFromZero);
             if (baixaIntegral)
             {
                 conta.Status = "RECEBIDO";
-                conta.DataRecebimento = dataPagamento;
                 if (!string.IsNullOrWhiteSpace(request.Observacao))
                 {
-                    conta.Observacao = CombineObservacao(conta.Observacao, request.Observacao.Trim());
+                    conta.Observacoes = CombineObservacao(conta.Observacoes, request.Observacao.Trim());
                 }
             }
             else
             {
-                conta.Valor = saldoResidual;
-                conta.DataRecebimento = null;
+                conta.Status = "PARCIAL";
                 var notaParcial = string.IsNullOrWhiteSpace(request.Observacao)
                     ? $"Baixa parcial R$ {valorPago.ToString("F2", CultureInfo.InvariantCulture)} ({dataPagamento:yyyy-MM-dd})"
                     : $"{request.Observacao.Trim()} | Baixa parcial R$ {valorPago.ToString("F2", CultureInfo.InvariantCulture)} ({dataPagamento:yyyy-MM-dd})";
-                conta.Observacao = CombineObservacao(conta.Observacao, notaParcial);
+                conta.Observacoes = CombineObservacao(conta.Observacoes, notaParcial);
             }
 
             conta.Cliente = null;
-            conta.Metodo = null;
+            conta.OrdemServico = null;
+            conta.Pagamentos?.Clear();
             conta.Anexos?.Clear();
             conta.SetUpdated();
 

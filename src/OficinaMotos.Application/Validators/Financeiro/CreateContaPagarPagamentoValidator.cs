@@ -8,10 +8,11 @@ namespace OficinaMotos.Application.Validators.Financeiro
         public CreateContaPagarPagamentoValidator()
         {
             RuleFor(x => x.ContaPagarId).GreaterThan(0);
-            RuleFor(x => x.ValorPago).GreaterThan(0);
-            RuleFor(x => x.MetodoId).GreaterThan(0);
-            RuleFor(x => x.DataPagamento).NotEmpty();
-            RuleFor(x => x.Observacao).MaximumLength(240);
+            RuleFor(x => x.Valor).GreaterThan(0);
+            RuleFor(x => x.Tipo).NotEmpty().MaximumLength(20);
+            RuleFor(x => x.Status).NotEmpty().MaximumLength(30);
+            RuleFor(x => x.ReferenciaExterna).MaximumLength(120);
+            RuleFor(x => x.Observacao).MaximumLength(300);
         }
     }
 }

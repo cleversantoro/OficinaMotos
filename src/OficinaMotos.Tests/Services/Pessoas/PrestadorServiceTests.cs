@@ -2,9 +2,10 @@ using FluentAssertions;
 using Moq;
 using OficinaMotos.Application.DTOs.Requests.Mecanico;
 using OficinaMotos.Application.Services.Mecanico;
+using OficinaMotos.Application.Services.Prestador;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Exceptions;
-using OficinaMotos.Domain.Interfaces.Repositories.Mecanico;
+using OficinaMotos.Domain.Interfaces.Repositories.PrestadorRepo;
 
 namespace OficinaMotos.Tests.Services.Pessoas
 {

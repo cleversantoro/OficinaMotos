@@ -45,20 +45,10 @@ namespace OficinaMotos.Application.Services.Mecanico
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null) return null;
 
-            entity.Codigo = request.Codigo;
-            entity.Nome = request.Nome;
-            entity.Sobrenome = request.Sobrenome;
-            entity.NomeSocial = request.NomeSocial;
-            entity.DocumentoPrincipal = request.DocumentoPrincipal;
-            entity.TipoDocumento = request.TipoDocumento;
-            entity.DataNascimento = request.DataNascimento;
-            entity.DataAdmissao = request.DataAdmissao;
-            entity.DataDemissao = request.DataDemissao;
-            entity.Status = request.Status;
-            entity.EspecialidadePrincipalId = request.EspecialidadePrincipalId;
+            entity.PrestadorId = request.PrestadorId;
+            entity.Matricula = request.Matricula;
             entity.Nivel = request.Nivel;
-            entity.ValorHora = request.ValorHora;
-            entity.CargaHorariaSemanal = request.CargaHorariaSemanal;
+            entity.DataAdmissao = request.DataAdmissao;
             entity.Observacoes = request.Observacoes;
             entity.SetUpdated();
 

@@ -11,28 +11,18 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
             builder.ToTable("fin_metodos_pagamento");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(160).IsRequired();
+            builder.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(100).IsRequired();
             builder.Property(e => e.Tipo).HasColumnName("tipo").HasMaxLength(40).IsRequired();
             builder.Property(e => e.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)");
-            builder.Property(e => e.TaxaPercentual).HasColumnName("taxa_percentual").HasPrecision(8,4);
-            builder.Property(e => e.TaxaFixa).HasColumnName("taxa_fixa").HasPrecision(18,2);
-            builder.Property(e => e.Descricao).HasColumnName("descricao").HasMaxLength(300);
+            builder.Property(e => e.TaxaPercentual).HasColumnName("taxa_percentual").HasPrecision(8, 4);
+            builder.Property(e => e.TaxaFixa).HasColumnName("taxa_fixa").HasPrecision(18, 2);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
             builder.HasMany(e => e.Pagamentos)
-                   .WithOne(p => p.Metodo)
-                   .HasForeignKey(p => p.MetodoId)
-                   .OnDelete(DeleteBehavior.SetNull);
-
-            builder.HasMany(e => e.ContasPagar)
-                   .WithOne(p => p.Metodo)
-                   .HasForeignKey(p => p.MetodoId)
-                   .OnDelete(DeleteBehavior.SetNull);
-
-            builder.HasMany(e => e.ContasReceber)
-                   .WithOne(r => r.Metodo)
-                   .HasForeignKey(r => r.MetodoId)
+                   .WithOne(p => p.MetodoPagamento)
+                   .HasForeignKey(p => p.MetodoPagamentoId)
                    .OnDelete(DeleteBehavior.SetNull);
         }
     }
@@ -46,30 +36,29 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
 
             builder.Property(e => e.ContaPagarId).HasColumnName("conta_pagar_id");
             builder.Property(e => e.ContaReceberId).HasColumnName("conta_receber_id");
-            builder.Ignore(e => e.OrdemServicoId);
-            builder.Ignore(e => e.ClienteId);
-            builder.Ignore(e => e.FornecedorId);
+            builder.Property(e => e.MetodoPagamentoId).HasColumnName("metodo_pagamento_id");
             builder.Property(e => e.Valor).HasColumnName("valor").HasPrecision(18, 2).IsRequired();
-            builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(50).IsRequired();
-            builder.Property(e => e.DataPagamento).HasColumnName("data_pagamento");
-            builder.Property(e => e.MetodoId).HasColumnName("metodo_id");
-            builder.Property(e => e.Observacao).HasColumnName("observacao").HasMaxLength(240);
+            builder.Property(e => e.DataPagamento).HasColumnName("data_pagamento").IsRequired();
+            builder.Property(e => e.Tipo).HasColumnName("tipo").HasMaxLength(20).IsRequired();
+            builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(30).IsRequired();
+            builder.Property(e => e.ReferenciaExterna).HasColumnName("referencia_externa").HasMaxLength(120);
+            builder.Property(e => e.Observacao).HasColumnName("observacao").HasMaxLength(300);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
-
-            builder.HasOne(e => e.Metodo)
+            builder.HasOne(e => e.MetodoPagamento)
                    .WithMany(m => m.Pagamentos)
-                   .HasForeignKey(e => e.MetodoId)
+                   .HasForeignKey(e => e.MetodoPagamentoId)
                    .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasOne(e => e.ContaPagar)
-                   .WithMany()
+                   .WithMany(c => c.Pagamentos)
                    .HasForeignKey(e => e.ContaPagarId)
                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.ContaReceber)
-                   .WithMany()
+                   .WithMany(c => c.Pagamentos)
                    .HasForeignKey(e => e.ContaReceberId)
                    .OnDelete(DeleteBehavior.Restrict);
 
@@ -86,16 +75,16 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
             builder.ToTable("fin_anexos");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.PagamentoId).HasColumnName("pagamento_id");
             builder.Property(e => e.ContaPagarId).HasColumnName("conta_pagar_id");
             builder.Property(e => e.ContaReceberId).HasColumnName("conta_receber_id");
-            builder.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(200);
-            builder.Property(e => e.Tipo).HasColumnName("tipo").HasMaxLength(100);
-            builder.Property(e => e.Url).HasColumnName("url").HasMaxLength(500);
+            builder.Property(e => e.PagamentoId).HasColumnName("pagamento_id");
+            builder.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(200).IsRequired();
+            builder.Property(e => e.Tipo).HasColumnName("tipo").HasMaxLength(100).IsRequired();
+            builder.Property(e => e.Url).HasColumnName("url").HasMaxLength(500).IsRequired();
             builder.Property(e => e.Observacao).HasColumnName("observacao").HasMaxLength(240);
-            builder.Property(e => e.DataUpload).HasColumnName("data_upload");
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
             builder.HasOne(e => e.Pagamento)
                    .WithMany(p => p.Anexos)
@@ -124,27 +113,20 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
             builder.Property(e => e.FornecedorId).HasColumnName("fornecedor_id");
             builder.Property(e => e.Descricao).HasColumnName("descricao").HasMaxLength(240).IsRequired();
             builder.Property(e => e.Documento).HasColumnName("documento").HasMaxLength(80);
-            builder.Property(e => e.ValorOriginal).HasColumnName("valor_original").HasPrecision(18,2).IsRequired();
-            builder.Property(e => e.ValorPago).HasColumnName("valor_pago").HasPrecision(18,2);
+            builder.Property(e => e.ValorOriginal).HasColumnName("valor_original").HasPrecision(18, 2).IsRequired();
+            builder.Property(e => e.ValorPago).HasColumnName("valor_pago").HasPrecision(18, 2);
             builder.Property(e => e.DataEmissao).HasColumnName("data_emissao");
-            builder.Property(e => e.Valor).HasColumnName("valor").HasPrecision(18, 2).IsRequired();
-            builder.Property(e => e.Vencimento).HasColumnName("vencimento").IsRequired();
-            builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(50).IsRequired();
-            builder.Property(e => e.DataPagamento).HasColumnName("data_pagamento");
-            builder.Property(e => e.MetodoId).HasColumnName("metodo_id");
-            builder.Property(e => e.Observacao).HasColumnName("observacao").HasMaxLength(240);
+            builder.Property(e => e.DataVencimento).HasColumnName("data_vencimento").IsRequired();
+            builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(30).IsRequired();
+            builder.Property(e => e.Observacoes).HasColumnName("observacoes").HasMaxLength(500);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
             builder.HasOne(e => e.Fornecedor)
                    .WithMany(f => f.ContasAPagar)
                    .HasForeignKey(e => e.FornecedorId)
-                   .OnDelete(DeleteBehavior.SetNull);
-
-            builder.HasOne(e => e.Metodo)
-                   .WithMany(m => m.ContasPagar)
-                   .HasForeignKey(e => e.MetodoId)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(e => e.Anexos)
                    .WithOne(a => a.ContaPagar)
@@ -162,27 +144,25 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
             builder.Property(e => e.ClienteId).HasColumnName("cliente_id");
             builder.Property(e => e.OrdemServicoId).HasColumnName("ordem_servico_id");
             builder.Property(e => e.Descricao).HasColumnName("descricao").HasMaxLength(240).IsRequired();
-            builder.Property(e => e.ValorOriginal).HasColumnName("valor_original").HasPrecision(18,2).IsRequired();
-            builder.Property(e => e.ValorRecebido).HasColumnName("valor_recebido").HasPrecision(18,2);
+            builder.Property(e => e.ValorOriginal).HasColumnName("valor_original").HasPrecision(18, 2).IsRequired();
+            builder.Property(e => e.ValorRecebido).HasColumnName("valor_recebido").HasPrecision(18, 2);
             builder.Property(e => e.DataEmissao).HasColumnName("data_emissao");
-            builder.Property(e => e.Valor).HasColumnName("valor").HasPrecision(18, 2).IsRequired();
-            builder.Property(e => e.Vencimento).HasColumnName("vencimento").IsRequired();
-            builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(50).IsRequired();
-            builder.Property(e => e.DataRecebimento).HasColumnName("data_recebimento");
-            builder.Property(e => e.MetodoId).HasColumnName("metodo_id");
-            builder.Property(e => e.Observacao).HasColumnName("observacao").HasMaxLength(240);
+            builder.Property(e => e.DataVencimento).HasColumnName("data_vencimento").IsRequired();
+            builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(30).IsRequired();
+            builder.Property(e => e.Observacoes).HasColumnName("observacoes").HasMaxLength(500);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
             builder.HasOne(e => e.Cliente)
                    .WithMany()
                    .HasForeignKey(e => e.ClienteId)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(e => e.Metodo)
-                   .WithMany(m => m.ContasReceber)
-                   .HasForeignKey(e => e.MetodoId)
-                   .OnDelete(DeleteBehavior.SetNull);
+            builder.HasOne(e => e.OrdemServico)
+                   .WithMany(o => o.ContasReceber)
+                   .HasForeignKey(e => e.OrdemServicoId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(e => e.Anexos)
                    .WithOne(a => a.ContaReceber)
@@ -197,15 +177,20 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
             builder.ToTable("fin_historico");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Entidade).HasColumnName("entidade").HasMaxLength(100).IsRequired();
+            builder.Property(e => e.Entidade).HasColumnName("entidade").HasMaxLength(80).IsRequired();
             builder.Property(e => e.EntidadeId).HasColumnName("entidade_id").IsRequired();
-            builder.Property(e => e.DataAlteracao).HasColumnName("data_alteracao").IsRequired();
-            builder.Property(e => e.Usuario).HasColumnName("usuario").HasMaxLength(120);
-            builder.Property(e => e.Campo).HasColumnName("campo").HasMaxLength(120);
-            builder.Property(e => e.ValorAntigo).HasColumnName("valor_antigo").HasMaxLength(300);
-            builder.Property(e => e.ValorNovo).HasColumnName("valor_novo").HasMaxLength(300);
+            builder.Property(e => e.Acao).HasColumnName("acao").HasMaxLength(40).IsRequired();
+            builder.Property(e => e.DadosAnteriores).HasColumnName("dados_anteriores").HasColumnType("json");
+            builder.Property(e => e.DadosNovos).HasColumnName("dados_novos").HasColumnType("json");
+            builder.Property(e => e.UsuarioId).HasColumnName("usuario_id");
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+
+            builder.HasOne(e => e.Usuario)
+                   .WithMany()
+                   .HasForeignKey(e => e.UsuarioId)
+                   .OnDelete(DeleteBehavior.SetNull);
         }
     }
 
@@ -216,14 +201,18 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FinanceiroConfig
             builder.ToTable("fin_lancamentos");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Tipo).HasColumnName("tipo").HasMaxLength(50).IsRequired();
+            builder.Property(e => e.Tipo).HasColumnName("tipo").HasMaxLength(20).IsRequired();
+            builder.Property(e => e.Categoria).HasColumnName("categoria").HasMaxLength(100);
             builder.Property(e => e.Descricao).HasColumnName("descricao").HasMaxLength(240).IsRequired();
             builder.Property(e => e.Valor).HasColumnName("valor").HasPrecision(18, 2).IsRequired();
+            builder.Property(e => e.DataCompetencia).HasColumnName("data_competencia").IsRequired();
             builder.Property(e => e.DataLancamento).HasColumnName("data_lancamento").IsRequired();
-            builder.Property(e => e.Referencia).HasColumnName("referencia").HasMaxLength(120);
-            builder.Property(e => e.Observacao).HasColumnName("observacao").HasMaxLength(240);
+            builder.Property(e => e.OrigemTipo).HasColumnName("origem_tipo").HasMaxLength(40);
+            builder.Property(e => e.OrigemId).HasColumnName("origem_id");
+            builder.Property(e => e.Observacoes).HasColumnName("observacoes").HasMaxLength(500);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
         }
     }
 }

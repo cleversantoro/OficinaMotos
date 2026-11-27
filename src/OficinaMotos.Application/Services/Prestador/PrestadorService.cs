@@ -46,8 +46,8 @@ namespace OficinaMotos.Application.Services.Prestador
             {
                 PessoaId = request.PessoaId,
                 Codigo = request.Codigo.Trim(),
-                TipoVinculo = request.TipoVinculo.Trim(),
-                Status = request.Status.Trim(),
+                TipoVinculo = request.TipoVinculo,
+                Status = request.Status,
                 DataInicio = request.DataInicio,
                 DataFim = request.DataFim,
                 ValorHora = request.ValorHora,
@@ -88,8 +88,8 @@ namespace OficinaMotos.Application.Services.Prestador
 
             prestador.PessoaId = request.PessoaId;
             prestador.Codigo = request.Codigo.Trim();
-            prestador.TipoVinculo = request.TipoVinculo.Trim();
-            prestador.Status = request.Status.Trim();
+            prestador.TipoVinculo = request.TipoVinculo;
+            prestador.Status = request.Status;
             prestador.DataInicio = request.DataInicio;
             prestador.DataFim = request.DataFim;
             prestador.ValorHora = request.ValorHora;

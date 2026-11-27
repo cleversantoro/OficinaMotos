@@ -8,9 +8,9 @@ namespace OficinaMotos.Application.Validators.Estoque
         public UpdateEstoqueMovimentacaoValidator()
         {
             RuleFor(x => x.PecaId).GreaterThan(0);
-            RuleFor(x => x.Tipo).NotEmpty().MaximumLength(50);
-            RuleFor(x => x.Referencia).MaximumLength(120);
-            RuleFor(x => x.Usuario).MaximumLength(120);
+            RuleFor(x => x.Tipo).NotEmpty().MaximumLength(30);
+            RuleFor(x => x.OrigemTipo).MaximumLength(40);
+            RuleFor(x => x.Observacao).MaximumLength(300);
         }
     }
 }

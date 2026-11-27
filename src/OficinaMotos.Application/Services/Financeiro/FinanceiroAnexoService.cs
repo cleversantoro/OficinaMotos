@@ -51,7 +51,6 @@ namespace OficinaMotos.Application.Services.Financeiro
             entity.Tipo = request.Tipo;
             entity.Url = request.Url;
             entity.Observacao = request.Observacao;
-            entity.DataUpload = request.DataUpload;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);

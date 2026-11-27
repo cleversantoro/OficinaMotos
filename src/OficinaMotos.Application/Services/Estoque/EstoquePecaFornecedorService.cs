@@ -49,9 +49,10 @@ namespace OficinaMotos.Application.Services.Estoque
 
             entity.PecaId = request.PecaId;
             entity.FornecedorId = request.FornecedorId;
-            entity.Preco = request.Preco;
-            entity.PrazoEntrega = request.PrazoEntrega;
-            entity.Observacao = request.Observacao;
+            entity.CodigoFornecedor = request.CodigoFornecedor;
+            entity.CustoAtual = request.CustoAtual;
+            entity.PrazoEntregaDias = request.PrazoEntregaDias;
+            entity.Principal = request.Principal;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);

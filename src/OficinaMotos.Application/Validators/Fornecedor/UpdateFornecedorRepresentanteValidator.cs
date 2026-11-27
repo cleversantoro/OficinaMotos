@@ -8,13 +8,9 @@ namespace OficinaMotos.Application.Validators.Fornecedor
         public UpdateFornecedorRepresentanteValidator()
         {
             RuleFor(x => x.FornecedorId).GreaterThan(0);
-            RuleFor(x => x.Nome).NotEmpty().MaximumLength(160);
-            RuleFor(x => x.Cargo).MaximumLength(100);
-            RuleFor(x => x.Email).MaximumLength(160);
-            RuleFor(x => x.Telefone).MaximumLength(40);
-            RuleFor(x => x.Celular).MaximumLength(40);
-            RuleFor(x => x.PreferenciaContato).MaximumLength(60);
-            RuleFor(x => x.Observacoes).MaximumLength(500);
+            RuleFor(x => x.PessoaId).GreaterThan(0);
+            RuleFor(x => x.Cargo).MaximumLength(120);
+            RuleFor(x => x.Observacoes).MaximumLength(240);
         }
     }
 }

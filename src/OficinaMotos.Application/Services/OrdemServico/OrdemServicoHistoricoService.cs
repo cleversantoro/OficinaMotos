@@ -46,7 +46,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
             entity.OrdemServicoId = request.OrdemServicoId;
             entity.DataAlteracao = request.DataAlteracao;
-            entity.Usuario = request.Usuario;
+            //entity.Usuario = request.Usuario;
             entity.Campo = request.Campo;
             entity.ValorAntigo = request.ValorAntigo;
             entity.ValorNovo = request.ValorNovo;

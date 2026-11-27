@@ -96,19 +96,19 @@ namespace OficinaMotos.Application.Services.Dashboard
                 });
             }
 
-            // T-032.5 & T-034.1 — Query peças com qtd_atual < qtd_minima (Quantidade < EstoqueMinimo)
+            // T-032.5 & T-034.1 — Query peças com qtd_atual < qtd_minima (QuantidadeEstoque < EstoqueMinimo)
             var pecasCriticas = pecas
-                .Where(p => p.Quantidade < p.EstoqueMinimo)
-                .OrderByDescending(p => p.EstoqueMinimo - p.Quantidade)
-                .ThenBy(p => p.Descricao)
+                .Where(p => p.QuantidadeEstoque < p.EstoqueMinimo)
+                .OrderByDescending(p => p.EstoqueMinimo - p.QuantidadeEstoque)
+                .ThenBy(p => p.Descricao ?? p.Nome)
                 .Select(p => new DashboardPecaCriticaDTO
                 {
                     Id = p.Id,
                     Codigo = p.Codigo,
-                    Descricao = p.Descricao,
-                    QuantidadeAtual = p.Quantidade,
-                    EstoqueMinimo = p.EstoqueMinimo,
-                    Deficit = p.EstoqueMinimo - p.Quantidade,
+                    Descricao = p.Descricao ?? p.Nome,
+                    QuantidadeAtual = (int)p.QuantidadeEstoque,
+                    EstoqueMinimo = (int)p.EstoqueMinimo,
+                    Deficit = (int)(p.EstoqueMinimo - p.QuantidadeEstoque),
                     Unidade = string.IsNullOrWhiteSpace(p.Unidade) ? "UN" : p.Unidade
                 })
                 .ToList();

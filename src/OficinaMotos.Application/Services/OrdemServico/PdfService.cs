@@ -71,15 +71,15 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
         {
             var itens = ordem.Itens?.ToList() ?? [];
             var pagamentos = ordem.Pagamentos?.ToList() ?? [];
-            var observacoes = ordem.Observacoes?.ToList() ?? [];
+            var observacoes = ordem.ListaObservacoes?.ToList() ?? [];
 
             var totalItens = itens.Sum(i => i.Total > 0 ? i.Total : i.Quantidade * i.ValorUnitario);
             var totalPago = pagamentos.Sum(p => p.Valor);
             var saldoPendente = Math.Max(0m, totalItens - totalPago);
 
-            var clienteNome = !string.IsNullOrWhiteSpace(ordem.Cliente?.NomeExibicao)
-                ? ordem.Cliente!.NomeExibicao
-                : (!string.IsNullOrWhiteSpace(ordem.Cliente?.Nome) ? ordem.Cliente!.Nome : $"Cliente #{ordem.ClienteId}");
+            var clienteNome = !string.IsNullOrWhiteSpace(ordem.Cliente?.Pessoa?.NomeExibicao)
+                ? ordem.Cliente!.Pessoa!.NomeExibicao
+                : (!string.IsNullOrWhiteSpace(ordem.Cliente?.Pessoa?.Nome) ? ordem.Cliente!.Pessoa!.Nome : $"Cliente #{ordem.ClienteId}");
 
             var prestadores = itens
                 .Where(i => i.Prestador != null)
@@ -93,7 +93,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             var veiculoTexto = ordem.Veiculo != null
                 ? $"{ordem.Veiculo.Placa}" +
                   (!string.IsNullOrWhiteSpace(ordem.Veiculo.Cor) ? $" · {ordem.Veiculo.Cor}" : string.Empty) +
-                  (ordem.Veiculo.AnoMod.HasValue ? $" · Ano {ordem.Veiculo.AnoMod}" : string.Empty)
+                  (ordem.Veiculo.AnoModelo.HasValue ? $" · Ano {ordem.Veiculo.AnoModelo}" : string.Empty)
                 : "Não informado";
 
             var document = Document.Create(container =>
@@ -144,7 +144,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                                 row.RelativeItem().Text(t =>
                                 {
                                     t.Span("Documento: ").SemiBold();
-                                    t.Span(string.IsNullOrWhiteSpace(ordem.Cliente?.Documento) ? "-" : ordem.Cliente!.Documento);
+                                    t.Span(string.IsNullOrWhiteSpace(ordem.Cliente?.Pessoa?.Documento) ? "-" : ordem.Cliente!.Pessoa!.Documento);
                                 });
                             });
 
@@ -279,7 +279,7 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                                 obsSec.Item().Text("Observações").FontSize(12).Bold().FontColor(Colors.Blue.Darken2);
                                 foreach (var obs in observacoes)
                                 {
-                                    var autor = string.IsNullOrWhiteSpace(obs.Usuario) ? "Sistema" : obs.Usuario;
+                                    var autor = string.IsNullOrWhiteSpace(obs.Usuario?.Nome) ? "Sistema" : obs.Usuario!.Nome;
                                     obsSec.Item().Text($"• [{autor}] {obs.Texto}").FontSize(9);
                                 }
                             });

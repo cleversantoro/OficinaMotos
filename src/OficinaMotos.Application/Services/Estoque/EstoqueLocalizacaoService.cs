@@ -35,7 +35,7 @@ namespace OficinaMotos.Application.Services.Estoque
 
         public async Task<EstoqueLocalizacaoResponseDTO> CreateAsync(CreateEstoqueLocalizacaoDTO request)
         {
-            if (await _repository.ExistsByDescricaoAsync(request.Descricao))
+            if (!string.IsNullOrWhiteSpace(request.Descricao) && await _repository.ExistsByDescricaoAsync(request.Descricao))
             {
                 throw new Exception("Já existe uma localização com essa descrição.");
             }
@@ -53,7 +53,7 @@ namespace OficinaMotos.Application.Services.Estoque
                 return null;
             }
 
-            if (!string.Equals(entity.Descricao, request.Descricao, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(request.Descricao) && !string.Equals(entity.Descricao, request.Descricao, StringComparison.OrdinalIgnoreCase))
             {
                 var exists = await _repository.ExistsByDescricaoAsync(request.Descricao);
                 if (exists)
@@ -62,9 +62,10 @@ namespace OficinaMotos.Application.Services.Estoque
                 }
             }
 
+            entity.Codigo = request.Codigo;
+            entity.Nome = request.Nome;
             entity.Descricao = request.Descricao;
-            entity.Corredor = request.Corredor;
-            entity.Prateleira = request.Prateleira;
+            entity.Ativo = request.Ativo;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);

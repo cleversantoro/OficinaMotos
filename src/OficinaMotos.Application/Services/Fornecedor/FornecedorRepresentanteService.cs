@@ -52,13 +52,9 @@ namespace OficinaMotos.Application.Services.Fornecedor
 
             entity.FornecedorId = request.FornecedorId;
             entity.PessoaId = request.PessoaId;
-            entity.Nome = request.Nome;
             entity.Cargo = request.Cargo;
-            entity.Email = request.Email;
-            entity.Telefone = request.Telefone;
-            entity.Celular = request.Celular;
-            entity.PreferenciaContato = request.PreferenciaContato;
             entity.Principal = request.Principal;
+            entity.Preferencial = request.Preferencial;
             entity.Observacoes = request.Observacoes;
             entity.SetUpdated();
 

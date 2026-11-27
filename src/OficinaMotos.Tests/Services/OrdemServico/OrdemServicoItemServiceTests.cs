@@ -5,8 +5,8 @@ using OficinaMotos.Application.DTOs.Requests.OrdemServico;
 using OficinaMotos.Application.Services.OrdemServicoRepo;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Exceptions;
-using OficinaMotos.Domain.Interfaces.Repositories.Mecanico;
 using OficinaMotos.Domain.Interfaces.Repositories.OrdemServicoRepo;
+using OficinaMotos.Domain.Interfaces.Repositories.PrestadorRepo;
 using OficinaMotos.Tests.Helpers;
 
 namespace OficinaMotos.Tests.Services.OrdemServicoItems

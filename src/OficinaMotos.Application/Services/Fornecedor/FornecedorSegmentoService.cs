@@ -44,7 +44,6 @@ namespace OficinaMotos.Application.Services.Fornecedor
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null) return null;
 
-            entity.Codigo = request.Codigo;
             entity.Nome = request.Nome;
             entity.Descricao = request.Descricao;
             entity.Ativo = request.Ativo;

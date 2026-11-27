@@ -45,8 +45,10 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
             if (entity == null) return null;
 
             entity.OrdemServicoId = request.OrdemServicoId;
+            entity.ResponsavelPrestadorId = request.ResponsavelPrestadorId;
             entity.Item = request.Item;
-            entity.Realizado = request.Realizado;
+            entity.Categoria = request.Categoria;
+            entity.Status = request.Status;
             entity.Observacao = request.Observacao;
             entity.SetUpdated();
 

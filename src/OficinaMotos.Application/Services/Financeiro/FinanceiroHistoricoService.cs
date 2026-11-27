@@ -46,11 +46,10 @@ namespace OficinaMotos.Application.Services.Financeiro
 
             entity.Entidade = request.Entidade;
             entity.EntidadeId = request.EntidadeId;
-            entity.DataAlteracao = request.DataAlteracao;
-            entity.Usuario = request.Usuario;
-            entity.Campo = request.Campo;
-            entity.ValorAntigo = request.ValorAntigo;
-            entity.ValorNovo = request.ValorNovo;
+            entity.Acao = request.Acao;
+            entity.DadosAnteriores = request.DadosAnteriores;
+            entity.DadosNovos = request.DadosNovos;
+            entity.UsuarioId = request.UsuarioId;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);

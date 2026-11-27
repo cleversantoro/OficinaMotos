@@ -63,8 +63,9 @@ namespace OficinaMotos.Application.Services.Estoque
             }
 
             entity.Nome = request.Nome;
-            entity.Cnpj = request.Cnpj;
-            entity.Contato = request.Contato;
+            entity.Documento = request.Documento;
+            entity.Website = request.Website;
+            entity.Ativo = request.Ativo;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);

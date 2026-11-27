@@ -8,7 +8,7 @@ namespace OficinaMotos.Application.Validators.OrdemServico
         public UpdateOrdemServicoHistoricoValidator()
         {
             RuleFor(x => x.OrdemServicoId).GreaterThan(0);
-            RuleFor(x => x.Usuario).MaximumLength(160);
+            //RuleFor(x => x.Usuario).MaximumLength(160);
             RuleFor(x => x.Campo).MaximumLength(120);
             RuleFor(x => x.ValorAntigo).MaximumLength(300);
             RuleFor(x => x.ValorNovo).MaximumLength(300);

@@ -48,11 +48,10 @@ namespace OficinaMotos.Application.Services.Estoque
             }
 
             entity.PecaId = request.PecaId;
-            entity.DataAlteracao = request.DataAlteracao;
-            entity.Usuario = request.Usuario;
             entity.Campo = request.Campo;
-            entity.ValorAntigo = request.ValorAntigo;
+            entity.ValorAnterior = request.ValorAnterior;
             entity.ValorNovo = request.ValorNovo;
+            entity.UsuarioId = request.UsuarioId;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);

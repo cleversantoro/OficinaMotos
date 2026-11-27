@@ -54,26 +54,18 @@ namespace OficinaMotos.Application.Services.Fornecedor
             entity.PessoaId = request.PessoaId;
             entity.Codigo = request.Codigo;
             entity.Tipo = request.Tipo;
-            entity.RazaoSocial = request.RazaoSocial;
-            entity.NomeFantasia = request.NomeFantasia;
-            entity.Documento = request.Documento;
-            entity.InscricaoEstadual = request.InscricaoEstadual;
-            entity.InscricaoMunicipal = request.InscricaoMunicipal;
             entity.SegmentoPrincipalId = request.SegmentoPrincipalId;
-            entity.Website = request.Website;
-            entity.Email = request.Email;
-            entity.TelefonePrincipal = request.TelefonePrincipal;
             entity.Status = request.Status;
             entity.CondicaoPagamentoPadrao = request.CondicaoPagamentoPadrao;
             entity.PrazoEntregaMedio = request.PrazoEntregaMedio;
             entity.NotaMedia = request.NotaMedia;
-            entity.Observacoes = request.Observacoes;
             entity.PrazoGarantiaPadrao = request.PrazoGarantiaPadrao;
             entity.TermosNegociados = request.TermosNegociados;
             entity.AtendimentoPersonalizado = request.AtendimentoPersonalizado;
             entity.RetiradaLocal = request.RetiradaLocal;
             entity.RatingLogistica = request.RatingLogistica;
             entity.RatingQualidade = request.RatingQualidade;
+            entity.Observacoes = request.Observacoes;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);

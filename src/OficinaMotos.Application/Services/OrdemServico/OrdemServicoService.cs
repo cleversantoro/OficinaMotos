@@ -59,9 +59,9 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
 
             var entity = _mapper.Map<OrdemServico>(request);
             entity.VeiculoId = request.VeiculoId;
-            if (request.DataAbertura.HasValue)
+            if (request.DataAbertura != default)
             {
-                entity.DataAbertura = request.DataAbertura.Value;
+                entity.DataAbertura = request.DataAbertura;
             }
             var created = await _repository.AddAsync(entity);
             return _mapper.Map<OrdemServicoResponseDTO>(created);
@@ -77,14 +77,23 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                 EnsureValidStatusTransition(entity.Status, request.Status);
             }
 
+            entity.Numero = request.Numero;
             entity.ClienteId = request.ClienteId;
             entity.VeiculoId = request.VeiculoId;
             entity.DescricaoProblema = request.DescricaoProblema;
+            entity.Diagnostico = request.Diagnostico;
             entity.Status = request.Status;
-            entity.DataAbertura = request.DataAbertura ?? entity.DataAbertura;
+            entity.Prioridade = request.Prioridade;
+            entity.DataAbertura = request.DataAbertura == default ? entity.DataAbertura : request.DataAbertura;
+            entity.PrevisaoEntrega = request.PrevisaoEntrega;
             entity.DataConclusao = request.Status == OrdemServicoEnum.Concluida
                 ? (request.DataConclusao ?? entity.DataConclusao ?? DateTime.UtcNow)
                 : request.DataConclusao;
+            entity.ValorPecas = request.ValorPecas;
+            entity.ValorServicos = request.ValorServicos;
+            entity.Desconto = request.Desconto;
+            entity.ValorTotal = request.ValorTotal;
+            entity.Observacoes = request.Observacoes;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);
@@ -184,22 +193,25 @@ namespace OficinaMotos.Application.Services.OrdemServicoRepo
                 ordem.Anexos?.Clear();
                 ordem.Avaliacoes?.Clear();
                 ordem.Checklists?.Clear();
-                ordem.Observacoes?.Clear();
+                ordem.ListaObservacoes?.Clear();
                 ordem.Historico?.Clear();
 
                 await _repository.UpdateAsync(ordem);
             }
 
             // 3. Gerar lançamento automático em ContasReceber
+            var dataRef = request.DataPagamento ?? DateTime.UtcNow;
             var contaReceber = new FinanceiroContaReceber
             {
                 ClienteId = ordem.ClienteId > 0 ? ordem.ClienteId : null,
+                OrdemServicoId = ordem.Id,
                 Descricao = $"Pagamento OS #{ordem.Id} - {request.Metodo ?? "Geral"}",
-                Valor = request.Valor,
-                Vencimento = request.DataPagamento ?? DateTime.UtcNow,
-                DataRecebimento = request.DataPagamento ?? DateTime.UtcNow,
-                Status = "Recebido",
-                Observacao = string.IsNullOrWhiteSpace(request.Observacao)
+                ValorOriginal = request.Valor,
+                ValorRecebido = request.Valor,
+                DataEmissao = dataRef.Date,
+                DataVencimento = dataRef.Date,
+                Status = "RECEBIDO",
+                Observacoes = string.IsNullOrWhiteSpace(request.Observacao)
                     ? $"Referente à OS #{ordem.Id}"
                     : $"{request.Observacao} (OS #{ordem.Id})"
             };

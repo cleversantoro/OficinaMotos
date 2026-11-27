@@ -45,11 +45,14 @@ namespace OficinaMotos.Application.Services.Financeiro
             if (entity == null) return null;
 
             entity.Tipo = request.Tipo;
+            entity.Categoria = request.Categoria;
             entity.Descricao = request.Descricao;
             entity.Valor = request.Valor;
+            entity.DataCompetencia = request.DataCompetencia;
             entity.DataLancamento = request.DataLancamento;
-            entity.Referencia = request.Referencia;
-            entity.Observacao = request.Observacao;
+            entity.OrigemTipo = request.OrigemTipo;
+            entity.OrigemId = request.OrigemId;
+            entity.Observacoes = request.Observacoes;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);

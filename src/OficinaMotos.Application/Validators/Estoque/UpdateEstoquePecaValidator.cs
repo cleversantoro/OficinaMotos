@@ -7,22 +7,11 @@ namespace OficinaMotos.Application.Validators.Estoque
     {
         public UpdateEstoquePecaValidator()
         {
-            RuleFor(x => x.Codigo)
-                .NotEmpty().WithMessage("Código é obrigatório")
-                .MaximumLength(80);
-
-            RuleFor(x => x.Descricao)
-                .NotEmpty().WithMessage("Descrição é obrigatória")
-                .MaximumLength(240);
-
-            RuleFor(x => x.Unidade)
-                .MaximumLength(10);
-
-            RuleFor(x => x.Status)
-                .MaximumLength(50);
-
-            RuleFor(x => x.Observacoes)
-                .MaximumLength(500);
+            RuleFor(x => x.Codigo).NotEmpty().MaximumLength(60);
+            RuleFor(x => x.CodigoBarras).MaximumLength(80);
+            RuleFor(x => x.Nome).NotEmpty().MaximumLength(180);
+            RuleFor(x => x.Descricao).MaximumLength(500);
+            RuleFor(x => x.Unidade).NotEmpty().MaximumLength(20);
         }
     }
 }

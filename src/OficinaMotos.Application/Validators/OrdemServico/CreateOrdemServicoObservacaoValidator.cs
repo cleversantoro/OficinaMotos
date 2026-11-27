@@ -8,8 +8,8 @@ namespace OficinaMotos.Application.Validators.OrdemServico
         public CreateOrdemServicoObservacaoValidator()
         {
             RuleFor(x => x.OrdemServicoId).GreaterThan(0);
-            RuleFor(x => x.Usuario).MaximumLength(160);
-            RuleFor(x => x.Texto).NotEmpty().MaximumLength(500);
+            RuleFor(x => x.Texto).NotEmpty().MaximumLength(1000);
+            RuleFor(x => x.Tipo).NotEmpty().MaximumLength(30);
         }
     }
 }

@@ -17,29 +17,20 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.Property(e => e.VeiculoId).HasColumnName("veiculo_id");
             builder.Property(e => e.DescricaoProblema).HasColumnName("descricao_problema").HasMaxLength(1000).IsRequired();
             builder.Property(e => e.Diagnostico).HasColumnName("diagnostico").HasColumnType("text");
-            builder.Property(e => e.Prioridade).HasColumnName("prioridade").HasMaxLength(20).IsRequired();
-            builder.Property(e => e.PrevisaoEntrega).HasColumnName("previsao_entrega");
-            builder.Property(e => e.ValorPecas).HasColumnName("valor_pecas").HasPrecision(18,2);
-            builder.Property(e => e.ValorServicos).HasColumnName("valor_servicos").HasPrecision(18,2);
-            builder.Property(e => e.Desconto).HasColumnName("desconto").HasPrecision(18,2);
-            builder.Property(e => e.ValorTotal).HasColumnName("valor_total").HasPrecision(18,2);
-            builder.Property(e => e.ObservacaoGeral).HasColumnName("observacoes").HasMaxLength(1000);
-            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
-            builder.Ignore(e => e.MecanicoId);
-            builder.Ignore(e => e.Mecanico);
-            builder.HasQueryFilter(e => e.DeletedAt == null);
-            builder.Property(e => e.Status)
-                .HasConversion(
-                    v => v.ToString(),
-                    v => OrdemServicoStatusExtensions.ParseLegacy(v))
-                .HasColumnName("status")
-                .HasMaxLength(50)
-                .HasDefaultValue(OrdemServicoEnum.Aberta);
+            builder.Property(e => e.Status).HasColumnName("status").HasDefaultValue(OrdemServicoEnum.Aberta);
+            builder.Property(e => e.Prioridade).HasColumnName("prioridade").HasDefaultValue(OrdemServicoPrioridade.Normal);
             builder.Property(e => e.DataAbertura).HasColumnName("data_abertura");
+            builder.Property(e => e.PrevisaoEntrega).HasColumnName("previsao_entrega");
             builder.Property(e => e.DataConclusao).HasColumnName("data_conclusao");
+            builder.Property(e => e.ValorPecas).HasColumnName("valor_pecas").HasPrecision(18, 2);
+            builder.Property(e => e.ValorServicos).HasColumnName("valor_servicos").HasPrecision(18, 2);
+            builder.Property(e => e.Desconto).HasColumnName("desconto").HasPrecision(18, 2);
+            builder.Property(e => e.ValorTotal).HasColumnName("valor_total").HasPrecision(18, 2);
+            builder.Property(e => e.Observacoes).HasColumnName("observacoes").HasMaxLength(1000);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
-
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+            builder.HasQueryFilter(e => e.DeletedAt == null);
 
             builder.HasOne(e => e.Cliente)
                    .WithMany(c => c.OrdensServico)
@@ -67,7 +58,7 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
                    .WithOne(i => i.OrdemServico)
                    .HasForeignKey(i => i.OrdemServicoId);
 
-            builder.HasMany(e => e.Observacoes)
+            builder.HasMany(e => e.ListaObservacoes)
                    .WithOne(o => o.OrdemServico)
                    .HasForeignKey(o => o.OrdemServicoId);
 
@@ -89,13 +80,13 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.OrdemServicoId).HasColumnName("ordem_servico_id");
-            builder.Property(e => e.Nome).HasMaxLength(200);
-            builder.Property(e => e.Tipo).HasMaxLength(100);
-            builder.Property(e => e.Url).HasMaxLength(500);
-            builder.Property(e => e.Observacao).HasMaxLength(240);
-            builder.Property(e => e.DataUpload).HasColumnName("data_upload");
+            builder.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(200).IsRequired();
+            builder.Property(e => e.Tipo).HasColumnName("tipo").IsRequired();
+            builder.Property(e => e.Url).HasColumnName("url").HasMaxLength(500).IsRequired();
+            builder.Property(e => e.Observacao).HasColumnName("observacao").HasMaxLength(240);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
         }
     }
 
@@ -107,11 +98,18 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.OrdemServicoId).HasColumnName("ordem_servico_id");
-            builder.Property(e => e.Nota).IsRequired();
-            builder.Property(e => e.Comentario).HasMaxLength(500);
-            builder.Property(e => e.Usuario).HasMaxLength(160);
+            builder.Property(e => e.ClienteId).HasColumnName("cliente_id");
+            builder.Property(e => e.Nota).HasColumnName("nota").IsRequired();
+            builder.Property(e => e.Comentario).HasColumnName("comentario").HasMaxLength(1000);
+            builder.Property(e => e.DataAvaliacao).HasColumnName("data_avaliacao");
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+
+            builder.HasOne(e => e.Cliente)
+                   .WithMany()
+                   .HasForeignKey(e => e.ClienteId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -123,11 +121,19 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.OrdemServicoId).HasColumnName("ordem_servico_id");
-            builder.Property(e => e.Item).HasMaxLength(240).IsRequired();
-            builder.Property(e => e.Realizado).HasDefaultValue(false);
-            builder.Property(e => e.Observacao).HasMaxLength(240);
+            builder.Property(e => e.ResponsavelPrestadorId).HasColumnName("responsavel_prestador_id");
+            builder.Property(e => e.Item).HasColumnName("item").HasMaxLength(200).IsRequired();
+            builder.Property(e => e.Categoria).HasColumnName("categoria").HasMaxLength(80);
+            builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(30).HasDefaultValue("PENDENTE").IsRequired();
+            builder.Property(e => e.Observacao).HasColumnName("observacao").HasMaxLength(300);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+
+            builder.HasOne(e => e.ResponsavelPrestador)
+                   .WithMany()
+                   .HasForeignKey(e => e.ResponsavelPrestadorId)
+                   .OnDelete(DeleteBehavior.SetNull);
         }
     }
 
@@ -142,26 +148,22 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.Property(e => e.PecaId).HasColumnName("peca_id");
             builder.Property(e => e.AtividadeProfissionalId).HasColumnName("atividade_profissional_id");
             builder.Property(e => e.PrestadorId).HasColumnName("prestador_id");
-            builder.Property(e => e.Tipo).HasColumnName("tipo").HasMaxLength(20).IsRequired();
-            builder.Property(e => e.Descricao).HasMaxLength(240).IsRequired();
-            builder.Property(e => e.Observacoes).HasColumnName("observacoes").HasMaxLength(500);
-            builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(30).IsRequired();
-            builder.Property(e => e.Desconto).HasColumnName("desconto").HasPrecision(18,2);
-            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
-            builder.Property(e => e.Quantidade).HasColumnName("quantidade").IsRequired();
+            builder.Property(e => e.Status).HasColumnName("status").IsRequired();
+            builder.Property(e => e.Tipo).HasColumnName("tipo").IsRequired();
+            builder.Property(e => e.Descricao).HasColumnName("descricao").HasMaxLength(500).IsRequired();
+            builder.Property(e => e.Quantidade).HasColumnName("quantidade").HasPrecision(18, 3).IsRequired();
             builder.Property(e => e.ValorUnitario).HasColumnName("valor_unitario").HasPrecision(18, 2).IsRequired();
-            builder.Property(e => e.Total)
-                   .HasColumnName("total")
-                   .HasPrecision(18, 2)
-                   .ValueGeneratedOnAddOrUpdate()
-                   .Metadata.SetAfterSaveBehavior(Microsoft.EntityFrameworkCore.Metadata.PropertySaveBehavior.Ignore);
+            builder.Property(e => e.Desconto).HasColumnName("desconto").HasPrecision(18, 2);
+            builder.Property(e => e.Total).HasColumnName("total").HasPrecision(18, 2);
+            builder.Property(e => e.Observacoes).HasColumnName("observacoes").HasMaxLength(500);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
             builder.HasOne(e => e.Peca)
                    .WithMany(p => p.OrdemServicoItens)
                    .HasForeignKey(e => e.PecaId)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(e => e.AtividadeProfissional)
                    .WithMany()
                    .HasForeignKey(e => e.AtividadeProfissionalId)
@@ -181,10 +183,17 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.OrdemServicoId).HasColumnName("ordem_servico_id");
-            builder.Property(e => e.Usuario).HasMaxLength(160);
-            builder.Property(e => e.Texto).HasMaxLength(500).IsRequired();
+            builder.Property(e => e.UsuarioId).HasColumnName("usuario_id");
+            builder.Property(e => e.Texto).HasColumnName("texto").HasMaxLength(1000).IsRequired();
+            builder.Property(e => e.Tipo).HasColumnName("tipo").HasMaxLength(30).HasDefaultValue("INTERNA").IsRequired();
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+
+            builder.HasOne(e => e.Usuario)
+                   .WithMany()
+                   .HasForeignKey(e => e.UsuarioId)
+                   .OnDelete(DeleteBehavior.SetNull);
         }
     }
 
@@ -196,13 +205,19 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.OrdemServicoId).HasColumnName("ordem_servico_id");
-            builder.Property(e => e.Usuario).HasMaxLength(160);
-            builder.Property(e => e.Campo).HasMaxLength(120);
-            builder.Property(e => e.ValorAntigo).HasColumnName("valor_antigo").HasMaxLength(300);
-            builder.Property(e => e.ValorNovo).HasColumnName("valor_novo").HasMaxLength(300);
+            builder.Property(e => e.UsuarioId).HasColumnName("usuario_id");
             builder.Property(e => e.DataAlteracao).HasColumnName("data_alteracao");
+            builder.Property(e => e.Campo).HasColumnName("campo").HasMaxLength(120);
+            builder.Property(e => e.ValorAntigo).HasColumnName("valor_antigo").HasMaxLength(500);
+            builder.Property(e => e.ValorNovo).HasColumnName("valor_novo").HasMaxLength(500);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+
+            builder.HasOne(e => e.Usuario)
+                   .WithMany()
+                   .HasForeignKey(e => e.UsuarioId)
+                   .OnDelete(DeleteBehavior.SetNull);
         }
     }
 
@@ -214,13 +229,14 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.OrdemServicoConfig
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.OrdemServicoId).HasColumnName("ordem_servico_id");
-            builder.Property(e => e.Valor).HasPrecision(18, 2).IsRequired();
-            builder.Property(e => e.Status).HasMaxLength(50).IsRequired();
-            builder.Property(e => e.Metodo).HasMaxLength(120);
-            builder.Property(e => e.Observacao).HasMaxLength(240);
+            builder.Property(e => e.Valor).HasColumnName("valor").HasPrecision(18, 2).IsRequired();
+            builder.Property(e => e.Status).HasColumnName("status").HasMaxLength(30).IsRequired();
+            builder.Property(e => e.Metodo).HasColumnName("metodo").HasMaxLength(120);
+            builder.Property(e => e.Observacao).HasColumnName("observacao").HasMaxLength(240);
             builder.Property(e => e.DataPagamento).HasColumnName("data_pagamento");
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
         }
     }
 }

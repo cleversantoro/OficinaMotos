@@ -63,17 +63,19 @@ namespace OficinaMotos.Application.Services.Estoque
             }
 
             entity.Codigo = request.Codigo;
+            entity.CodigoBarras = request.CodigoBarras;
+            entity.Nome = request.Nome;
             entity.Descricao = request.Descricao;
             entity.FabricanteId = request.FabricanteId;
             entity.CategoriaId = request.CategoriaId;
             entity.LocalizacaoId = request.LocalizacaoId;
-            entity.PrecoUnitario = request.PrecoUnitario;
-            entity.Quantidade = request.Quantidade;
+            entity.Unidade = request.Unidade;
+            entity.QuantidadeEstoque = request.QuantidadeEstoque;
             entity.EstoqueMinimo = request.EstoqueMinimo;
             entity.EstoqueMaximo = request.EstoqueMaximo;
-            entity.Unidade = request.Unidade;
-            entity.Status = request.Status;
-            entity.Observacoes = request.Observacoes;
+            entity.CustoMedio = request.CustoMedio;
+            entity.PrecoVenda = request.PrecoVenda;
+            entity.Ativo = request.Ativo;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);

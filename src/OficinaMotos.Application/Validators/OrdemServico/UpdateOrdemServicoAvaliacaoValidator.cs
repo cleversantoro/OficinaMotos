@@ -8,9 +8,9 @@ namespace OficinaMotos.Application.Validators.OrdemServico
         public UpdateOrdemServicoAvaliacaoValidator()
         {
             RuleFor(x => x.OrdemServicoId).GreaterThan(0);
-            RuleFor(x => x.Nota).InclusiveBetween(0, 10);
-            RuleFor(x => x.Comentario).MaximumLength(500);
-            RuleFor(x => x.Usuario).MaximumLength(160);
+            RuleFor(x => x.ClienteId).GreaterThan(0);
+            RuleFor(x => x.Nota).InclusiveBetween((byte)1, (byte)5);
+            RuleFor(x => x.Comentario).MaximumLength(1000);
         }
     }
 }

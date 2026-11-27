@@ -16,15 +16,15 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.VeiculoConfig
             builder.Property(e => e.ModeloId).HasColumnName("modelo_id");
             builder.Property(e => e.Codigo).HasColumnName("codigo").HasMaxLength(40);
             builder.Property(e => e.Placa).HasColumnName("placa").HasMaxLength(10);
-            builder.Property(e => e.AnoFab).HasColumnName("ano_fabricacao");
-            builder.Property(e => e.AnoMod).HasColumnName("ano_modelo");
-            builder.Property(e => e.Cor).HasColumnName("cor").HasMaxLength(40);
+            builder.Property(e => e.Renavam).HasColumnName("renavam").HasMaxLength(20);
             builder.Property(e => e.Chassi).HasColumnName("chassi").HasMaxLength(40);
-            builder.Property(e => e.Renavam).HasMaxLength(20);
-            builder.Property(e => e.Km).HasColumnName("quilometragem").HasMaxLength(20);
-            builder.Property(e => e.ProximoKmRevisao).HasColumnName("proximo_km_revisao");
-            builder.Property(e => e.Combustivel).HasMaxLength(50);
-            builder.Property(e => e.Observacao).HasMaxLength(240);
+            builder.Property(e => e.AnoFabricacao).HasColumnName("ano_fabricacao");
+            builder.Property(e => e.AnoModelo).HasColumnName("ano_modelo");
+            builder.Property(e => e.Cor).HasColumnName("cor").HasMaxLength(40);
+            builder.Property(e => e.Combustivel).HasColumnName("combustivel").HasMaxLength(30);
+            builder.Property(e => e.Quilometragem).HasColumnName("quilometragem");
+            builder.Property(e => e.Observacoes).HasColumnName("observacoes").HasMaxLength(500);
+            builder.Property(e => e.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)").HasDefaultValue(true);
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
             builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
@@ -32,7 +32,12 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.VeiculoConfig
             builder.HasOne(e => e.Cliente)
                    .WithMany(c => c.Veiculos)
                    .HasForeignKey(e => e.ClienteId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.Marca)
+                   .WithMany()
+                   .HasForeignKey(e => e.MarcaId)
+                   .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasOne(e => e.Modelo)
                    .WithMany(m => m.Veiculos)
@@ -48,10 +53,11 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.VeiculoConfig
             builder.ToTable("cad_veiculos_marcas");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Nome).HasMaxLength(160).IsRequired();
-            builder.Property(e => e.Pais).HasMaxLength(120);
-            builder.Property(e => e.CreatedAt).HasColumnName("Created_At");
-            builder.Property(e => e.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(100).IsRequired();
+            builder.Property(e => e.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)").HasDefaultValue(true);
+            builder.Property(e => e.CreatedAt).HasColumnName("created_at");
+            builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
             builder.HasMany(e => e.Modelos)
                    .WithOne(m => m.Marca)
@@ -66,17 +72,18 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.VeiculoConfig
             builder.ToTable("cad_veiculos_modelos");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Nome).HasMaxLength(160).IsRequired();
-            builder.Property(e => e.AnoInicio).HasColumnName("Ano_Inicio");
-            builder.Property(e => e.AnoFim).HasColumnName("Ano_Fim");
-            builder.Property(e => e.MarcaId).HasColumnName("Marca_Id");
-            builder.Property(e => e.CreatedAt).HasColumnName("Created_At");
-            builder.Property(e => e.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(e => e.MarcaId).HasColumnName("marca_id");
+            builder.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(120).IsRequired();
+            builder.Property(e => e.Cilindrada).HasColumnName("cilindrada");
+            builder.Property(e => e.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)").HasDefaultValue(true);
+            builder.Property(e => e.CreatedAt).HasColumnName("created_at");
+            builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
             builder.HasOne(e => e.Marca)
                    .WithMany(m => m.Modelos)
                    .HasForeignKey(e => e.MarcaId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

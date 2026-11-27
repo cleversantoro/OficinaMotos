@@ -35,10 +35,11 @@ namespace OficinaMotos.Application.Services.Estoque
         public async Task<EstoqueMovimentacaoResponseDTO> CreateAsync(CreateEstoqueMovimentacaoDTO request)
         {
             var entity = _mapper.Map<EstoqueMovimentacao>(request);
-            entity.QuantidadeDecimal = request.Quantidade;
+            entity.Quantidade = request.Quantidade;
             entity.CustoUnitario = request.CustoUnitario;
             entity.OrigemTipo = request.OrigemTipo;
             entity.OrigemId = request.OrigemId;
+            entity.Observacao = request.Observacao;
             entity.UsuarioId = request.UsuarioId;
             var created = await _repository.AddAsync(entity);
             return _mapper.Map<EstoqueMovimentacaoResponseDTO>(created);
@@ -53,10 +54,13 @@ namespace OficinaMotos.Application.Services.Estoque
             }
 
             entity.PecaId = request.PecaId;
-            entity.Quantidade = request.Quantidade;
             entity.Tipo = request.Tipo;
-            entity.Referencia = request.Referencia;
-            entity.Usuario = request.Usuario;
+            entity.Quantidade = request.Quantidade;
+            entity.CustoUnitario = request.CustoUnitario;
+            entity.OrigemTipo = request.OrigemTipo;
+            entity.OrigemId = request.OrigemId;
+            entity.Observacao = request.Observacao;
+            entity.UsuarioId = request.UsuarioId;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);

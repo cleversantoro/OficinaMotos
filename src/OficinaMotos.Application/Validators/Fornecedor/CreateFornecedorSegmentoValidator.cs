@@ -7,9 +7,8 @@ namespace OficinaMotos.Application.Validators.Fornecedor
     {
         public CreateFornecedorSegmentoValidator()
         {
-            RuleFor(x => x.Codigo).NotEmpty().MaximumLength(40);
-            RuleFor(x => x.Nome).NotEmpty().MaximumLength(160);
-            RuleFor(x => x.Descricao).MaximumLength(300);
+            RuleFor(x => x.Nome).NotEmpty().MaximumLength(120);
+            RuleFor(x => x.Descricao).MaximumLength(240);
         }
     }
 }

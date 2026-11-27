@@ -9,7 +9,7 @@ namespace OficinaMotos.Application.Validators.Estoque
         {
             RuleFor(x => x.PecaId).GreaterThan(0);
             RuleFor(x => x.FornecedorId).GreaterThan(0);
-            RuleFor(x => x.Observacao).MaximumLength(240);
+            RuleFor(x => x.CodigoFornecedor).MaximumLength(80);
         }
     }
 }

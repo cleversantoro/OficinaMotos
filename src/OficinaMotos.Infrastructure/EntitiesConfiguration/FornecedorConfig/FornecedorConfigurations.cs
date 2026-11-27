@@ -11,12 +11,12 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
             builder.ToTable("cad_fornecedores_segmentos");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.Codigo).HasColumnName("Codigo").HasMaxLength(40).IsRequired();
-            builder.Property(e => e.Nome).HasColumnName("Nome").HasMaxLength(160).IsRequired();
-            builder.Property(e => e.Descricao).HasColumnName("Descricao").HasMaxLength(300);
-            builder.Property(e => e.Ativo).HasColumnName("Ativo").HasDefaultValue(true);
-            builder.Property(e => e.CreatedAt).HasColumnName("Created_At");
-            builder.Property(e => e.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(120).IsRequired();
+            builder.Property(e => e.Descricao).HasColumnName("descricao").HasMaxLength(240);
+            builder.Property(e => e.Ativo).HasColumnName("ativo").HasColumnType("tinyint(1)").HasDefaultValue(true);
+            builder.Property(e => e.CreatedAt).HasColumnName("created_at");
+            builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
             builder.HasMany(e => e.FornecedoresPrincipais)
                    .WithOne(f => f.SegmentoPrincipal)
@@ -55,31 +55,11 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
             builder.Property(e => e.CreatedAt).HasColumnName("created_at");
             builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
             builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
-
-            builder.Ignore(e => e.RazaoSocial);
-            builder.Ignore(e => e.NomeFantasia);
-            builder.Ignore(e => e.Documento);
-            builder.Ignore(e => e.InscricaoEstadual);
-            builder.Ignore(e => e.InscricaoMunicipal);
-            builder.Ignore(e => e.Website);
-            builder.Ignore(e => e.Email);
-            builder.Ignore(e => e.TelefonePrincipal);
-            builder.Ignore(e => e.Enderecos);
-            builder.Ignore(e => e.Contatos);
-            builder.Ignore(e => e.Documentos);
             builder.HasQueryFilter(e => e.DeletedAt == null);
 
             builder.HasMany(e => e.Segmentos)
                    .WithOne(rel => rel.Fornecedor)
                    .HasForeignKey(rel => rel.FornecedorId);
-
-            builder.HasMany(e => e.Enderecos)
-                   .WithOne(end => end.Fornecedor)
-                   .HasForeignKey(end => end.FornecedorId);
-
-            builder.HasMany(e => e.Contatos)
-                   .WithOne(c => c.Fornecedor)
-                   .HasForeignKey(c => c.FornecedorId);
 
             builder.HasMany(e => e.Representantes)
                    .WithOne(r => r.Fornecedor)
@@ -88,10 +68,6 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
             builder.HasMany(e => e.Bancos)
                    .WithOne(b => b.Fornecedor)
                    .HasForeignKey(b => b.FornecedorId);
-
-            builder.HasMany(e => e.Documentos)
-                   .WithOne(d => d.Fornecedor)
-                   .HasForeignKey(d => d.FornecedorId);
 
             builder.HasMany(e => e.Certificacoes)
                    .WithOne(c => c.Fornecedor)
@@ -133,29 +109,25 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
             builder.ToTable("cad_fornecedores_representantes");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.FornecedorId).HasColumnName("Fornecedor_Id");
+            builder.Property(e => e.FornecedorId).HasColumnName("fornecedor_id").IsRequired();
             builder.Property(e => e.PessoaId).HasColumnName("pessoa_id").IsRequired();
-            builder.Ignore(e => e.Nome);
-            builder.Ignore(e => e.Email);
-            builder.Ignore(e => e.Telefone);
-            builder.Ignore(e => e.Celular);
-            builder.Ignore(e => e.PreferenciaContato);
-            builder.HasOne(e => e.Pessoa).WithMany().HasForeignKey(e => e.PessoaId).OnDelete(DeleteBehavior.Restrict);
-            builder.Property(e => e.Nome).HasColumnName("Nome").HasMaxLength(160).IsRequired();
-            builder.Property(e => e.Cargo).HasColumnName("Cargo").HasMaxLength(100);
-            builder.Property(e => e.Email).HasColumnName("Email").HasMaxLength(160);
-            builder.Property(e => e.Telefone).HasColumnName("Telefone").HasMaxLength(40);
-            builder.Property(e => e.Celular).HasColumnName("Celular").HasMaxLength(40);
-            builder.Property(e => e.PreferenciaContato).HasColumnName("Preferencia_Contato").HasMaxLength(60);
-            builder.Property(e => e.Principal).HasColumnName("Principal").HasDefaultValue(false);
-            builder.Property(e => e.Observacoes).HasColumnName("Observacoes").HasMaxLength(240);
-            builder.Property(e => e.CreatedAt).HasColumnName("Created_At");
-            builder.Property(e => e.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(e => e.Cargo).HasColumnName("cargo").HasMaxLength(120);
+            builder.Property(e => e.Principal).HasColumnName("principal").HasColumnType("tinyint(1)").HasDefaultValue(false);
+            builder.Property(e => e.Preferencial).HasColumnName("preferencial").HasColumnType("tinyint(1)").HasDefaultValue(false);
+            builder.Property(e => e.Observacoes).HasColumnName("observacoes").HasMaxLength(240);
+            builder.Property(e => e.CreatedAt).HasColumnName("created_at");
+            builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
+
+            builder.HasOne(e => e.Pessoa)
+                   .WithMany()
+                   .HasForeignKey(e => e.PessoaId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Fornecedor)
                    .WithMany(f => f.Representantes)
                    .HasForeignKey(e => e.FornecedorId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -166,22 +138,23 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
             builder.ToTable("cad_fornecedores_bancos");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.FornecedorId).HasColumnName("Fornecedor_Id");
-            builder.Property(e => e.Banco).HasColumnName("Banco").HasMaxLength(120).IsRequired();
-            builder.Property(e => e.Agencia).HasColumnName("Agencia").HasMaxLength(30);
-            builder.Property(e => e.Conta).HasColumnName("Conta").HasMaxLength(30);
-            builder.Property(e => e.Digito).HasColumnName("Digito").HasMaxLength(5);
-            builder.Property(e => e.TipoConta).HasColumnName("Tipo_Conta").HasMaxLength(50);
-            builder.Property(e => e.PixChave).HasColumnName("Pix_Chave").HasMaxLength(160);
-            builder.Property(e => e.Principal).HasColumnName("Principal").HasDefaultValue(false);
-            builder.Property(e => e.Observacoes).HasColumnName("Observacoes").HasMaxLength(240);
-            builder.Property(e => e.CreatedAt).HasColumnName("Created_At");
-            builder.Property(e => e.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(e => e.FornecedorId).HasColumnName("fornecedor_id");
+            builder.Property(e => e.Banco).HasColumnName("banco").HasMaxLength(120).IsRequired();
+            builder.Property(e => e.Agencia).HasColumnName("agencia").HasMaxLength(30);
+            builder.Property(e => e.Conta).HasColumnName("conta").HasMaxLength(30);
+            builder.Property(e => e.Digito).HasColumnName("digito").HasMaxLength(5);
+            builder.Property(e => e.TipoConta).HasColumnName("tipo_conta").HasMaxLength(50);
+            builder.Property(e => e.PixChave).HasColumnName("pix_chave").HasMaxLength(160);
+            builder.Property(e => e.Principal).HasColumnName("principal").HasColumnType("tinyint(1)").HasDefaultValue(false);
+            builder.Property(e => e.Observacoes).HasColumnName("observacoes").HasMaxLength(240);
+            builder.Property(e => e.CreatedAt).HasColumnName("created_at");
+            builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
             builder.HasOne(e => e.Fornecedor)
                    .WithMany(f => f.Bancos)
                    .HasForeignKey(e => e.FornecedorId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -192,20 +165,21 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
             builder.ToTable("cad_fornecedores_certificacoes");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.FornecedorId).HasColumnName("Fornecedor_Id");
-            builder.Property(e => e.Titulo).HasColumnName("Titulo").HasMaxLength(160).IsRequired();
-            builder.Property(e => e.Instituicao).HasColumnName("Instituicao").HasMaxLength(160);
-            builder.Property(e => e.CodigoCertificacao).HasColumnName("Codigo_Certificacao").HasMaxLength(60);
-            builder.Property(e => e.Escopo).HasColumnName("Escopo").HasMaxLength(200);
-            builder.Property(e => e.DataEmissao).HasColumnName("Data_Emissao");
-            builder.Property(e => e.DataValidade).HasColumnName("Data_Validade");
-            builder.Property(e => e.CreatedAt).HasColumnName("Created_At");
-            builder.Property(e => e.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(e => e.FornecedorId).HasColumnName("fornecedor_id");
+            builder.Property(e => e.Titulo).HasColumnName("titulo").HasMaxLength(160).IsRequired();
+            builder.Property(e => e.Instituicao).HasColumnName("instituicao").HasMaxLength(160);
+            builder.Property(e => e.CodigoCertificacao).HasColumnName("codigo_certificacao").HasMaxLength(60);
+            builder.Property(e => e.Escopo).HasColumnName("escopo").HasMaxLength(200);
+            builder.Property(e => e.DataEmissao).HasColumnName("data_emissao");
+            builder.Property(e => e.DataValidade).HasColumnName("data_validade");
+            builder.Property(e => e.CreatedAt).HasColumnName("created_at");
+            builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
             builder.HasOne(e => e.Fornecedor)
                    .WithMany(f => f.Certificacoes)
                    .HasForeignKey(e => e.FornecedorId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -216,19 +190,20 @@ namespace OficinaMotos.Infrastructure.EntitiesConfiguration.FornecedorConfig
             builder.ToTable("cad_fornecedores_avaliacoes");
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.FornecedorId).HasColumnName("Fornecedor_Id");
-            builder.Property(e => e.DataAvaliacao).HasColumnName("Data_Avaliacao").IsRequired();
-            builder.Property(e => e.AvaliadoPor).HasColumnName("Avaliado_Por").HasMaxLength(120);
-            builder.Property(e => e.Categoria).HasColumnName("Categoria").HasMaxLength(60);
-            builder.Property(e => e.Nota).HasColumnName("Nota").HasPrecision(4, 2).IsRequired();
-            builder.Property(e => e.Comentarios).HasColumnName("Comentarios").HasMaxLength(400);
-            builder.Property(e => e.CreatedAt).HasColumnName("Created_At");
-            builder.Property(e => e.UpdatedAt).HasColumnName("Updated_At");
+            builder.Property(e => e.FornecedorId).HasColumnName("fornecedor_id");
+            builder.Property(e => e.DataAvaliacao).HasColumnName("data_avaliacao").IsRequired();
+            builder.Property(e => e.AvaliadoPor).HasColumnName("avaliado_por").HasMaxLength(120);
+            builder.Property(e => e.Categoria).HasColumnName("categoria").HasMaxLength(60);
+            builder.Property(e => e.Nota).HasColumnName("nota").HasPrecision(4, 2).IsRequired();
+            builder.Property(e => e.Comentarios).HasColumnName("comentarios").HasMaxLength(400);
+            builder.Property(e => e.CreatedAt).HasColumnName("created_at");
+            builder.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            builder.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
             builder.HasOne(e => e.Fornecedor)
                    .WithMany(f => f.Avaliacoes)
                    .HasForeignKey(e => e.FornecedorId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

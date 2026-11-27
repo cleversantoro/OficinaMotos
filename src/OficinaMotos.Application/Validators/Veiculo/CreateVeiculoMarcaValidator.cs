@@ -7,8 +7,7 @@ namespace OficinaMotos.Application.Validators.Veiculo
     {
         public CreateVeiculoMarcaValidator()
         {
-            RuleFor(x => x.Nome).NotEmpty().MaximumLength(160);
-            RuleFor(x => x.Pais).MaximumLength(120);
+            RuleFor(x => x.Nome).NotEmpty().MaximumLength(100);
         }
     }
 }

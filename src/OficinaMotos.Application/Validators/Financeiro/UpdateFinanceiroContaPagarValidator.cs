@@ -8,8 +8,10 @@ namespace OficinaMotos.Application.Validators.Financeiro
         public UpdateFinanceiroContaPagarValidator()
         {
             RuleFor(x => x.Descricao).NotEmpty().MaximumLength(240);
-            RuleFor(x => x.Status).NotEmpty().MaximumLength(50);
-            RuleFor(x => x.Observacao).MaximumLength(240);
+            RuleFor(x => x.Documento).MaximumLength(80);
+            RuleFor(x => x.ValorOriginal).GreaterThan(0);
+            RuleFor(x => x.Status).NotEmpty().MaximumLength(30);
+            RuleFor(x => x.Observacoes).MaximumLength(500);
         }
     }
 }

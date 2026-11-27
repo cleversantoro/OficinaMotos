@@ -46,8 +46,8 @@ namespace OficinaMotos.Application.Services.Veiculo
 
             entity.MarcaId = request.MarcaId;
             entity.Nome = request.Nome;
-            entity.AnoInicio = request.AnoInicio;
-            entity.AnoFim = request.AnoFim;
+            //entity.AnoInicio = request.AnoInicio;
+            //entity.AnoFim = request.AnoFim;
             entity.SetUpdated();
 
             await _repository.UpdateAsync(entity);

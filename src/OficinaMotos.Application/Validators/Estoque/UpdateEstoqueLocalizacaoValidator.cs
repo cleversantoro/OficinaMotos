@@ -7,15 +7,9 @@ namespace OficinaMotos.Application.Validators.Estoque
     {
         public UpdateEstoqueLocalizacaoValidator()
         {
-            RuleFor(x => x.Descricao)
-                .NotEmpty().WithMessage("Descrição é obrigatória")
-                .MaximumLength(200);
-
-            RuleFor(x => x.Corredor)
-                .MaximumLength(50);
-
-            RuleFor(x => x.Prateleira)
-                .MaximumLength(50);
+            RuleFor(x => x.Codigo).NotEmpty().MaximumLength(40);
+            RuleFor(x => x.Nome).NotEmpty().MaximumLength(120);
+            RuleFor(x => x.Descricao).MaximumLength(240);
         }
     }
 }

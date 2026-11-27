@@ -18,14 +18,10 @@ namespace OficinaMotos.Infrastructure.Repositories.Fornecedor
         {
             return await _dbSet
                 .Include(f => f.Pessoa)
-                .Include(f => f.Pessoa)
                 .Include(f => f.SegmentoPrincipal)
                 .Include(f => f.Segmentos)
-                .Include(f => f.Enderecos)
-                .Include(f => f.Contatos)
                 .Include(f => f.Representantes)
                 .Include(f => f.Bancos)
-                .Include(f => f.Documentos)
                 .Include(f => f.Certificacoes)
                 .Include(f => f.Avaliacoes)
                 .AsNoTracking()
@@ -35,13 +31,11 @@ namespace OficinaMotos.Infrastructure.Repositories.Fornecedor
         public override async Task<FornecedorEntity?> GetByIdAsync(long id)
         {
             return await _dbSet
+                .Include(f => f.Pessoa)
                 .Include(f => f.SegmentoPrincipal)
                 .Include(f => f.Segmentos)
-                .Include(f => f.Enderecos)
-                .Include(f => f.Contatos)
                 .Include(f => f.Representantes)
                 .Include(f => f.Bancos)
-                .Include(f => f.Documentos)
                 .Include(f => f.Certificacoes)
                 .Include(f => f.Avaliacoes)
                 .AsNoTracking()
