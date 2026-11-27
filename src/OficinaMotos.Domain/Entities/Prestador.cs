@@ -15,7 +15,10 @@ namespace OficinaMotos.Domain.Entities
     public class Prestador : BaseEntity
     {
         public long PessoaId { get; set; }
+        public Pessoa? Pessoa { get; set; }
+        
         public string Codigo { get; set; } = string.Empty;
+        
         public PrestadorVinculo TipoVinculo { get; set; } = PrestadorVinculo.Interno;
         public PrestadorStatus Status { get; set; } = PrestadorStatus.Ativo;
         public DateTime? DataInicio { get; set; }
@@ -23,7 +26,6 @@ namespace OficinaMotos.Domain.Entities
         public decimal? ValorHora { get; set; }
         public string? Observacoes { get; set; }
 
-        public Pessoa? Pessoa { get; set; }
         public Mecanico? Mecanico { get; set; }
         public ICollection<PrestadorAtividade> Atividades { get; set; } = new HashSet<PrestadorAtividade>();
         public ICollection<PrestadorDisponibilidade> Disponibilidades { get; set; } = new HashSet<PrestadorDisponibilidade>();

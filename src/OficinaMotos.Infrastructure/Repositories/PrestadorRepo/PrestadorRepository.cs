@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Interfaces.Repositories.PrestadorRepo;
 using OficinaMotos.Infrastructure.Context;
+using OficinaMotos.Infrastructure.Repositories.PessoaRepo;
 
 namespace OficinaMotos.Infrastructure.Repositories.PrestadorRepo
 {
@@ -11,28 +12,65 @@ namespace OficinaMotos.Infrastructure.Repositories.PrestadorRepo
 
         public override async Task<List<Prestador>> GetAllAsync()
         {
-            return await _dbSet.
-                Include(x => x.Pessoa)
+            var prestadores = await _dbSet
+                .Include(x => x.Pessoa)
+                    .ThenInclude(p => p!.Contatos)
+                .Include(x => x.Pessoa)
+                    .ThenInclude(p => p!.Enderecos)
+                .Include(x => x.Pessoa)
+                    .ThenInclude(p => p!.Documentos)
+                .Include(x => x.Pessoa)
+                    .ThenInclude(p => p!.Anexos)
+                .Include(x => x.Pessoa)
+                    .ThenInclude(p => p!.PessoaFisica)
+                .Include(x => x.Pessoa)
+                    .ThenInclude(p => p!.PessoaJuridica)
                 .Include(x => x.Mecanico)
                 .Include(x => x.Atividades)
-                .ThenInclude(x => x.AtividadeProfissional)
+                    .ThenInclude(x => x.AtividadeProfissional)
                 .Include(x => x.Disponibilidades)
                 .Include(x => x.Experiencias)
                 .Include(x => x.Certificacoes)
-                .AsNoTracking().ToListAsync();
+                .AsNoTracking()
+                .AsSplitQuery()
+                .ToListAsync();
+
+            foreach (var prestador in prestadores)
+            {
+                PessoaQueryHelper.AplicarRegraTipoPessoa(prestador.Pessoa);
+            }
+
+            return prestadores;
         }
 
         public override async Task<Prestador?> GetByIdAsync(long id)
         {
-            return await _dbSet
+            var prestador = await _dbSet
                 .Include(x => x.Pessoa)
+                    .ThenInclude(p => p!.Contatos)
+                .Include(x => x.Pessoa)
+                    .ThenInclude(p => p!.Enderecos)
+                .Include(x => x.Pessoa)
+                    .ThenInclude(p => p!.Documentos)
+                .Include(x => x.Pessoa)
+                    .ThenInclude(p => p!.Anexos)
+                .Include(x => x.Pessoa)
+                    .ThenInclude(p => p!.PessoaFisica)
+                .Include(x => x.Pessoa)
+                    .ThenInclude(p => p!.PessoaJuridica)
                 .Include(x => x.Mecanico)
                 .Include(x => x.Atividades)
-                .ThenInclude(x => x.AtividadeProfissional)
+                    .ThenInclude(x => x.AtividadeProfissional)
                 .Include(x => x.Disponibilidades)
                 .Include(x => x.Experiencias)
                 .Include(x => x.Certificacoes)
-                .AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                .AsNoTracking()
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            PessoaQueryHelper.AplicarRegraTipoPessoa(prestador?.Pessoa);
+
+            return prestador;
         }
 
         public Task<Prestador?> GetByPessoaIdAsync(long pessoaId) =>

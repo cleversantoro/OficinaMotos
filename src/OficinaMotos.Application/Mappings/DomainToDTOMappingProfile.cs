@@ -49,21 +49,22 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<PessoaAnexoDTO, PessoaAnexo>();
             CreateMap<CreatePessoaAnexoDTO, PessoaAnexo>();
 
+            // Cliente
             CreateMap<Cliente, ClienteResponseDTO>();
-                //.ForMember(dest => dest.Pessoa.TipoPessoa, opt => opt.MapFrom(src => src.Pessoa.TipoPessoa))
-                //.ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status))
-                //.ForMember(dest => dest.Origem.Descricao, opt => opt.MapFrom(src => src.Origem != null ? src.Origem.Nome : null));
+            //.ForMember(dest => dest.Pessoa.TipoPessoa, opt => opt.MapFrom(src => src.Pessoa.TipoPessoa))
+            //.ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.Status))
+            //.ForMember(dest => dest.Origem.Descricao, opt => opt.MapFrom(src => src.Origem != null ? src.Origem.Nome : null));
 
             CreateMap<CreateClienteDTO, Cliente>();
-            //.ForMember(dest => dest.Pessoa.NomeExibicao, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.Pessoa.NomeExibicao) ? src.Pessoa.NomeExibicao : src.Pessoa.Nome))
-            //.ForMember(dest => dest.Pessoa.Documento, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.Documento) ? src.Documento : src.Pessoa.Cpf))
-            //.ForMember(dest => dest.Pessoa.TipoPessoa, opt => opt.MapFrom(src => src.Pessoa.TipoPessoa == 2 ? ClienteTipo.Pessoa.PessoaJuridica : ClienteTipo.Pessoa.PessoaFisica))
-            //.ForMember(dest => dest.Status, opt => opt.MapFrom(src => (ClienteStatus)src.Status))
-            //.ForMember(dest => dest.Vip, opt => opt.MapFrom(src => src.Vip));
+                //.ForMember(dest => dest.Pessoa.NomeExibicao, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.Pessoa.NomeExibicao) ? src.Pessoa.NomeExibicao : src.Pessoa.Nome))
+                //.ForMember(dest => dest.Pessoa.Documento, opt => opt.MapFrom(src => !string.IsNullOrWhiteSpace(src.Documento) ? src.Documento : src.Pessoa.Cpf))
+                //.ForMember(dest => dest.Pessoa.TipoPessoa, opt => opt.MapFrom(src => src.Pessoa.TipoPessoa == 2 ? ClienteTipo.Pessoa.PessoaJuridica : ClienteTipo.Pessoa.PessoaFisica))
+                //.ForMember(dest => dest.Status, opt => opt.MapFrom(src => (ClienteStatus)src.Status))
+                //.ForMember(dest => dest.Vip, opt => opt.MapFrom(src => src.Vip));
 
-            CreateMap<Cliente, ClienteResponseTableDTO>();
+            CreateMap<Cliente, ClienteResponseTableDTO>()
                 //.ForMember(dest => dest.TipoDescricao, opt => opt.MapFrom(src => (int)src.Pessoa.TipoPessoa == 1 ? "Pessoa Fsica" : "Pessoa Jurdica"))
-                //.ForMember(dest => dest.StatusDescricao, opt => opt.MapFrom(src => (int)src.Status == 0 ? "Cliente Inativo" : GetStatus((int)src.Status))); 
+                .ForMember(dest => dest.StatusDescricao, opt => opt.MapFrom(src => (int)src.Status == 0 ? "Cliente Inativo" : GetStatus((int)src.Status))); 
 
             CreateMap<ClienteOrigem, ClienteOrigemResponseDTO>();
             CreateMap<CreateClienteOrigemDTO, ClienteOrigem>();
@@ -78,7 +79,7 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<ClienteLgpdConsentimento, ClienteLgpdConsentimentoResponseDTO>();
             CreateMap<CreateClienteLgpdConsentimentoDTO, ClienteLgpdConsentimento>();
 
-
+            // Estoque
             CreateMap<EstoqueCategoria, EstoqueCategoriaResponseDTO>();
             CreateMap<CreateEstoqueCategoriaDTO, EstoqueCategoria>();
 
@@ -103,6 +104,7 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<EstoquePecaHistorico, EstoquePecaHistoricoResponseDTO>();
             CreateMap<CreateEstoquePecaHistoricoDTO, EstoquePecaHistorico>();
 
+            // Financeiro
             CreateMap<FinanceiroMetodoPagamento, FinanceiroMetodoPagamentoResponseDTO>();
             CreateMap<CreateFinanceiroMetodoPagamentoDTO, FinanceiroMetodoPagamento>();
 
@@ -124,6 +126,7 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<FinanceiroLancamento, FinanceiroLancamentoResponseDTO>();
             CreateMap<CreateFinanceiroLancamentoDTO, FinanceiroLancamento>();
 
+            // Ordem de Serviço
             CreateMap<OrdemServico, OrdemServicoResponseDTO>();
                 //.ForMember(dest => dest.ClienteNome, opt => opt.MapFrom(src => src.Cliente != null ? src.Cliente.Nome : null))
                 //.ForMember(dest => dest.ClienteNomeExibicao, opt => opt.MapFrom(src => src.Cliente != null ? src.Cliente.NomeExibicao : null))
@@ -152,6 +155,7 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<OrdemServicoPagamento, OrdemServicoPagamentoResponseDTO>();
             CreateMap<CreateOrdemServicoPagamentoDTO, OrdemServicoPagamento>();
 
+            // Mecanico
             CreateMap<Mecanico, MecanicoResponseDTO>();
             CreateMap<CreateMecanicoDTO, Mecanico>();
 
@@ -160,8 +164,10 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<CreatePrestadorDTO, Prestador>();
             CreateMap<AtividadeProfissional, AtividadeProfissionalResponseDTO>();
             CreateMap<CreateAtividadeProfissionalDTO, AtividadeProfissional>();
+            
             CreateMap<PrestadorAtividade, PrestadorAtividadeResponseDTO>()
                 .ForMember(dest => dest.AtividadeNome, opt => opt.MapFrom(src => src.AtividadeProfissional != null ? src.AtividadeProfissional.Nome : null));
+            
             CreateMap<CreatePrestadorAtividadeDTO, PrestadorAtividade>();
             CreateMap<PrestadorDisponibilidade, PrestadorDisponibilidadeResponseDTO>();
             CreateMap<CreatePrestadorDisponibilidadeDTO, PrestadorDisponibilidade>();
@@ -170,7 +176,7 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<PrestadorCertificacao, PrestadorCertificacaoResponseDTO>();
             CreateMap<CreatePrestadorCertificacaoDTO, PrestadorCertificacao>();
 
-
+            // Fonecedor
             CreateMap<Fornecedor, FornecedorResponseDTO>();
             CreateMap<CreateFornecedorDTO, Fornecedor>();
 
@@ -193,6 +199,7 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<FornecedorAvaliacao, FornecedorAvaliacaoResponseDTO>();
             CreateMap<CreateFornecedorAvaliacaoDTO, FornecedorAvaliacao>();
 
+            // Veiculo
             CreateMap<Veiculo, VeiculoResponseDTO>();
             CreateMap<CreateVeiculoDTO, Veiculo>();
 
@@ -202,7 +209,7 @@ namespace OficinaMotos.Application.Mappings
             CreateMap<VeiculoModelo, VeiculoModeloResponseDTO>();
             CreateMap<CreateVeiculoModeloDTO, VeiculoModelo>();
 
-            // SeguranÃ§a
+            // Segurança
             CreateMap<SegModulo, SegModuloResponseDTO>();
             CreateMap<CreateSegModuloDTO, SegModulo>();
 

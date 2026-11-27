@@ -13,7 +13,7 @@ namespace OficinaMotos.Infrastructure.Repositories.PessoaRepo
 
         public override async Task<List<Pessoa>> GetAllAsync()
         {
-            return await _dbSet
+            var pessoas = await _dbSet
                 .Include(x => x.PessoaFisica)
                 .Include(x => x.PessoaJuridica)
                 .Include(x => x.Contatos)
@@ -21,12 +21,20 @@ namespace OficinaMotos.Infrastructure.Repositories.PessoaRepo
                 .Include(x => x.Documentos)
                 .Include(x => x.Anexos)
                 .AsNoTracking()
+                .AsSplitQuery()
                 .ToListAsync();
+
+            foreach (var pessoa in pessoas)
+            {
+                PessoaQueryHelper.AplicarRegraTipoPessoa(pessoa);
+            }
+
+            return pessoas;
         }
 
         public override async Task<Pessoa?> GetByIdAsync(long id)
         {
-            return await _dbSet
+            var pessoa = await _dbSet
                 .Include(x => x.PessoaFisica)
                 .Include(x => x.PessoaJuridica)
                 .Include(x => x.Contatos)
@@ -34,7 +42,12 @@ namespace OficinaMotos.Infrastructure.Repositories.PessoaRepo
                 .Include(x => x.Documentos)
                 .Include(x => x.Anexos)
                 .AsNoTracking()
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+            PessoaQueryHelper.AplicarRegraTipoPessoa(pessoa);
+
+            return pessoa;
         }
 
         public async Task<Pessoa?> GetByDocumentoAsync(string documento)

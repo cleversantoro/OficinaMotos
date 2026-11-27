@@ -1,101 +1,82 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OficinaMotos.Application.DTOs.Responses.Cliente;
+using Microsoft.EntityFrameworkCore;
 using OficinaMotos.Domain.Entities;
 using OficinaMotos.Domain.Interfaces.Repositories.ClienteRepo;
 using OficinaMotos.Infrastructure.Context;
-using ClienteEntity = OficinaMotos.Domain.Entities.Cliente;
+using OficinaMotos.Infrastructure.Repositories.PessoaRepo;
 
 namespace OficinaMotos.Infrastructure.Repositories.ClienteRepo
 {
-    public class ClienteRepository : Repository<ClienteEntity>, IClienteRepository
+    public class ClienteRepository : Repository<Cliente>, IClienteRepository
     {
         public ClienteRepository(OficinaContext context) : base(context)
         {
         }
 
-        public override async Task<List<ClienteEntity>> GetAllAsync()
+        public override async Task<List<Cliente>> GetAllAsync()
         {
             // Carrega todas as dependencias para evitar listas vazias no retorno da API
-            return await _dbSet
+            var clientes = await _dbSet
                 .Include(c => c.Pessoa)
                     .ThenInclude(p => p!.Contatos)
+                .Include(c => c.Pessoa)
+                    .ThenInclude(p => p!.Enderecos)
+                .Include(c => c.Pessoa)
+                    .ThenInclude(p => p!.Documentos)
+                .Include(c => c.Pessoa)
+                    .ThenInclude(p => p!.Anexos)
+                .Include(c => c.Pessoa)
+                    .ThenInclude(p => p!.PessoaFisica)
+                .Include(c => c.Pessoa)
+                    .ThenInclude(p => p!.PessoaJuridica)
                 .Include(c => c.Origem)
+                .Include(c => c.Financeiro)
+                .Include(c => c.Indicacoes)
+                .Include(c => c.ConsentimentosLgpd)
                 .Include(c => c.Veiculos)
                 .Include(c => c.OrdensServico)
                 .AsNoTracking()
+                .AsSplitQuery()
                 .ToListAsync();
+
+            foreach (var cliente in clientes)
+            {
+                PessoaQueryHelper.AplicarRegraTipoPessoa(cliente.Pessoa);
+            }
+
+            return clientes;
         }
 
-        public override async Task<ClienteEntity?> GetByIdAsync(long id)
+        public override async Task<Cliente?> GetByIdAsync(long id)
         {
-            return await _dbSet
+            var cliente = await _dbSet
                 .Include(c => c.Pessoa)
                     .ThenInclude(p => p!.Contatos)
+                .Include(c => c.Pessoa)
+                    .ThenInclude(p => p!.Enderecos)
+                .Include(c => c.Pessoa)
+                    .ThenInclude(p => p!.Documentos)
+                .Include(c => c.Pessoa)
+                    .ThenInclude(p => p!.Anexos)
+                .Include(c => c.Pessoa)
+                    .ThenInclude(p => p!.PessoaFisica)
+                .Include(c => c.Pessoa)
+                    .ThenInclude(p => p!.PessoaJuridica)
                 .Include(c => c.Origem)
+                .Include(c => c.Financeiro)
+                .Include(c => c.Indicacoes)
+                .Include(c => c.ConsentimentosLgpd)
                 .Include(c => c.Veiculos)
                 .Include(c => c.OrdensServico)
                 .AsNoTracking()
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(c => c.Id == id);
+
+            PessoaQueryHelper.AplicarRegraTipoPessoa(cliente?.Pessoa);
+
+            return cliente;
         }
 
-        public async Task<ClienteEntity?> GetByCpfAsync(string cpf)
-        {
-            var pessoa = await _context.Pessoas.AsNoTracking().FirstOrDefaultAsync(p => p.Documento == cpf);
-            if (pessoa == null) return null;
-            return await _dbSet.AsNoTracking().FirstOrDefaultAsync(c => c.PessoaId == pessoa.Id);
-        }
-
-        public async Task<ClienteEntity?> GetByEmailAsync(string email)
-        {
-            var pessoaContato = await _context.PessoaContatos.AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Tipo == "EMAIL" && c.Valor == email);
-            if (pessoaContato == null) return null;
-            return await _dbSet.AsNoTracking().FirstOrDefaultAsync(c => c.PessoaId == pessoaContato.PessoaId);
-        }
-
-        public async Task SyncPessoaContatosAsync(long pessoaId, string? email, string? telefone)
-        {
-            var existing = await _context.PessoaContatos
-                .Where(c => c.PessoaId == pessoaId &&
-                    (c.Tipo == "EMAIL" || c.Tipo == "TELEFONE" || c.Tipo == "CELULAR"))
-                .ToListAsync();
-
-            if (!string.IsNullOrWhiteSpace(email))
-            {
-                var item = existing.FirstOrDefault(c => c.Tipo == "EMAIL");
-                if (item == null)
-                {
-                    _context.PessoaContatos.Add(new PessoaContato
-                    {
-                        PessoaId = pessoaId,
-                        Tipo = "EMAIL",
-                        Valor = email,
-                        Principal = true
-                    });
-                }
-                else item.Valor = email;
-            }
-
-            if (!string.IsNullOrWhiteSpace(telefone))
-            {
-                var item = existing.FirstOrDefault(c => c.Tipo == "TELEFONE" || c.Tipo == "CELULAR");
-                if (item == null)
-                {
-                    _context.PessoaContatos.Add(new PessoaContato
-                    {
-                        PessoaId = pessoaId,
-                        Tipo = "TELEFONE",
-                        Valor = telefone,
-                        Principal = true
-                    });
-                }
-                else item.Valor = telefone;
-            }
-
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<List<ClienteEntity>> GetAllForTableAsync()
+        public async Task<List<Cliente>> GetAllForTableAsync()
         {
             return await _dbSet
                 .AsNoTracking()

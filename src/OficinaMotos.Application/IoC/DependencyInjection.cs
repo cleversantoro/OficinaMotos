@@ -86,7 +86,7 @@ namespace OficinaMotos.Application.IoC
             services.AddScoped<Interfaces.Veiculo.IVeiculoMarcaService, VeiculoMarcaService>();
             services.AddScoped<Interfaces.Veiculo.IVeiculoModeloService, VeiculoModeloService>();
 
-            // SeguranÃ§a
+            // Segurança
             services.AddScoped<Interfaces.Seguranca.ISegModuloService, SegModuloService>();
             services.AddScoped<Interfaces.Seguranca.ISegPerfilService, SegPerfilService>();
             services.AddScoped<Interfaces.Seguranca.ISegPermissaoService, SegPermissaoService>();

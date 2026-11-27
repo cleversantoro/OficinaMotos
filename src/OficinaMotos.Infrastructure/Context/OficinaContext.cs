@@ -85,10 +85,6 @@ namespace OficinaMotos.Infrastructure.Context
             // de uma vez só. Você não precisa adicionar uma por uma.
             builder.ApplyConfigurationsFromAssembly(typeof(OficinaContext).Assembly);
 
-            builder.Ignore<ClienteFinanceiro>();
-            builder.Ignore<ClienteIndicacao>();
-            builder.Ignore<ClienteLgpdConsentimento>();
-
 
             // Todas as tabelas cujas entidades herdam BaseEntity possuem created_at, updated_at e deleted_at.
             foreach (var entityType in builder.Model.GetEntityTypes())

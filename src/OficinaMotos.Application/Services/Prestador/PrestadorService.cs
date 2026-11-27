@@ -1,4 +1,6 @@
 using OficinaMotos.Application.DTOs.Requests.Prestador;
+using OficinaMotos.Application.DTOs.Responses.Mecanico;
+using OficinaMotos.Application.DTOs.Responses.Pessoas;
 using OficinaMotos.Application.DTOs.Responses.Prestador;
 using OficinaMotos.Application.Interfaces.Prestador;
 using OficinaMotos.Domain.Entities;
@@ -139,6 +141,7 @@ namespace OficinaMotos.Application.Services.Prestador
             {
                 Id = prestador.Id,
                 PessoaId = prestador.PessoaId,
+                Pessoa = MapPessoa(prestador.Pessoa),
                 Codigo = prestador.Codigo,
                 TipoVinculo = prestador.TipoVinculo,
                 Status = prestador.Status,
@@ -146,6 +149,19 @@ namespace OficinaMotos.Application.Services.Prestador
                 DataFim = prestador.DataFim,
                 ValorHora = prestador.ValorHora,
                 Observacoes = prestador.Observacoes,
+                CreatedAt = prestador.CreatedAt,
+                UpdatedAt = prestador.UpdatedAt,
+                Mecanico = prestador.Mecanico == null ? null : new MecanicoResponseDTO
+                {
+                    Id = prestador.Mecanico.Id,
+                    PrestadorId = prestador.Mecanico.PrestadorId,
+                    Matricula = prestador.Mecanico.Matricula,
+                    Nivel = prestador.Mecanico.Nivel,
+                    DataAdmissao = prestador.Mecanico.DataAdmissao,
+                    Observacoes = prestador.Mecanico.Observacoes,
+                    CreatedAt = prestador.Mecanico.CreatedAt,
+                    UpdatedAt = prestador.Mecanico.UpdatedAt
+                },
                 Atividades = prestador.Atividades.Select(x => new PrestadorAtividadeResponseDTO
                 {
                     PrestadorId = x.PrestadorId,
@@ -154,6 +170,143 @@ namespace OficinaMotos.Application.Services.Prestador
                     Nivel = x.Nivel,
                     Principal = x.Principal,
                     Ativo = x.Ativo
+                }).ToList(),
+                Disponibilidades = prestador.Disponibilidades.Select(x => new PrestadorDisponibilidadeResponseDTO
+                {
+                    Id = x.Id,
+                    PrestadorId = x.PrestadorId,
+                    DiaSemana = x.DiaSemana,
+                    HoraInicio = x.HoraInicio,
+                    HoraFim = x.HoraFim,
+                    Ativo = x.Ativo,
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt
+                }).ToList(),
+                Experiencias = prestador.Experiencias.Select(x => new PrestadorExperienciaResponseDTO
+                {
+                    Id = x.Id,
+                    PrestadorId = x.PrestadorId,
+                    Empresa = x.Empresa,
+                    Cargo = x.Cargo,
+                    Descricao = x.Descricao,
+                    DataInicio = x.DataInicio,
+                    DataFim = x.DataFim,
+                    Atual = x.Atual,
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt
+                }).ToList(),
+                Certificacoes = prestador.Certificacoes.Select(x => new PrestadorCertificacaoResponseDTO
+                {
+                    Id = x.Id,
+                    PrestadorId = x.PrestadorId,
+                    Titulo = x.Titulo,
+                    Instituicao = x.Instituicao,
+                    DataEmissao = x.DataEmissao,
+                    DataValidade = x.DataValidade,
+                    CodigoCertificacao = x.CodigoCertificacao,
+                    ArquivoUrl = x.ArquivoUrl,
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt
+                }).ToList()
+            };
+        }
+
+        private static PessoaResponseDTO? MapPessoa(Pessoa? pessoa)
+        {
+            if (pessoa == null) return null;
+
+            var tipo = pessoa.TipoPessoa?.Trim().ToUpperInvariant();
+
+            return new PessoaResponseDTO
+            {
+                Id = pessoa.Id,
+                Codigo = pessoa.Codigo,
+                TipoPessoa = pessoa.TipoPessoa ?? string.Empty,
+                Documento = pessoa.Documento,
+                Nome = pessoa.Nome,
+                NomeExibicao = pessoa.NomeExibicao,
+                Ativo = pessoa.Ativo,
+                Observacoes = pessoa.Observacoes,
+                CreatedAt = pessoa.CreatedAt,
+                UpdatedAt = pessoa.UpdatedAt,
+                PessoaFisica = tipo == "PJ" || pessoa.PessoaFisica == null ? null : new PessoaPfResponseDTO
+                {
+                    PessoaId = pessoa.PessoaFisica.PessoaId,
+                    Rg = pessoa.PessoaFisica.Rg,
+                    DataNascimento = pessoa.PessoaFisica.DataNascimento,
+                    Genero = pessoa.PessoaFisica.Genero,
+                    EstadoCivil = pessoa.PessoaFisica.EstadoCivil,
+                    Profissao = pessoa.PessoaFisica.Profissao,
+                    CreatedAt = pessoa.PessoaFisica.CreatedAt,
+                    UpdatedAt = pessoa.PessoaFisica.UpdatedAt
+                },
+                PessoaJuridica = tipo == "PF" || pessoa.PessoaJuridica == null ? null : new PessoaPjResponseDTO
+                {
+                    PessoaId = pessoa.PessoaJuridica.PessoaId,
+                    RazaoSocial = pessoa.PessoaJuridica.RazaoSocial,
+                    NomeFantasia = pessoa.PessoaJuridica.NomeFantasia,
+                    InscricaoEstadual = pessoa.PessoaJuridica.InscricaoEstadual,
+                    InscricaoMunicipal = pessoa.PessoaJuridica.InscricaoMunicipal,
+                    Responsavel = pessoa.PessoaJuridica.Responsavel,
+                    Website = pessoa.PessoaJuridica.Website,
+                    CreatedAt = pessoa.PessoaJuridica.CreatedAt,
+                    UpdatedAt = pessoa.PessoaJuridica.UpdatedAt
+                },
+                Contatos = pessoa.Contatos.Select(x => new PessoaContatoResponseDTO
+                {
+                    Id = x.Id,
+                    PessoaId = x.PessoaId,
+                    Tipo = x.Tipo,
+                    Valor = x.Valor,
+                    Principal = x.Principal,
+                    Observacao = x.Observacao,
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt
+                }).ToList(),
+                Enderecos = pessoa.Enderecos.Select(x => new PessoaEnderecoResponseDTO
+                {
+                    Id = x.Id,
+                    PessoaId = x.PessoaId,
+                    Tipo = x.Tipo,
+                    Cep = x.Cep,
+                    Logradouro = x.Logradouro,
+                    Numero = x.Numero,
+                    Bairro = x.Bairro,
+                    Cidade = x.Cidade,
+                    Estado = x.Estado,
+                    Pais = x.Pais,
+                    Complemento = x.Complemento,
+                    Principal = x.Principal,
+                    Observacao = x.Observacao,
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt
+                }).ToList(),
+                Documentos = pessoa.Documentos.Select(x => new PessoaDocumentoResponseDTO
+                {
+                    Id = x.Id,
+                    PessoaId = x.PessoaId,
+                    Tipo = x.Tipo,
+                    Numero = x.Numero,
+                    DataEmissao = x.DataEmissao,
+                    DataValidade = x.DataValidade,
+                    OrgaoExpedidor = x.OrgaoExpedidor,
+                    ArquivoUrl = x.ArquivoUrl,
+                    Observacoes = x.Observacoes,
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt
+                }).ToList(),
+                Anexos = pessoa.Anexos.Select(x => new PessoaAnexoResponseDTO
+                {
+                    Id = x.Id,
+                    PessoaId = x.PessoaId,
+                    Nome = x.Nome,
+                    Tipo = x.Tipo,
+                    Url = x.Url,
+                    Observacao = x.Observacao,
+                    TamanhoBytes = x.TamanhoBytes,
+                    MimeType = x.MimeType,
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt
                 }).ToList()
             };
         }

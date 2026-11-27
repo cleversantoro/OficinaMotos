@@ -1,4 +1,5 @@
 using System;
+using OficinaMotos.Application.DTOs.Responses.Pessoas;
 
 namespace OficinaMotos.Application.DTOs.Responses.Fornecedor
 {
@@ -7,6 +8,7 @@ namespace OficinaMotos.Application.DTOs.Responses.Fornecedor
         public long Id { get; set; }
         public long FornecedorId { get; set; }
         public long PessoaId { get; set; }
+        public PessoaResponseDTO? Pessoa { get; set; }
         public string? Cargo { get; set; }
         public bool Principal { get; set; }
         public bool Preferencial { get; set; }
